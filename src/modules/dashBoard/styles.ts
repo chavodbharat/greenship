@@ -1,15 +1,9 @@
 import {StyleSheet} from 'react-native';
-import {moderateScale, scale, verticalScale} from '../../theme/responsive';
-import {colors} from '../../theme/colors';
+import {verticalScale} from '../../theme/responsive';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.WHITE,
+  tabBarStyle: {
+    paddingTop: verticalScale(5),
+    backgroundColor: '#3e8ca4',
   },
-  main: {
-    flex: 1,
-  },
-
-,
 });

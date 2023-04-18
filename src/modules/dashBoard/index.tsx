@@ -1,15 +1,22 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {scale, verticalScale} from '../../theme/responsive';
 import SplashScreen from 'react-native-splash-screen';
-import {fonts} from '../../theme/fonts';
 import Home from './home';
 import Chat from './chat';
-import Search from './search';
+import Notifications from './notifications';
+import {darkColors} from '../../theme/colors';
+import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import styles from './styles';
+import FloatingAddButton from '../../components/floatingAddButtton';
+import {scale} from '../../theme/responsive';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+const BottomTab = () => {
+  const insets = useSafeAreaInsets();
+
   React.useEffect(() => {
     setTimeout(() => SplashScreen.hide(), 1000);
   }, []);
@@ -17,71 +24,93 @@ export default function App() {
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: {
-          paddingTop: verticalScale(10),
-          paddingBottom: verticalScale(5),
+          ...styles.tabBarStyle,
+          paddingBottom: insets.bottom,
         },
       }}>
       <Tab.Screen
         options={{
-          tabBarLabelStyle: {
-            // fontFamily: fonts.UrbanistRegular,
-            fontSize: scale(14),
-            fontWeight: '500',
-            paddingTop: scale(5),
-          },
-          tabBarIcon: ({size, focused, color}) => {
-            if (focused) {
-              // return <HouseA />;
-            } else {
-              // return <House />;
-            }
-          },
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <Ionicons
+              name="home"
+              size={scale(30)}
+              color={focused ? darkColors.lightGreen : darkColors.white}
+            />
+          ),
         }}
         name="Home"
         component={Home}
       />
-
       <Tab.Screen
         options={{
-          tabBarLabelStyle: {
-            // fontFamily: fonts.UrbanistRegular,
-            fontSize: scale(14),
-            fontWeight: '500',
-            paddingTop: scale(5),
-          },
-          tabBarIcon: ({size, focused, color}) => {
-            if (focused) {
-              // return <VisitA />;
-            } else {
-              // return <Visit />;
-            }
-          },
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <Feather
+              name="message-square"
+              size={scale(30)}
+              color={focused ? darkColors.lightGreen : darkColors.white}
+            />
+          ),
         }}
         name="Chat"
         component={Chat}
       />
 
       <Tab.Screen
+        name="FloatingBtn"
+        component={() => null}
+        listeners={() => ({
+          tabPress: e => {
+            e.preventDefault(); // Prevents navigation
+            // Your code here for when you press the tab
+          },
+        })}
         options={{
-          tabBarLabelStyle: {
-            // fontFamily: fonts.UrbanistRegular,
-            fontSize: scale(14),
-            fontWeight: '500',
-            paddingTop: scale(5),
-          },
-          tabBarIcon: ({size, focused, color}) => {
-            if (focused) {
-              // return <Expense1 />;
-            } else {
-              // return <Expense0 />;
-            }
-          },
+          headerShown: false,
+          tabBarButton: () => <FloatingAddButton />,
         }}
-        name="Search"
-        component={Search}
+      />
+      <Tab.Screen
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <Ionicons
+              name="md-notifications-outline"
+              size={scale(30)}
+              color={focused ? darkColors.lightGreen : darkColors.white}
+            />
+          ),
+        }}
+        name="Notifications"
+        component={Notifications}
+      />
+
+      <Tab.Screen
+        name="NavigationMenu"
+        component={() => null}
+        listeners={() => ({
+          tabPress: e => {
+            e.preventDefault(); // Prevents navigation
+            // Your code here for when you press the tab
+          },
+        })}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <Feather
+              name="menu"
+              size={scale(30)}
+              color={focused ? darkColors.lightGreen : darkColors.white}
+            />
+          ),
+        }}
       />
     </Tab.Navigator>
   );
-}
+};
+
+export default BottomTab;
