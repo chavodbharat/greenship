@@ -96,6 +96,12 @@ const Login = () => {
           style={styles.txtInput1}
           placeholder="Password"
           secureTextEntry={state?.hidePassword}
+          right={
+            <TextInput.Icon
+              icon={state.hidePassword ? 'eye-off' : 'eye'}
+              onPress={showHidePassword}
+            />
+          }
         />
 
         {state.passwordError ? (
