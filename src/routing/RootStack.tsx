@@ -3,15 +3,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Welcome from '../modules/auth';
-import DashBoard from '../modules/dashBoard';
+import TabNavigator from './tabNavigator';
 import {navigationRef} from './navigationRef';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {types} from '../redux/ActionTypes';
 import SignUp from '../modules/auth/signUp';
 import Login from '../modules/auth/login';
 import ResetPassword from '../modules/auth/resetPassword';
-import Emergency from '../modules/dashBoard/emergency';
-const HomeStack = createStackNavigator();
+
+const DashBoardStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 
 export default function RootStack() {
@@ -57,12 +57,11 @@ export default function RootStack() {
   return (
     <NavigationContainer ref={navigationRef}>
       {signedIn ? (
-        <HomeStack.Navigator
+        <DashBoardStack.Navigator
           screenOptions={screenOptions}
-          initialRouteName="DashBoard">
-          <HomeStack.Screen name="DashBoard" component={DashBoard} />
-          <HomeStack.Screen name="Emergency" component={Emergency} />
-        </HomeStack.Navigator>
+          initialRouteName="TabNavigator">
+          <DashBoardStack.Screen name="TabNavigator" component={TabNavigator} />
+        </DashBoardStack.Navigator>
       ) : (
         <AuthStack.Navigator
           screenOptions={screenOptions}

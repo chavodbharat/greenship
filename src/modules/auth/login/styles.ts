@@ -74,13 +74,14 @@ export default StyleSheet.create({
   },
   noAccount: {
     color: darkColors.dontHaveColor,
-    fontSize: moderateScale(11),
+    fontSize: moderateScale(13),
     fontFamily: fonts.MontserratSemiBold,
     alignSelf: 'center',
     paddingTop: verticalScale(8),
   },
   signUp: {
     color: darkColors.darkGrey,
+    fontSize: moderateScale(13),
   },
   signupLink: {
     justifyContent: 'flex-end',

@@ -4,14 +4,20 @@ import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {navigate} from '../../../routing/navigationRef';
 import {darkColors} from '../../../theme/colors';
+import {useDispatch} from 'react-redux';
+import {setTabBgColor} from '../../../redux/actions/authAction';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
 };
 
-const Dashboard = () => {
+const Home = () => {
+  const dispatch = useDispatch();
+
   const onTilePress = (index: any) => {
     navigate('Emergency');
+
+    dispatch(setTabBgColor(index));
   };
 
   const getTitleInfo = (index: any) => {
@@ -87,4 +93,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Home;

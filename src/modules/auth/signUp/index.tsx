@@ -35,6 +35,10 @@ const SignUp = () => {
     passwordNoMatch: false,
   });
 
+  const showHidePassword = () => {
+    setState(prev => ({...prev, hidePassword: !state.hidePassword}));
+  };
+
   const validateEmail = email => {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return pattern.test(email);
@@ -233,6 +237,12 @@ const SignUp = () => {
             style={styles.txtInput1}
             placeholder="Password"
             secureTextEntry={state?.hidePassword}
+            right={
+              <TextInput.Icon
+                icon={state.hidePassword ? 'eye-off' : 'eye'}
+                onPress={showHidePassword}
+              />
+            }
           />
 
           {state.passwordError ? (
@@ -257,6 +267,12 @@ const SignUp = () => {
             style={styles.txtInput1}
             placeholder="Confirm Password"
             secureTextEntry={state?.hidePassword}
+            right={
+              <TextInput.Icon
+                icon={state.hidePassword ? 'eye-off' : 'eye'}
+                onPress={showHidePassword}
+              />
+            }
           />
 
           {state.confirmPasswordError ? (
