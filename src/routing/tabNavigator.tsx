@@ -1,20 +1,39 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SplashScreen from 'react-native-splash-screen';
-import Home from './home';
-import Chat from './chat';
-import Notifications from './notifications';
-import {darkColors} from '../../theme/colors';
+import Home from '../modules/dashBoard/home';
+import Chat from '../modules/dashBoard/chat';
+import Notifications from '../modules/dashBoard/notifications';
+import {darkColors} from '../theme/colors';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
-import FloatingAddButton from '../../components/floatingAddButtton';
-import {scale} from '../../theme/responsive';
+import FloatingAddButton from '../components/floatingAddButtton';
+import {scale} from '../theme/responsive';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Emergency from '../modules/dashBoard/emergency';
 
 const Tab = createBottomTabNavigator();
 
-const BottomTab = () => {
+const HomeStack = createNativeStackNavigator();
+
+const screenOptions = {
+  gestureEnabled: false,
+  headerShown: false,
+  animationEnabled: false,
+};
+
+function HomeStackScreen() {
+  return (
+    <HomeStack.Navigator screenOptions={screenOptions} initialRouteName="Home">
+      <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen name="Emergency" component={Emergency} />
+    </HomeStack.Navigator>
+  );
+}
+
+const TabNavigator = () => {
   const insets = useSafeAreaInsets();
 
   React.useEffect(() => {
@@ -43,7 +62,7 @@ const BottomTab = () => {
           ),
         }}
         name="Home"
-        component={Home}
+        component={HomeStackScreen}
       />
       <Tab.Screen
         options={{
@@ -113,4 +132,4 @@ const BottomTab = () => {
   );
 };
 
-export default BottomTab;
+export default TabNavigator;

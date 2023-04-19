@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {verticalScale} from '../../theme/responsive';
+import {verticalScale} from '../theme/responsive';
 
 export default StyleSheet.create({
   tabBarStyle: {

@@ -9,7 +9,7 @@ export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
 };
 
-const Dashboard = () => {
+const Home = () => {
   const onTilePress = (index: any) => {
     navigate('Emergency');
   };
@@ -87,4 +87,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Home;
