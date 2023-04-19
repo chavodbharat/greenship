@@ -33,6 +33,7 @@ export const lightColors = {
   petPassportGradientThree: '#fafafa',
   dashboardPetBG: '#3F8CA4',
   dashboardEmergencyBG: '#D44A54',
+  lightEmergencyBG: '#e15763',
 };
 
 export const darkColors = {

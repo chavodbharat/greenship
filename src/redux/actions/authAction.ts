@@ -23,3 +23,10 @@ export const registerUser = (payload: object, callback: Function) => {
     callback,
   };
 };
+
+export const setTabBgColor = (payload: any) => {
+  return {
+    type: types.SET_TAB_COLOR,
+    payload,
+  };
+};

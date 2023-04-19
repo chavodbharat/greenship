@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, View, ScrollView, Image} from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
+import {useDispatch} from 'react-redux';
+import {setTabBgColor} from '../../../redux/actions/authAction';
 
 const tokyoRegion = {
   latitude: 35.6762,
@@ -13,6 +15,13 @@ const tokyoRegion = {
 };
 
 const Emergency = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(setTabBgColor(null));
+    };
+  }, []);
   // const HeaderSubView = () => {
   //   return (
   //     <View style={styles.headerRow}>
