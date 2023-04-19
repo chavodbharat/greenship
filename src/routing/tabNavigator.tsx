@@ -14,6 +14,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Emergency from '../modules/dashBoard/emergency';
 import {shallowEqual, useSelector} from 'react-redux';
+import {navigate} from './navigationRef';
 
 const Tab = createBottomTabNavigator();
 
@@ -70,6 +71,12 @@ const TabNavigator = () => {
         },
       }}>
       <Tab.Screen
+        listeners={() => ({
+          tabPress: e => {
+            // Your code here for when you press the tab
+            navigate('Home');
+          },
+        })}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
