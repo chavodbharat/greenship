@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './styles';
 import {View, Image, Pressable} from 'react-native';
 import {goBack} from '../../routing/navigationRef';
+import AllImages from '../../utils/Constants/AllImages';
 
 const NavBar = () => {
   return (
@@ -14,7 +15,7 @@ const NavBar = () => {
         <Image
           resizeMode="contain"
           style={styles.back}
-          source={require('../../assets/images/back.png')}
+          source={AllImages.leftBackIcon}
         />
       </Pressable>
     </View>

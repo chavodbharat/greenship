@@ -6,6 +6,7 @@ import {navigate} from '../../../routing/navigationRef';
 import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
 import {setTabBgColor} from '../../../redux/actions/authAction';
+import { MY_PET_LIST_SCREEN } from '../../pet/myPetList';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -15,7 +16,8 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const onTilePress = (index: any) => {
-    navigate('Emergency');
+    if(index == 0) 
+      navigate(MY_PET_LIST_SCREEN.name);
 
     dispatch(setTabBgColor(index));
   };
