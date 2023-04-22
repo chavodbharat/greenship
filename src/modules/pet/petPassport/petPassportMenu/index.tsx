@@ -4,12 +4,14 @@ import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import Header from '../../../../components/header';
-import { useTheme } from '../../../../providers/ThemeProvider';
 import LinearGradient from '../../../../components/linearGradient';
 import Spinner from '../.././../../components/spinner';
-import { scale } from '../../../../theme/responsive';
+import { scale, verticalScale } from '../../../../theme/responsive';
 import { MenuOptions } from './types';
 import { getPetVaccineMenuList } from '../../../../redux/actions/petAction';
+import PetPassportSubHeader from '../../../../components/petPassportSubHeader';
+import { navigate } from '../../../../routing/navigationRef';
+import { PET_VACCINATION_SCREEN } from '../petVaccination';
 
 export const PET_PASSPORT_MENU_SCREEN = {
   name: 'PetPassportMenu',
@@ -17,9 +19,8 @@ export const PET_PASSPORT_MENU_SCREEN = {
 
 const PetPassportMenu = ({route}: any) => {
   const dispatch = useDispatch();
-  const { formId } = route.params;
+  const { petObj } = route.params;
   
-  const {colors} = useTheme();
   const [state, setState] = useState({
     loader: false,
     petPassportOptionsData: []
@@ -32,7 +33,7 @@ const PetPassportMenu = ({route}: any) => {
   const callPetPassportMenuListFn = () => {
     setState(prev => ({...prev, loader: true}));
     const body = {
-      'form_id': formId
+      'form_id': petObj.form_id
     }
     dispatch(
       getPetVaccineMenuList(body,(res: any) => {
@@ -47,7 +48,7 @@ const PetPassportMenu = ({route}: any) => {
   };
 
   const onPetPassportMenuItemPress = (data: MenuOptions) => {
-    //navigate(PET_PASSPORT_RABIES_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
+    navigate(PET_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
   }
 
   const renderItem = ({item, index}: any) => {
@@ -74,7 +75,12 @@ const PetPassportMenu = ({route}: any) => {
     <SafeAreaView style={styles.container}>
       <Spinner visible={state.loader} />
       <Header/>
-      <View style={[styles.container, {margin: scale(5)}]}>
+      <PetPassportSubHeader
+        title={petObj.pet_name}
+        petImage={petObj.pet_image}
+      />  
+      <View style={[styles.container, {marginLeft: scale(5), marginRight: scale(5),
+        marginTop: verticalScale(3)}]}>
         <FlatList
           data={state.petPassportOptionsData}
           horizontal={false}

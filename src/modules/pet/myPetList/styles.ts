@@ -38,9 +38,9 @@ export default StyleSheet.create({
     borderColor: darkColors.darkGreen 
   },
   petImageStyle: {
-    width: scale(100), 
-    height: scale(100), 
-    borderRadius: 10, 
+    width: scale(80), 
+    height: scale(80), 
+    borderRadius: 8, 
     borderWidth: 1, 
     borderColor: darkColors.darkGreen,
   },
@@ -91,8 +91,8 @@ export default StyleSheet.create({
     padding: scale(10)
   },
   handImageStyle: {
-    width: scale(22), 
-    height: scale(22), 
+    width: scale(18), 
+    height: scale(18), 
     tintColor: darkColors.darkGrey
   },
   editDeleteIconView: {

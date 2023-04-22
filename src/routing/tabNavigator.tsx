@@ -17,6 +17,7 @@ import {shallowEqual, useSelector} from 'react-redux';
 import {navigate} from './navigationRef';
 import MyPetList, { MY_PET_LIST_SCREEN } from '../modules/pet/myPetList';
 import PetPassportMenu, { PET_PASSPORT_MENU_SCREEN } from '../modules/pet/petPassport/petPassportMenu';
+import PetVaccination, { PET_VACCINATION_SCREEN } from '../modules/pet/petPassport/petVaccination';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +35,7 @@ function HomeStackScreen() {
       <HomeStack.Screen name="Home" component={Home} />
       <HomeStack.Screen name={MY_PET_LIST_SCREEN.name} component={MyPetList} />
       <HomeStack.Screen name={PET_PASSPORT_MENU_SCREEN.name} component={PetPassportMenu} />
+      <HomeStack.Screen name={PET_VACCINATION_SCREEN.name} component={PetVaccination} />
     </HomeStack.Navigator>
   );
 }

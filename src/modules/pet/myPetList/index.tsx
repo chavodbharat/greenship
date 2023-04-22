@@ -17,6 +17,7 @@ import Spinner from '../../../components/spinner';
 import Share from 'react-native-share';
 import { PetListArrayInterface } from './types';
 import { PET_PASSPORT_MENU_SCREEN } from '../petPassport/petPassportMenu';
+import { scale } from '../../../theme/responsive';
 
 export const MY_PET_LIST_SCREEN = {
   name: 'MyPetList',
@@ -92,7 +93,7 @@ const MyPetList = () => {
   };
 
   const onPetListItemPress = (data: PetListArrayInterface) => {
-    navigate(PET_PASSPORT_MENU_SCREEN.name, {formId: data.form_id});
+    navigate(PET_PASSPORT_MENU_SCREEN.name, {petObj: data});
   }
 
   const onHandSwipeIconPress = (index: number) => {
@@ -120,7 +121,7 @@ const MyPetList = () => {
                   source={{uri: item.pet_image}}/>
                 <Text style={styles.missingStatusTextStyle}>{item.pet_vermisst}</Text>
               </View>
-              <View style={[styles.flexOne,{marginLeft: 10}]}> 
+              <View style={[styles.flexOne,{marginLeft: scale(10)}]}> 
                 <Text style={styles.petListItemTextLabelStyle}>Name
                   <Text style={styles.petListItemTextValueStyle}>  {item.pet_name}</Text>
                 </Text>
@@ -160,7 +161,7 @@ const MyPetList = () => {
                     <Pressable
                       onPress={() => onHandSwipeIconPress(index)}>
                       <View style={[styles.flexZero, (state.isAdditionalMenuShow && index == state.menuOpenPosition) 
-                        && {marginLeft: 5, marginRight: 10}]}>
+                        && {marginLeft: scale(5), marginRight: scale(10)}]}>
                         <Image
                           style={styles.handImageStyle}
                           source={AllImages.handSwipeIcon}/>

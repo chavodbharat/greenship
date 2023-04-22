@@ -6,6 +6,7 @@ export const getPetListData = (callback: Function) => {
     callback,
   };
 };
+
 export const deletePet = (payload: object, callback: Function) => {
   return {
     type: types.DELETE_PET,
@@ -13,9 +14,18 @@ export const deletePet = (payload: object, callback: Function) => {
     callback,
   };
 };
+
 export const getPetVaccineMenuList = (payload: object, callback: Function) => {
   return {
     type: types.GET_PET_VACCINE_MENU_LIST,
+    payload,
+    callback,
+  };
+};
+
+export const getPetVaccinationList = (payload: object, callback: Function) => {
+  return {
+    type: types.GET_PET_VACCINATION_LIST,
     payload,
     callback,
   };
