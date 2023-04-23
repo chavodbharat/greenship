@@ -8,14 +8,17 @@ import LinearGradient from '../../../../components/linearGradient';
 import Spinner from '../.././../../components/spinner';
 import { scale, verticalScale } from '../../../../theme/responsive';
 import { MenuOptions } from './types';
-import { getPetVaccinationList, getPetVaccineMenuList } from '../../../../redux/actions/petAction';
+import { addPetVaccine, getPetVaccinationList, getPetVaccineMenuList } from '../../../../redux/actions/petAction';
 import PetPassportSubHeader from '../../../../components/petPassportSubHeader';
-import { TAG_DATE_FORMATE } from '../../../../utils/Constants/AllConstance';
+import { TAG_DATE_FORMATE, allImageOptionsArray, imageOptionsTitleData, onImageOptionPress } from '../../../../utils/Constants/AllConstance';
 import Icon from 'react-native-vector-icons/Feather';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import moment from 'moment';
 import { darkColors } from '../../../../theme/colors';
 import CustomDateRangeModal from '../../../../components/customDateRangeModal';
+import ActionSheetModal from 'react-native-modal';
+import ActionSheet from '../../../../components/actionSheet';
+import { showMessage } from 'react-native-flash-message';
 
 export const PET_VACCINATION_SCREEN = {
   name: 'PetVaccination',
@@ -33,11 +36,9 @@ const PetVaccination = ({route}: any) => {
     dateRange: { startDate: undefined, endDate: undefined},
     datePickerOpenStatus: false,
     isActionSheetShow: false,
-    imageOptionPosition: 0
+    imageOptionPosition: 0,
+    actionSheetData: imageOptionsTitleData()
   });
-
-  
-  const [imageOptionPosition, setImageOptionPosition] = useState(0);
 
   useEffect(() => {
     callPetPassportVaccineListFn();
@@ -53,7 +54,7 @@ const PetVaccination = ({route}: any) => {
       getPetVaccinationList(body,(res: any) => {
         if(res) {
           const { data } = res;
-          setState(prev => ({...prev, loader: false, petVaccineListData:  data}));
+          setState(prev => ({...prev, loader: false, petVaccineListData:  data.reverse()}));
         } else {
           setState(prev => ({...prev, loader: false, petVaccineListData: []}));
         }
@@ -62,13 +63,84 @@ const PetVaccination = ({route}: any) => {
   };
 
   const onSubmit = () => {
+    const {dateRange, manufactureImageResponse, authorisedImageResponse} = state;
 
+    if(dateRange.startDate && dateRange.endDate && manufactureImageResponse && authorisedImageResponse){
+      setState(prev => ({...prev, loader: true}));
+      const body = {
+        formId: vaccineObj.form_id,
+        vaccineId: "",
+        endDate: dateRange.endDate,
+        startDate: dateRange.startDate,
+        vaccineType: vaccineObj.vaccine_type,
+        authorisedImageRes: authorisedImageResponse,
+        manufatureImageRes: manufactureImageResponse,
+      }
+      dispatch(
+        addPetVaccine(body,(res: any) => {
+          console.log("Res", res);
+          if(res.statusCode == 200){
+            showMessage({ message: "Vaccine added successfully", type: 'success'});
+            setState(prev => ({...prev, loader: false, manufactureImageResponse:  null,
+              authorisedImageResponse: null, dateRange: { startDate: undefined, endDate: undefined}}));
+            callPetPassportVaccineListFn();
+          } else {
+            setState(prev => ({...prev, loader: false}));
+            showMessage({ message: res.message, type: 'danger'});
+          }
+        }),
+      );
+      // try {
+      //   const startDate = moment(dateRange.startDate).format(TAG_DATE_FORMATE);
+      //   const endDate = moment( dateRange.endDate).format(TAG_DATE_FORMATE);
+      //   addVaccine(
+      //     token,
+      //     vaccineObj.form_id,
+      //     "",
+      //     startDate,
+      //     endDate,
+      //     vaccineObj.vaccine_type,
+      //     authorisedImageResponse,
+      //     manufactureImageResponse,
+      //     async (responseData: any) => {
+      //       setIsLoading(false);
+      //       if(responseData.statusCode == 200){
+      //         toast.show(Locales.vaccine_add_success_message, {type: "custom_toast",
+      //           animationDuration: 100, duration: TAG_TIMEOUT, data: {borderColor: colors.toastBorderSuccessColor}
+      //         });
+      //         setManufactureImageResponse(null);
+      //         setAuthorisedImageResponse(null);
+      //         setDateRange({ startDate: undefined, endDate: undefined});
+      //         getRabbiesVaccineList();
+      //       } else {
+      //         toast.show(responseData.message, {type: "custom_toast",
+      //           animationDuration: 100, duration: TAG_TIMEOUT, data: {borderColor: colors.toastBorderErrorColor}
+      //         });
+      //       }
+      //     },
+      //     (e: any) => {
+      //       setIsLoading(false);
+      //       toast.show(Locales.vaccine_add_error_message, {type: "custom_toast",
+      //         animationDuration: 100, duration: TAG_TIMEOUT, data: {borderColor: colors.toastBorderErrorColor}
+      //       });
+      //     },
+      //   );
+      // } catch (error) {
+      //   setIsLoading(false);
+      // }
+    } else {
+      if(!dateRange.startDate || !dateRange.endDate) {
+        showMessage({ message: "Please select start & end date", type: 'danger'});
+      } else if(!manufactureImageResponse) {
+        showMessage({ message: "Please select manufacturer vaccine image", type: 'danger'});
+      } else if(!authorisedImageResponse) {
+        showMessage({ message: "Please select authorised vaccine image", type: 'danger'});
+      }
+    }
   }
 
   const onVaccineImageSelect = (position: number) => {
     setState(prev => ({...prev, isActionSheetShow: true, imageOptionPosition: position}));
-    setImageOptionPosition(position);
-  //  setActionSheetData();
   }
 
   const onDateSelected = (dateRange: any) => {
@@ -78,6 +150,23 @@ const PetVaccination = ({route}: any) => {
 
   const onDateIconPress = (status: boolean) => {
     setState(prev => ({...prev, datePickerOpenStatus: status})); 
+  }
+
+  const hideActionSheet = () => {
+    setState(prev => ({...prev, isActionSheetShow: false})); 
+  }
+
+  const clickOnActionSheetOption = async (index: number) => {
+    const originalMessageObj = allImageOptionsArray().find((item: any) => item.type === state.actionSheetData[index].id);
+    const data = await onImageOptionPress(originalMessageObj?.type, originalMessageObj?.options);
+    if(data && data.assets && data.assets.length > 0) {
+      if(state.imageOptionPosition == 1) {
+        setState(prev => ({...prev, manufactureImageResponse: data.assets[0]}));
+      } else {
+        setState(prev => ({...prev, authorisedImageResponse: data.assets[0]})); 
+      }
+    }
+    hideActionSheet();
   }
 
   const renderItem = ({item, index}: any) => {
@@ -232,6 +321,15 @@ const PetVaccination = ({route}: any) => {
         isModalVisible={state.datePickerOpenStatus}
         onClose={() => onDateIconPress(false)}
         onSubmit={(range) => onDateSelected(range)} />
+      <ActionSheetModal
+        isVisible={state.isActionSheetShow}
+        style={styles.actionModalStyle}>
+        <ActionSheet
+          actionSheetItems={state.actionSheetData}
+          onCancelPress={hideActionSheet}
+          onPressItem={clickOnActionSheetOption}
+        />
+      </ActionSheetModal>
       {/* {state.datePickerOpenStatus &&
       <DateRangePicker
           onSelectDateRange={(range) => {

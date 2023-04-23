@@ -30,3 +30,11 @@ export const getPetVaccinationList = (payload: object, callback: Function) => {
     callback,
   };
 };
+export const addPetVaccine = (payload: object, callback: Function) => {
+  return {
+    type: types.ADD_PET_VACCINE,
+    payload,
+    callback,
+  };
+};
+
