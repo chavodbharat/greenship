@@ -95,6 +95,8 @@ android {
 
     namespace "com.greenship"
     defaultConfig {
+                vectorDrawables.useSupportLibrary = true
+
         applicationId "com.greenship"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion

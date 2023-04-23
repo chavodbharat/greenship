@@ -23,6 +23,7 @@ export default StyleSheet.create({
   logo: {
     height: scale(110),
     width: scale(110),
+    borderRadius: scale(55),
   },
   upload: {
     height: scale(33),

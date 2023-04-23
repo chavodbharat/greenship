@@ -13,11 +13,16 @@ import {scale} from '../theme/responsive';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Emergency from '../modules/dashBoard/emergency';
-import {shallowEqual, useSelector} from 'react-redux';
+import {shallowEqual, useSelector, useDispatch} from 'react-redux';
 import {navigate} from './navigationRef';
 import MyPetList, { MY_PET_LIST_SCREEN } from '../modules/pet/myPetList';
 import PetPassportMenu, { PET_PASSPORT_MENU_SCREEN } from '../modules/pet/petPassport/petPassportMenu';
 import PetVaccination, { PET_VACCINATION_SCREEN } from '../modules/pet/petPassport/petVaccination';
+import {showMessage} from 'react-native-flash-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {types} from '../redux/ActionTypes';
+import Profile from '../modules/dashBoard/profile';
+import EditProfile from '../modules/dashBoard/profile/editProfile';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,6 +41,9 @@ function HomeStackScreen() {
       <HomeStack.Screen name={MY_PET_LIST_SCREEN.name} component={MyPetList} />
       <HomeStack.Screen name={PET_PASSPORT_MENU_SCREEN.name} component={PetPassportMenu} />
       <HomeStack.Screen name={PET_VACCINATION_SCREEN.name} component={PetVaccination} />
+      <HomeStack.Screen name="Emergency" component={Emergency} />
+      <HomeStack.Screen name="Profile" component={Profile} />
+      <HomeStack.Screen name="EditProfile" component={EditProfile} />
     </HomeStack.Navigator>
   );
 }
@@ -48,10 +56,23 @@ const TabNavigator = () => {
     shallowEqual,
   );
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     setTimeout(() => SplashScreen.hide(), 1000);
   }, []);
+
+  const logout = () => {
+    AsyncStorage.clear();
+    dispatch({type: types.UPDATE_SIGN_IN, payload: false});
+    dispatch({
+      type: types.LOGOUT_SUCCESS,
+    });
+    showMessage({
+      message: 'Logout Successfully..!!',
+      type: 'success',
+    });
+  };
 
   const tabBgColor = React.useMemo(() => {
     switch (auth?.activeModule) {
@@ -147,6 +168,7 @@ const TabNavigator = () => {
         listeners={() => ({
           tabPress: e => {
             e.preventDefault(); // Prevents navigation
+            logout();
             // Your code here for when you press the tab
           },
         })}
