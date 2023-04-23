@@ -4,7 +4,7 @@ import {scale, verticalScale} from '../../theme/responsive';
 export default StyleSheet.create({
   main: {
     marginTop: verticalScale(7),
-    marginLeft: scale(6),
+    paddingLeft: scale(6),
     backgroundColor: 'white',
   },
 

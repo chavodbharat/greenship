@@ -72,4 +72,6 @@ export const darkColors = {
   petPassportGradientThree: '#fafafa',
   dashboardPetBG: '#3F8CA4',
   dashboardEmergencyBG: '#D44A54',
+  gradientGary: '#dedede',
+  gradientLightGray: '#f9f9fa',
 };

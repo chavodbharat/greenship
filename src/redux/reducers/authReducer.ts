@@ -12,8 +12,6 @@ export default (state = INITIAL_STATE, {type, payload}) => {
       return {...state, signedIn: payload};
     case types.LOGIN_USER_SUCCESS:
       return {...state, loginData: payload};
-    case types.LOGIN_USER_SUCCESS:
-      return {...state, loginData: payload};
     case types.SET_TAB_COLOR:
       return {...state, activeModule: payload};
 

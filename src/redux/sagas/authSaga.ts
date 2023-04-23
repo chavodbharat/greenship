@@ -17,6 +17,11 @@ function* loginUser(data: object) {
           type: types.UPDATE_SIGN_IN,
           payload: true,
         });
+
+        store.dispatch({
+          type: types.LOGIN_USER_SUCCESS,
+          payload: response?.data,
+        });
         showMessage({
           message: 'Login successful',
           type: 'success',

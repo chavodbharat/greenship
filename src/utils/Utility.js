@@ -12,7 +12,12 @@ export const apiCall = async (url, body, method, isFormData) => {
   }
   return fetch(url, {
     method: method,
-    headers: isFormData ? {'content-type': 'multipart/form-data'} : headers,
+    headers: isFormData
+      ? {
+          'content-type': 'multipart/form-data',
+          authorization: 'Bearer' + ' ' + token,
+        }
+      : headers,
     body: body && !isFormData ? JSON.stringify(body) : body,
   })
     .then(async response => {
@@ -55,4 +60,43 @@ export const apiCall = async (url, body, method, isFormData) => {
       }
     })
     .catch(err => console.log('error in catch in util ', err, err?.message));
+};
+
+export const getReverseGeocodingData = async (latitude, longitude) => {
+  try {
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCIqkzX9pTLBDe3KKTnDITtVBa-gLqbIEY`,
+    );
+    const data = await response.json();
+
+    if (data.status === 'OK') {
+      // Extract the address from the response
+      const address = data.results[0].formatted_address;
+      return address;
+    } else {
+      console.error('Failed to fetch reverse geocoding data:', data.status);
+    }
+  } catch (error) {
+    console.error('Failed to fetch reverse geocoding data:', error);
+  }
+};
+
+export const fetchLocationResults = async query => {
+  try {
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${query}&key=AIzaSyCIqkzX9pTLBDe3KKTnDITtVBa-gLqbIEY&language=en`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    console.log('Date', data);
+    if (data.status === 'OK') {
+      const locations = data.predictions.map(result => ({
+        name: result.description,
+      }));
+      return locations;
+    } else {
+      throw new Error('Failed to fetch location results');
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };

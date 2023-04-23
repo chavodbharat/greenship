@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -6,6 +6,8 @@ import {navigate} from '../../../routing/navigationRef';
 import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
 import {setTabBgColor} from '../../../redux/actions/authAction';
+import {useSelector, shallowEqual} from 'react-redux';
+import {getUserProfilePic} from '../../../redux/actions/homeAction';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -13,10 +15,32 @@ export const DASHBOARD_SCREEN = {
 
 const Home = () => {
   const dispatch = useDispatch();
+  const {userData} = useSelector(
+    state => ({
+      userData: state.auth?.loginData,
+    }),
+    shallowEqual,
+  );
+
+  const [state, setState] = useState({
+    userProfilePic: null,
+  });
+
+  useEffect(() => {
+    let body = {
+      context: 'view',
+      id: userData?.id,
+    };
+
+    dispatch(
+      getUserProfilePic(body, res => {
+        setState(prev => ({...prev, userProfilePic: res}));
+      }),
+    );
+  }, []);
 
   const onTilePress = (index: any) => {
     navigate('Emergency');
-
     dispatch(setTabBgColor(index));
   };
 
@@ -55,19 +79,22 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.main}>
-        <View style={styles.userView}>
-          <Image
-            resizeMode="contain"
-            style={styles.logo}
-            source={require('../../../assets/images/ic_no_avatar.png')}
-          />
-        </View>
+      <Pressable
+        onPress={() => navigate('Profile', {userPic: state.userProfilePic})}
+        style={styles.main}>
+        {/* <View style={styles.userView}> */}
         <Image
+          resizeMode="contain"
+          style={styles.userView}
+          source={{uri: state?.userProfilePic?.[0]?.full}}
+          defaultSource={require('../../../assets/images/ic_no_avatar.png')}
+        />
+        {/* </View> */}
+        {/* <Image
           style={styles.upload}
           source={require('../../../assets/images/upload.png')}
-        />
-      </View>
+        /> */}
+      </Pressable>
 
       <View style={styles.list}>
         {[...Array(4)]?.map((tile, index) => {

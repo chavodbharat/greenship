@@ -1,11 +1,15 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import styles from './styles';
-import {View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {shallowEqual, useSelector} from 'react-redux';
 import {darkColors} from '../../theme/colors';
+import AddMissingPetModal from '../../modules/dashBoard/emergency/addMissingPetModal';
 
 const FloatingAddButton = () => {
+  const [state, setState] = useState({
+    missingPetModal: false,
+  });
   const {auth} = useSelector(
     state => ({
       auth: state?.auth,
@@ -23,12 +27,22 @@ const FloatingAddButton = () => {
         return darkColors.darkGreen;
     }
   }, [auth?.activeModule]);
+
+  const updateModalStatus = () => {
+    setState(prev => ({...prev, missingPetModal: !state.missingPetModal}));
+  };
   return (
-    <View style={{...styles.btn, backgroundColor: btnColor}}>
+    <Pressable
+      onPress={updateModalStatus}
+      style={{...styles.btn, backgroundColor: btnColor}}>
       <View>
         <Feather name="plus" size={30} color={'white'} />
+        <AddMissingPetModal
+          modalVisible={state.missingPetModal}
+          setModalVisible={updateModalStatus}
+        />
       </View>
-    </View>
+    </Pressable>
   );
 };
 
