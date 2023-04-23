@@ -82,18 +82,12 @@ const Home = () => {
       <Pressable
         onPress={() => navigate('Profile', {userPic: state.userProfilePic})}
         style={styles.main}>
-        {/* <View style={styles.userView}> */}
         <Image
-          resizeMode="contain"
+          resizeMode="cover"
           style={styles.userView}
           source={{uri: state?.userProfilePic?.[0]?.full}}
           defaultSource={require('../../../assets/images/ic_no_avatar.png')}
         />
-        {/* </View> */}
-        {/* <Image
-          style={styles.upload}
-          source={require('../../../assets/images/upload.png')}
-        /> */}
       </Pressable>
 
       <View style={styles.list}>

@@ -96,6 +96,23 @@ function* getUserProfile(data: object) {
     });
 }
 
+function* updateUserProfilePic(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(
+      `${serviceUrl.apiUrl}buddypress/v1/members/${payload?.id}/avatar`,
+      payload?.data,
+      'POST',
+      true,
+    )
+    .then(response => {
+      callback(response);
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
 function* getBannerImage(data: object) {
   const {payload, callback} = data;
   utilActions
@@ -112,36 +129,6 @@ function* getBannerImage(data: object) {
     });
 }
 
-function* updateUserProfilePic(data: object) {
-  const {payload, callback} = data;
-  utilActions
-    .apiCall(
-      `${serviceUrl.apiUrl}buddypress/v1/members/${payload?.id}/avatar/?context=${payload?.context}`,
-      payload,
-      'POST',
-    )
-    .then(response => {
-      console.log('user', response);
-
-      // if (response.success) {
-      //   showMessage({
-      //     message: 'Missing pet reported successfully',
-      //     type: 'success',
-      //   });
-      //   callback(response);
-      // } else {
-      //   showMessage({
-      //     message: response?.message,
-      //     type: 'danger',
-      //   });
-      //   callback();
-      // }
-    })
-    .catch(err => {
-      callback();
-    });
-}
-
 function* updateBannerImage(data: object) {
   const {payload, callback} = data;
   utilActions
@@ -152,21 +139,7 @@ function* updateBannerImage(data: object) {
       true,
     )
     .then(response => {
-      console.log('banner', response);
-
-      if (response.data) {
-        showMessage({
-          message: 'Cover Image uploaded  successfully',
-          type: 'success',
-        });
-        callback(response);
-      } else {
-        showMessage({
-          message: response?.message,
-          type: 'danger',
-        });
-        callback();
-      }
+      callback(response);
     })
     .catch(err => {
       callback();

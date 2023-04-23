@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale, scale, verticalScale} from '../../theme/responsive';
-import {colors, darkColors} from '../../theme/colors';
+import {darkColors} from '../../theme/colors';
 import {fonts} from '../../theme/fonts';
 
 export default StyleSheet.create({
@@ -31,7 +31,7 @@ export default StyleSheet.create({
     height: scale(110),
     width: scale(110),
     borderRadius: scale(55),
-    backgroundColor: 'red',
+    backgroundColor: 'gray',
     marginTop: verticalScale(-50),
     marginLeft: scale(115),
   },
