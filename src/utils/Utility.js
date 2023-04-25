@@ -1,10 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const apiCall = async (url, body, method, isFormData) => {
-  const headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  };
+  const headers = isFormData ? {
+      'content-type': 'multipart/form-data'
+    } : {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
   const token = await AsyncStorage.getItem('token');
 
   if (token) {
@@ -12,12 +14,7 @@ export const apiCall = async (url, body, method, isFormData) => {
   }
   return fetch(url, {
     method: method,
-    headers: isFormData
-      ? {
-          'content-type': 'multipart/form-data',
-          authorization: 'Bearer' + ' ' + token,
-        }
-      : headers,
+    headers: headers,
     body: body && !isFormData ? JSON.stringify(body) : body,
   })
     .then(async response => {

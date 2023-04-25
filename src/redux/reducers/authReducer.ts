@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   activeModule: null,
 };
 
-export default (state = INITIAL_STATE, {type, payload}) => {
+export default (state = INITIAL_STATE, {type, payload}: any) => {
   switch (type) {
     case types.UPDATE_SIGN_IN:
       return {...state, signedIn: payload};

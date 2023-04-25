@@ -15,6 +15,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Emergency from '../modules/dashBoard/emergency';
 import {shallowEqual, useSelector, useDispatch} from 'react-redux';
 import {navigate} from './navigationRef';
+import MyPetList, { MY_PET_LIST_SCREEN } from '../modules/pet/myPetList';
+import PetPassportMenu, { PET_PASSPORT_MENU_SCREEN } from '../modules/pet/petPassport/petPassportMenu';
+import PetVaccination, { PET_VACCINATION_SCREEN } from '../modules/pet/petPassport/petVaccination';
 import {showMessage} from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {types} from '../redux/ActionTypes';
@@ -35,6 +38,9 @@ function HomeStackScreen() {
   return (
     <HomeStack.Navigator screenOptions={screenOptions} initialRouteName="Home">
       <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen name={MY_PET_LIST_SCREEN.name} component={MyPetList} />
+      <HomeStack.Screen name={PET_PASSPORT_MENU_SCREEN.name} component={PetPassportMenu} />
+      <HomeStack.Screen name={PET_VACCINATION_SCREEN.name} component={PetVaccination} />
       <HomeStack.Screen name="Emergency" component={Emergency} />
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="EditProfile" component={EditProfile} />

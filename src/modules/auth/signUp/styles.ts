@@ -56,7 +56,7 @@ export default StyleSheet.create({
   btnLabel: {
     color: 'white',
     fontSize: moderateScale(13),
-    fontFamily: fonts.MontserratRegular,
+    fontFamily: fonts.MontserratSemiBold,
   },
 
   noAccount: {

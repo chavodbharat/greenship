@@ -34,6 +34,7 @@ export const lightColors = {
   dashboardPetBG: '#3F8CA4',
   dashboardEmergencyBG: '#D44A54',
   lightEmergencyBG: '#e15763',
+  actionSheetCancelColor: '#fa1616'
 };
 
 export const darkColors = {
@@ -72,6 +73,7 @@ export const darkColors = {
   petPassportGradientThree: '#fafafa',
   dashboardPetBG: '#3F8CA4',
   dashboardEmergencyBG: '#D44A54',
+  actionSheetCancelColor: '#fa1616',
   gradientGary: '#dedede',
   gradientLightGray: '#f9f9fa',
 };

@@ -49,7 +49,7 @@ export default StyleSheet.create({
   },
   btnLabel: {
     color: 'white',
-    fontFamily: fonts.MontserratRegular,
+    fontFamily: fonts.MontserratSemiBold,
     fontSize: moderateScale(12),
   },
   end: {
@@ -64,7 +64,8 @@ export default StyleSheet.create({
   accordionTitle: {
     fontSize: moderateScale(13),
     color: 'white',
-    paddingVertical: verticalScale(10),
+    paddingVertical: verticalScale(14),
+    fontFamily: fonts.MontserratSemiBold,
   },
   btn: {
     flexDirection: 'row',
