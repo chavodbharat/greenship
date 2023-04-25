@@ -18,6 +18,7 @@ export default StyleSheet.create({
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratRegular,
     color: darkColors.darkGrey,
+    fontWeight: '600',
     backgroundColor: 'white',
   },
   txtInput1: {
@@ -26,6 +27,7 @@ export default StyleSheet.create({
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratRegular,
     color: darkColors.darkGrey,
+    fontWeight: '600',
     backgroundColor: 'white',
   },
   img: {
@@ -100,6 +102,8 @@ export default StyleSheet.create({
   dropDownPlaceHolder: {
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratRegular,
+    color: 'black',
+    fontWeight: '600',
   },
   dropdown1RowStyle: {
     backgroundColor: 'white',

@@ -130,5 +130,6 @@ export default StyleSheet.create({
     paddingLeft: scale(8),
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratRegular,
+    color: 'black',
   },
 });

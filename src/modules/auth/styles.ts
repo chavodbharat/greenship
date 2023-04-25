@@ -84,6 +84,6 @@ export default StyleSheet.create({
     paddingLeft: scale(12),
   },
   wrapper: {
-    flex: 0.5,
+    flex: 0.525,
   },
 });
