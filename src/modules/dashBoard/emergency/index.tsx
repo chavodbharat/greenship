@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker, Callout} from 'react-native-maps';
-import {useDispatch} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {setTabBgColor} from '../../../redux/actions/authAction';
 import Geolocation from 'react-native-geolocation-service';
 import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
@@ -28,12 +28,20 @@ import {darkColors} from '../../../theme/colors';
 import {scale} from '../../../theme/responsive';
 import {goBack} from '../../../routing/navigationRef';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {types} from '../../../redux/ActionTypes';
 
 const Emergency = () => {
   const dispatch = useDispatch();
 
   const isFocused = useIsFocused();
   const mapRef = useRef(null);
+
+  const {missingPetSuccess} = useSelector(
+    state => ({
+      missingPetSuccess: state.home?.missingPetSuccess,
+    }),
+    shallowEqual,
+  );
 
   const [state, setState] = useState({
     latitude: 0,
@@ -46,18 +54,25 @@ const Emergency = () => {
   });
 
   useEffect(() => {
-    if (isFocused) requestLocationPermission();
+    if (isFocused) {
+      requestLocationPermission();
+    }
+
     return () => {
       dispatch(setTabBgColor(null));
+      dispatch({
+        type: types.UPDATE_MISSING_SUCCESS,
+        payload: false,
+      });
     };
   }, [isFocused]);
 
   useEffect(() => {
-    if (state.selectedAddress !== '') {
+    if (state.selectedAddress !== '' || missingPetSuccess === true) {
       setState(prev => ({...prev, loading: true}));
       callGetMissingPetList();
     }
-  }, [state.locationAddress, state.selectedAddress]);
+  }, [state.locationAddress, state.selectedAddress, missingPetSuccess]);
 
   const requestLocationPermission = async () => {
     const granted = await getLocationPermissions();
@@ -212,7 +227,11 @@ const Emergency = () => {
         </View>
 
         <View style={styles.mapBox}>
-          <MapView style={styles.mapStyle} ref={mapRef}>
+          <MapView
+            zoomEnabled={true}
+            zoomTapEnabled={true}
+            style={styles.mapStyle}
+            ref={mapRef}>
             {state.missingPetList?.map((marker, index) => {
               return (
                 <Marker

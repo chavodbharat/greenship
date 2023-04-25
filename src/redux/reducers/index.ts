@@ -2,9 +2,11 @@ import {combineReducers} from 'redux';
 import authReducer from './authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {types} from '../ActionTypes';
+import homeReducer from './homeReducer';
 
 const appReducer = combineReducers({
   auth: authReducer,
+  home: homeReducer,
 });
 
 const rootReducer = (state, action) => {

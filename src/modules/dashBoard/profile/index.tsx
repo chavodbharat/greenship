@@ -7,6 +7,7 @@ import {goBack, navigate} from '../../../routing/navigationRef';
 import {scale, verticalScale} from '../../../theme/responsive';
 import LinearGradient from 'react-native-linear-gradient';
 import Accordion from '../../../components/accordion';
+import {shallowEqual, useSelector} from 'react-redux';
 
 const accordionArray = [
   {
@@ -22,6 +23,13 @@ const accordionArray = [
 ];
 const Profile = ({route}) => {
   const profilePic = route?.params?.userPic;
+
+  const {userData} = useSelector(
+    state => ({
+      userData: state.auth?.loginData,
+    }),
+    shallowEqual,
+  );
 
   const getTitleInfo = (index: any) => {
     try {
@@ -76,7 +84,7 @@ const Profile = ({route}) => {
             resizeMode="contain"
             style={styles.pic}
           />
-          <Text style={styles.name}>Rahul</Text>
+          <Text style={styles.name}> {(userData?.nicename).toUpperCase()}</Text>
         </View>
 
         <View style={styles.boxWrapper}>

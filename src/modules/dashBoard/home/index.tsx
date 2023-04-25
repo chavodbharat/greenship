@@ -8,6 +8,7 @@ import {useDispatch} from 'react-redux';
 import {setTabBgColor} from '../../../redux/actions/authAction';
 import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
+import {useIsFocused} from '@react-navigation/native';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -15,6 +16,8 @@ export const DASHBOARD_SCREEN = {
 
 const Home = () => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+
   const {userData} = useSelector(
     state => ({
       userData: state.auth?.loginData,
@@ -27,20 +30,24 @@ const Home = () => {
   });
 
   useEffect(() => {
-    let body = {
-      context: 'view',
-      id: userData?.id,
-    };
+    if (isFocused && userData?.id) {
+      let body = {
+        context: 'view',
+        id: userData?.id,
+      };
 
-    dispatch(
-      getUserProfilePic(body, res => {
-        setState(prev => ({...prev, userProfilePic: res}));
-      }),
-    );
-  }, []);
+      dispatch(
+        getUserProfilePic(body, res => {
+          setState(prev => ({...prev, userProfilePic: res}));
+        }),
+      );
+    }
+  }, [isFocused, userData?.id]);
 
   const onTilePress = (index: any) => {
-    navigate('Emergency');
+    if (index === 3) {
+      navigate('Emergency');
+    }
     dispatch(setTabBgColor(index));
   };
 

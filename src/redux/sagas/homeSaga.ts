@@ -3,6 +3,7 @@ import * as utilActions from '../../utils/Utility';
 import {serviceUrl} from '../../utils/Constants/ServiceUrls';
 import {types} from '../ActionTypes';
 import {showMessage} from 'react-native-flash-message';
+import {store} from '../../store/configureStore';
 
 function* getMissingPetList(data: object) {
   const {payload, callback} = data;
@@ -65,6 +66,11 @@ function* updateMissingPet(data: object) {
         showMessage({
           message: 'Missing pet reported successfully',
           type: 'success',
+        });
+
+        store.dispatch({
+          type: types.UPDATE_MISSING_SUCCESS,
+          payload: true,
         });
         callback(response);
       } else {

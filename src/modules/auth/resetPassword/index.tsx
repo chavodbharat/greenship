@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styles from './styles';
-import {View, TextInput, Text, Pressable} from 'react-native';
+import {View, TextInput, Text, Pressable, Image} from 'react-native';
 import NavBar from '../../../components/navBar';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {darkColors} from '../../../theme/colors';
@@ -46,6 +46,11 @@ const ResetPassword = () => {
       <NavBar />
       <Spinner visible={state?.loader} />
       <View style={styles.wrapper}>
+        <Image
+          resizeMode="contain"
+          style={styles.img}
+          source={require('../../../assets/images/ic_app_landscape_logo.png')}
+        />
         <Text style={styles.desc}>
           Please enter your email address or Username to
           <Text> reset your password</Text>

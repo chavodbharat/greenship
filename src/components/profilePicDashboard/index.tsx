@@ -166,7 +166,9 @@ const ProfilePicDashboard = () => {
           end={{x: 1, y: 0}}
           colors={[darkColors.darkGreen, darkColors.green]}
           style={styles.main}>
-          <Text style={styles.userName}>USERNAME</Text>
+          <Text style={styles.userName}>
+            {(userData?.nicename).toUpperCase()}
+          </Text>
           <Text style={styles.userRole}>USERROLE</Text>
         </LinearGradient>
       ) : (
@@ -174,7 +176,9 @@ const ProfilePicDashboard = () => {
           borderRadius={scale(4)}
           source={{uri: state.bannerImage?.[0]?.image}}
           style={styles.main}>
-          <Text style={styles.userName}>USERNAME</Text>
+          <Text style={styles.userName}>
+            {(userData?.nicename).toUpperCase()}
+          </Text>
           <Text style={styles.userRole}>USERROLE</Text>
         </ImageBackground>
       )}

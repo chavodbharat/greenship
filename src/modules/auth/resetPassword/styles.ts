@@ -8,10 +8,16 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  img: {
+    height: scale(70),
+    width: scale(250),
+    alignSelf: 'center',
+    marginTop: verticalScale(80),
+    marginBottom: verticalScale(50),
+  },
   wrapper: {
     flex: 1,
     backgroundColor: 'white',
-    marginTop: verticalScale(150),
   },
 
   desc: {
@@ -57,7 +63,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: scale(12),
-    borderRadius: scale(4),
+    borderRadius: scale(20),
     marginTop: verticalScale(12),
   },
 

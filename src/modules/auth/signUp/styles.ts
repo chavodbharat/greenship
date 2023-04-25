@@ -11,7 +11,6 @@ export default StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: 'white',
-    marginTop: verticalScale(62),
   },
 
   txtInput: {
@@ -33,7 +32,7 @@ export default StyleSheet.create({
     height: scale(70),
     width: scale(250),
     alignSelf: 'center',
-    marginBottom: verticalScale(40),
+    marginVertical: verticalScale(50),
   },
 
   error: {
@@ -48,7 +47,7 @@ export default StyleSheet.create({
     backgroundColor: darkColors.darkGreen,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: scale(8),
+    paddingVertical: scale(10),
     borderRadius: scale(20),
     marginTop: verticalScale(22),
     marginHorizontal: scale(20),
@@ -85,6 +84,13 @@ export default StyleSheet.create({
     marginTop: verticalScale(12),
     color: darkColors.darkGrey,
   },
+  emailInfo: {
+    color: darkColors.darkGrey,
+    fontSize: moderateScale(13),
+    fontFamily: fonts.MontserratRegular,
+    paddingHorizontal: scale(20),
+    paddingTop: verticalScale(5),
+  },
   dropDownBtnWrapper: {
     borderColor: darkColors.darkGreen,
     backgroundColor: 'white',
@@ -93,7 +99,7 @@ export default StyleSheet.create({
   },
   dropDownPlaceHolder: {
     fontSize: moderateScale(13),
-    color: 'black',
+    fontFamily: fonts.MontserratRegular,
   },
   dropdown1RowStyle: {
     backgroundColor: 'white',
@@ -106,5 +112,24 @@ export default StyleSheet.create({
     color: darkColors.darkGrey,
     fontFamily: fonts.MontserratRegular,
     fontSize: moderateScale(13),
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  info1: {
+    color: darkColors.darkGrey,
+    fontFamily: fonts.MontserratRegular,
+    fontSize: moderateScale(16),
+    paddingTop: verticalScale(10),
+    width: scale(290),
+    marginLeft: scale(-10),
+  },
+  info2: {
+    color: darkColors.darkGrey,
+    fontFamily: fonts.MontserratRegular,
+    fontSize: moderateScale(11),
+    paddingTop: verticalScale(10),
+    marginLeft: scale(45),
+    marginRight: scale(20),
   },
 });
