@@ -46,3 +46,29 @@ export const onImageOptionPress = async (type: string | undefined, options: any)
         : await ImagePicker.launchImageLibrary(options);
     return data;
 } 
+
+export const allGenderStaticData = () => {
+    return [
+        {
+            id: "male", 
+            title: "Male"
+        }, 
+        {
+            id: "female", 
+            title: "Female"
+        }
+    ];
+}
+
+export const yesNoData = () => {
+    return [
+        {
+            id: "yes", 
+            title: "Yes"
+        }, 
+        {
+            id: "no", 
+            title: "No"
+        }
+    ];
+}

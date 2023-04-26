@@ -154,4 +154,5 @@ export default function* watchHomeSaga() {
   yield takeLatest(types.UPDATE_USER_PROFILE_PIC, updateUserProfilePic);
   yield takeLatest(types.UPDATE_BANNER_IMAGE, updateBannerImage);
   yield takeLatest(types.GET_BANNER_IMAGE, getBannerImage);
+  
 }

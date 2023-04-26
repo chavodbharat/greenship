@@ -30,6 +30,7 @@ export const getPetVaccinationList = (payload: object, callback: Function) => {
     callback,
   };
 };
+
 export const addPetVaccine = (payload: object, callback: Function) => {
   return {
     type: types.ADD_PET_VACCINE,
@@ -38,3 +39,40 @@ export const addPetVaccine = (payload: object, callback: Function) => {
   };
 };
 
+export const getPetArtList = (callback: Function) => {
+  return {
+    type: types.GET_PET_ART_LIST,
+    callback,
+  };
+};
+
+export const getPetRaceList = (payload: object, callback: Function) => {
+  return {
+    type: types.GET_PET_RACE_LIST,
+    payload,
+    callback,
+  };
+};
+
+export const getAllCountryList = (callback: Function) => {
+  return {
+    type: types.GET_COUNTRY_LIST,
+    callback,
+  };
+};
+
+export const createPet = (payload: object, callback: Function) => {
+  return {
+    type: types.CREATE_PET,
+    payload,
+    callback,
+  };
+};
+
+export const uploadPetProfilePhoto = (payload: object, callback: Function) => {
+  return {
+    type: types.UPLOAD_PET_PROFILE_IMAGE,
+    payload,
+    callback,
+  };
+};

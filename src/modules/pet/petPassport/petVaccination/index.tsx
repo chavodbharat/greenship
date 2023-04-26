@@ -292,7 +292,7 @@ const PetVaccination = ({route}: any) => {
           />
         </View>
         <Pressable onPress={onSubmit} style={styles.submitButonBackStyle}>
-          <Text style={styles.submitBtnStyle}>Submit</Text>
+          <Text style={styles.submitBtnStyle}>Add</Text>
         </Pressable>
       </View>
     )
@@ -303,7 +303,7 @@ const PetVaccination = ({route}: any) => {
       <Spinner visible={state.loader} />
       <Header/>
       <PetPassportSubHeader
-        title={petObj.pet_name}
+        title={vaccineObj.label}
         petImage={petObj.pet_image}
       />  
       <View style={[styles.flexOne, {marginLeft: scale(5), marginRight: scale(5),
