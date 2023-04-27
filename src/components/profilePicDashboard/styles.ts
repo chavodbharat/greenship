@@ -9,6 +9,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderRadius: scale(4),
     height: scale(130),
+    marginTop: verticalScale(8),
   },
 
   userName: {

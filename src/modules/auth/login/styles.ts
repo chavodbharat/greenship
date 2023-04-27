@@ -11,7 +11,6 @@ export default StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: 'white',
-    marginTop: verticalScale(62),
   },
 
   txtInput: {
@@ -34,7 +33,7 @@ export default StyleSheet.create({
     width: scale(250),
     alignSelf: 'center',
     marginTop: verticalScale(100),
-    marginBottom: verticalScale(80),
+    marginBottom: verticalScale(50),
   },
 
   error: {
@@ -49,7 +48,7 @@ export default StyleSheet.create({
     backgroundColor: darkColors.darkGreen,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: scale(8),
+    paddingVertical: scale(10),
     borderRadius: scale(20),
     marginTop: verticalScale(12),
     marginHorizontal: scale(20),
@@ -58,7 +57,7 @@ export default StyleSheet.create({
   btnLabel: {
     color: 'white',
     fontSize: moderateScale(13),
-    fontFamily: fonts.MontserratRegular,
+    fontFamily: fonts.MontserratSemiBold,
   },
   linkBtn: {
     alignSelf: 'flex-end',

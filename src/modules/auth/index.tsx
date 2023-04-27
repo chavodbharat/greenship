@@ -1,9 +1,12 @@
 import React from 'react';
 import styles from './styles';
-import {View, Text, Image, Pressable} from 'react-native';
+import {View, Text, Image, Pressable, Linking} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {replace} from '../../routing/navigationRef';
-
+import {navigate} from '../../routing/navigationRef';
+import Entypo from 'react-native-vector-icons/Entypo';
+import {scale} from '../../theme/responsive';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 const Welcome = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -11,15 +14,44 @@ const Welcome = () => {
         <Image
           resizeMode="contain"
           style={styles.img}
-          source={require('../../assets/images/ic_app_landscape_logo.png')}
+          source={require('../../assets/images/logo_name.png')}
         />
 
         <View style={styles.btnView}>
-          <Pressable onPress={() => replace('SignUp')} style={styles.signUpBtn}>
-            <Text style={styles.btnLabel}>CREATE ACCOUNT</Text>
+          <Pressable
+            onPress={() => navigate('SignUp')}
+            style={styles.signUpBtn}>
+            <Text style={styles.btnLabel}>SIGN UP</Text>
           </Pressable>
-          <Pressable onPress={() => replace('Login')} style={styles.loginBtn}>
+          <Pressable onPress={() => navigate('Login')} style={styles.loginBtn}>
             <Text style={styles.btnLabel}>LOGIN</Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.btn}>
+          <Image
+            style={styles.icon}
+            source={require('../../assets/images/facebook_logo.png')}
+          />
+          <View style={styles.wrapper}>
+            <Text style={styles.socialBtnLabel}>SignIn with facebook</Text>
+          </View>
+        </View>
+        <View style={styles.btn}>
+          <Image
+            style={styles.icon}
+            source={require('../../assets/images/logo_google.png')}
+          />
+          <View style={styles.wrapper}>
+            <Text style={styles.socialBtnLabel}>SignIn with gmail</Text>
+          </View>
+        </View>
+
+        <View style={styles.end}>
+          <Pressable
+            onPress={() => Linking.openURL('mailto:support@example.com')}
+            style={styles.accordion}>
+            <Text style={styles.accordionTitle}>Do You need help ??</Text>
           </Pressable>
         </View>
       </View>

@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale, scale, verticalScale} from '../../theme/responsive';
-import {darkColors, lightColors} from '../../theme/colors';
+import {darkColors} from '../../theme/colors';
 import {fonts} from '../../theme/fonts';
 
 export default StyleSheet.create({
@@ -14,16 +14,16 @@ export default StyleSheet.create({
   },
 
   img: {
-    height: scale(80),
-    width: scale(250),
+    height: scale(150),
+    width: scale(150),
     alignSelf: 'center',
-    marginTop: verticalScale(200),
-    marginBottom: verticalScale(100),
+    marginVertical: verticalScale(50),
   },
 
   btnView: {
     flexDirection: 'row',
     marginHorizontal: scale(20),
+    marginBottom: verticalScale(50),
   },
 
   signUpBtn: {
@@ -36,16 +36,54 @@ export default StyleSheet.create({
     flex: 0.5,
   },
   loginBtn: {
-    backgroundColor: lightColors.green,
-    paddingVertical: scale(10),
+    backgroundColor: darkColors.darkGreen,
+    paddingVertical: scale(12),
     borderRadius: scale(20),
     flex: 0.5,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  icon: {
+    height: scale(20),
+    width: scale(20),
+  },
   btnLabel: {
     color: 'white',
-    fontFamily: fonts.MontserratRegular,
+    fontFamily: fonts.MontserratSemiBold,
     fontSize: moderateScale(12),
+  },
+  end: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  accordion: {
+    backgroundColor: darkColors.darkGreen,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  accordionTitle: {
+    fontSize: moderateScale(13),
+    color: 'white',
+    paddingVertical: verticalScale(14),
+    fontFamily: fonts.MontserratSemiBold,
+  },
+  btn: {
+    flexDirection: 'row',
+    backgroundColor: darkColors.darkGreen,
+    marginHorizontal: scale(20),
+    marginBottom: verticalScale(8),
+    borderRadius: scale(20),
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: verticalScale(6),
+  },
+  socialBtnLabel: {
+    color: 'white',
+    fontSize: moderateScale(13),
+    fontFamily: fonts.MontserratSemiBold,
+    paddingLeft: scale(12),
+  },
+  wrapper: {
+    flex: 0.525,
   },
 });

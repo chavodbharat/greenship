@@ -6,9 +6,10 @@ import {navigate} from '../../../routing/navigationRef';
 import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
 import {setTabBgColor} from '../../../redux/actions/authAction';
-import { MY_PET_LIST_SCREEN } from '../../pet/myPetList';
+import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
 import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
+import {useIsFocused} from '@react-navigation/native';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -16,6 +17,8 @@ export const DASHBOARD_SCREEN = {
 
 const Home = () => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+
   const {userData} = useSelector(
     state => ({
       userData: state.auth?.loginData,
@@ -28,23 +31,28 @@ const Home = () => {
   });
 
   useEffect(() => {
-    let body = {
-      context: 'view',
-      id: userData?.id,
-    };
+    if (isFocused && userData?.id) {
+      let body = {
+        context: 'view',
+        id: userData?.id,
+      };
 
-    dispatch(
-      getUserProfilePic(body, res => {
-        setState(prev => ({...prev, userProfilePic: res}));
-      }),
-    );
-  }, []);
+      dispatch(
+        getUserProfilePic(body, res => {
+          setState(prev => ({...prev, userProfilePic: res}));
+        }),
+      );
+    }
+  }, [isFocused, userData?.id]);
 
   const onTilePress = (index: any) => {
-    if(index == 0) 
+    if (index === 0) {
       navigate(MY_PET_LIST_SCREEN.name);
-    else 
+    } else if (index === 3) {
       navigate('Emergency');
+    } else {
+      // navigate('Emergency');
+    }
     dispatch(setTabBgColor(index));
   };
 

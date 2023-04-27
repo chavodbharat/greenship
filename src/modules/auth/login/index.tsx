@@ -8,6 +8,8 @@ import {loginUserReq} from '../../../redux/actions/authAction';
 import Spinner from '../../../components/spinner';
 import {TextInput} from 'react-native-paper';
 import {darkColors} from '../../../theme/colors';
+import NavBar from '../../../components/navBar';
+
 const Login = () => {
   const dispatch = useDispatch();
 
@@ -49,6 +51,7 @@ const Login = () => {
   };
   return (
     <SafeAreaView style={styles.main}>
+      <NavBar />
       <Spinner visible={state?.loader} />
       <View style={styles.wrapper}>
         <Image

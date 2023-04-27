@@ -12,7 +12,6 @@ import {
   updateMissingPetReq,
 } from '../../../../redux/actions/homeAction';
 import Spinner from '../../../../components/spinner';
-import {goBack} from '../../../../routing/navigationRef';
 
 interface addMissingPetModalProps {
   modalVisible?: boolean;
@@ -53,7 +52,6 @@ const AddMissingPetModal: React.FC<addMissingPetModalProps> = ({
         updateMissingPetReq(body, res => {
           setState(prev => ({...prev, loading: false}));
           setModalVisible && setModalVisible();
-          goBack();
         }),
       );
     }

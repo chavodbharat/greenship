@@ -16,5 +16,6 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingHorizontal: scale(12),
+    paddingTop: verticalScale(5),
   },
 });

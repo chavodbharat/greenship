@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {moderateScale, scale, verticalScale} from '../../../theme/responsive';
 import {darkColors} from '../../../theme/colors';
 import {fonts} from '../../../theme/fonts';
@@ -101,6 +101,8 @@ export default StyleSheet.create({
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratRegular,
     flex: 1,
+    backgroundColor: 'white',
+    padding: Platform.OS === 'android' ? 0 : 0,
   },
   crossIcon: {
     alignSelf: 'center',
@@ -128,5 +130,6 @@ export default StyleSheet.create({
     paddingLeft: scale(8),
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratRegular,
+    color: 'black',
   },
 });

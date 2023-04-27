@@ -10,6 +10,11 @@ import {TextInput} from 'react-native-paper';
 import {darkColors} from '../../../theme/colors';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SelectDropdown from 'react-native-select-dropdown';
+import {scale} from '../../../theme/responsive';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {countries} from '../../../utils/Utility';
+import {CheckBox} from 'react-native-elements';
+import NavBar from '../../../components/navBar';
 
 const userType = ['Vetenerian', 'Zoo', 'Animal Lover', 'Breeder'];
 const SignUp = () => {
@@ -33,6 +38,9 @@ const SignUp = () => {
     userType: '',
     userTypeError: false,
     passwordNoMatch: false,
+    countryError: false,
+    country: '',
+    checked: true,
   });
 
   const showHidePassword = () => {
@@ -45,16 +53,16 @@ const SignUp = () => {
   };
 
   const onSubmit = () => {
-    if (state?.firstName === '') {
+    if (state.userName === '') {
+      setState(prev => ({...prev, userNameError: true}));
+    } else if (state?.firstName === '') {
       setState(prev => ({...prev, firstNameError: true}));
     } else if (state?.lastName === '') {
       setState(prev => ({...prev, lastNameError: true}));
-    } else if (state.userType === '') {
-      setState(prev => ({...prev, userTypeError: true}));
-    } else if (state.userName === '') {
-      setState(prev => ({...prev, userNameError: true}));
     } else if (state.email === '' || !validateEmail(state?.email)) {
       setState(prev => ({...prev, emailError: true}));
+    } else if (state.userType === '') {
+      setState(prev => ({...prev, userTypeError: true}));
     } else if (state.password === '') {
       setState(prev => ({...prev, passwordError: true}));
     } else if (state.confirmPassword === '') {
@@ -65,6 +73,9 @@ const SignUp = () => {
       state.password !== ''
     ) {
       setState(prev => ({...prev, passwordNoMatch: true}));
+    } else if (state.country === '') {
+      setState(prev => ({...prev, countryError: true}));
+    } else if (!state.checked) {
     } else {
       callRegisterFn();
     }
@@ -90,6 +101,7 @@ const SignUp = () => {
   };
   return (
     <SafeAreaView style={styles.main}>
+      <NavBar />
       <Spinner visible={state?.loader} />
       <KeyboardAwareScrollView keyboardShouldPersistTaps={true}>
         <View style={styles.wrapper}>
@@ -98,6 +110,29 @@ const SignUp = () => {
             style={styles.img}
             source={require('../../../assets/images/ic_app_landscape_logo.png')}
           />
+
+          <TextInput
+            value={state.userName}
+            mode="outlined"
+            label={'Username'}
+            activeOutlineColor={darkColors.darkGreen}
+            outlineColor={darkColors.darkGreen}
+            onChangeText={value => {
+              setState(prev => ({
+                ...prev,
+                userName: value,
+                userNameError: false,
+              }));
+            }}
+            style={styles.txtInput1}
+            placeholder="Username"
+            placeholderTextColor={'gray'}
+            autoCapitalize="none"
+          />
+
+          {state.userNameError ? (
+            <Text style={styles.error}>Please enter username</Text>
+          ) : null}
           <TextInput
             value={state.firstName}
             mode="outlined"
@@ -111,7 +146,7 @@ const SignUp = () => {
                 firstNameError: false,
               }));
             }}
-            style={styles.txtInput}
+            style={styles.txtInput1}
             placeholder="First Name"
             placeholderTextColor={'gray'}
             autoCapitalize="none"
@@ -144,6 +179,32 @@ const SignUp = () => {
             <Text style={styles.error}>Please enter last name</Text>
           ) : null}
 
+          <TextInput
+            value={state.email}
+            mode="outlined"
+            label={'Email'}
+            activeOutlineColor={darkColors.darkGreen}
+            outlineColor={darkColors.darkGreen}
+            onChangeText={value => {
+              setState(prev => ({
+                ...prev,
+                email: value,
+                emailError: false,
+              }));
+            }}
+            style={styles.txtInput1}
+            placeholder="Email"
+            placeholderTextColor={'gray'}
+            autoCapitalize="none"
+          />
+
+          <Text style={styles.emailInfo}>
+            After registering, you will need to confirm your email address.
+          </Text>
+          {state.emailError ? (
+            <Text style={styles.error}>Please enter valid email id</Text>
+          ) : null}
+
           <SelectDropdown
             data={userType}
             onSelect={selectedItem => {
@@ -154,9 +215,15 @@ const SignUp = () => {
               }));
             }}
             buttonStyle={styles.dropDown}
-            // renderDropdownIcon={isOpened => {
-            //   return <ArrowDown paddingRight={scale(27)} />;
-            // }}
+            renderDropdownIcon={isOpened => {
+              return (
+                <MaterialIcons
+                  name="arrow-drop-down"
+                  size={scale(30)}
+                  color={darkColors.darkGreen}
+                />
+              );
+            }}
             renderCustomizedButtonChild={(selectedItem, index) => {
               return (
                 <View style={styles.dropDownBtnWrapper}>
@@ -172,51 +239,6 @@ const SignUp = () => {
 
           {state.userTypeError ? (
             <Text style={styles.error}>Please select profile Type</Text>
-          ) : null}
-
-          <TextInput
-            value={state.userName}
-            mode="outlined"
-            label={'Username'}
-            activeOutlineColor={darkColors.darkGreen}
-            outlineColor={darkColors.darkGreen}
-            onChangeText={value => {
-              setState(prev => ({
-                ...prev,
-                userName: value,
-                userNameError: false,
-              }));
-            }}
-            style={styles.txtInput1}
-            placeholder="Username"
-            placeholderTextColor={'gray'}
-            autoCapitalize="none"
-          />
-
-          {state.userNameError ? (
-            <Text style={styles.error}>Please enter username</Text>
-          ) : null}
-
-          <TextInput
-            value={state.email}
-            mode="outlined"
-            label={'Email'}
-            activeOutlineColor={darkColors.darkGreen}
-            outlineColor={darkColors.darkGreen}
-            onChangeText={value => {
-              setState(prev => ({
-                ...prev,
-                email: value,
-                emailError: false,
-              }));
-            }}
-            style={styles.txtInput1}
-            placeholder="Username"
-            placeholderTextColor={'gray'}
-            autoCapitalize="none"
-          />
-          {state.emailError ? (
-            <Text style={styles.error}>Please enter valid email id</Text>
           ) : null}
 
           <TextInput
@@ -282,6 +304,61 @@ const SignUp = () => {
             <Text style={styles.error}>Both password does not match </Text>
           ) : null}
 
+          <SelectDropdown
+            data={countries}
+            onSelect={selectedItem => {
+              setState(prev => ({
+                ...prev,
+                country: selectedItem,
+                countryError: false,
+              }));
+            }}
+            buttonStyle={styles.dropDown}
+            rowTextForSelection={(item, index) => {
+              return item?.name;
+            }}
+            renderDropdownIcon={isOpened => {
+              return (
+                <MaterialIcons
+                  name="arrow-drop-down"
+                  size={scale(30)}
+                  color={darkColors.darkGreen}
+                />
+              );
+            }}
+            renderCustomizedButtonChild={(selectedItem, index) => {
+              return (
+                <View style={styles.dropDownBtnWrapper}>
+                  <Text style={styles.dropDownPlaceHolder}>
+                    {selectedItem?.name || 'Select Country'}
+                  </Text>
+                </View>
+              );
+            }}
+            rowStyle={styles.dropdown1RowStyle}
+            rowTextStyle={styles.dropdown1RowTxtStyle}
+          />
+
+          {state.countryError ? (
+            <Text style={styles.error}>Please select Country</Text>
+          ) : null}
+          <View style={styles.row}>
+            <CheckBox
+              checkedColor={darkColors.darkGreen}
+              checked={state.checked}
+              onPress={() =>
+                setState(prev => ({...prev, checked: !state.checked}))
+              }
+            />
+            <Text style={styles.info1}>
+              By registering you agree to our Terms of Use and Data Privacy{' '}
+            </Text>
+          </View>
+          <Text style={styles.info2}>
+            Our Cookies Policy explains how we use cookies and similar
+            technologies
+          </Text>
+
           <Pressable onPress={onSubmit} style={styles.loginBtn}>
             <Text style={styles.btnLabel}>REGISTER</Text>
           </Pressable>
@@ -293,7 +370,6 @@ const SignUp = () => {
                 replace('Login');
               }}
               style={styles.signUp}>
-              {' '}
               Login
             </Text>
           </Text>

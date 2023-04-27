@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import styles from './styles';
 import {Pressable, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
@@ -29,7 +29,9 @@ const FloatingAddButton = () => {
   }, [auth?.activeModule]);
 
   const updateModalStatus = () => {
-    setState(prev => ({...prev, missingPetModal: !state.missingPetModal}));
+    if (auth.activeModule === 3) {
+      setState(prev => ({...prev, missingPetModal: !state.missingPetModal}));
+    }
   };
   return (
     <Pressable
