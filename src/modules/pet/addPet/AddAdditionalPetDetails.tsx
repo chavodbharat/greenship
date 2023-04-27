@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {FlatList, Image, Pressable, ScrollView, Text, View} from 'react-native';
+import {FlatList, Image, Platform, Pressable, ScrollView, Text, TouchableWithoutFeedback, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
@@ -15,7 +15,10 @@ import ActionSheet from '../../../components/actionSheet';
 import { showMessage } from 'react-native-flash-message';
 import { MY_PET_LIST_SCREEN } from '../myPetList';
 import { navigate } from '../../../routing/navigationRef';
-import { createPet, uploadPetProfilePhoto } from '../../../redux/actions/petAction';
+import { createPet, updatePetDetails, uploadPetProfilePhoto } from '../../../redux/actions/petAction';
+import ImageSelection from '../../../components/imageSelection';
+import ImagePicker from 'react-native-image-crop-picker';
+import LinearGradient from '../../../components/linearGradient';
 
 export const ADD_ADDITIONAL_PET_DETAILS_SCREEN = {
   name: 'AddAdditionalPetDetails',
@@ -24,8 +27,7 @@ export const ADD_ADDITIONAL_PET_DETAILS_SCREEN = {
 const AddAdditionalPetDetails = ({route}: any) => {
   const dispatch = useDispatch();
   const { petProfilePicRes, petName, selectedPetArt, selectedPetRace, selectedGender, 
-    selectedDateOfBirth, formId, postCode, selectedCountry, isEdit, petDetails} = route.params;
-  console.log("Form is", formId)
+    selectedDateOfBirth, formId, postCode, selectedCountry, isEdit, petObj} = route.params;
   const {colors} = useTheme();
   const [state, setState] = useState({
     loader: false,
@@ -40,14 +42,28 @@ const AddAdditionalPetDetails = ({route}: any) => {
     imageResponse: null,
     actionSheetPosition: 0,
     isActionSheetShow: false,
-    actionSheetData: []
+    actionSheetData: [],
+    imageModalVisible: false,
+    imageType: '',
   });
 
   //Static Data
   const imageOptionsArray = imageOptionsTitleData();
   const yesNoOptions = yesNoData();
 
+  useEffect(() => {
+    setPetDetails();
+  }, []);
   
+  const setPetDetails = () => {
+    if(isEdit && Object.keys(petObj).length > 0){
+      setState(prev => ({...prev, petAge: petObj.pet_age, petSize: petObj.pet_size, 
+        petWeight: petObj.pet_weight, petColors: petObj.pet_color, selectedFamilyTree: petObj.pet_stammbaum,
+        selectedPetMissing: petObj.pet_vermisst
+      }));
+    }
+  };
+
   const dropDownPosition = (position: number) => {
     setState(prev => ({...prev, actionSheetPosition: position, isActionSheetShow: true, actionSheetData: yesNoOptions}));
   }
@@ -61,21 +77,19 @@ const AddAdditionalPetDetails = ({route}: any) => {
       && selectedFamilyTree!=familyTreeDefaultMessage && isTermsConditionsCheck){ 
       setState(prev => ({...prev, loader: true}));
       if(isEdit){
-        // try {
-        //   Promise.all([editPetDetails(), uploadPetProfileImage(), uploadMultipleImages()])
-        //   .then(function()  {
-        //     setIsLoading(false);
-        //     toast.show(Locales.pet_edit_success_message, {type: "custom_toast", animationDuration: 100, 
-        //       duration: TAG_TIMEOUT, data: {borderColor: colors.toastBorderSuccessColor}
-        //     });
-        //     setTimeout(() => {
-        //       navigation.navigate(MY_PET_LIST_SCREEN.name);
-        //     }, TAG_TIMEOUT)
-        // }); 
-        // } catch (error) {}
+        try {
+          Promise.all([createNewPet(), uploadPetProfileImage()])
+          .then(function()  {
+            setState(prev => ({...prev, loader: false}));
+            showMessage({ message: "Pet details update successfully", type: 'success'});
+            setTimeout(() => {
+              navigate(MY_PET_LIST_SCREEN.name);
+            }, TAG_TIMEOUT)
+        }); 
+        } catch (error) {}
       } else {
         try {
-          Promise.all([createNewPet()])
+          Promise.all([createNewPet(), uploadPetProfileImage(), uploadPetProfileMultipleImages])
           .then(function()  {
             setState(prev => ({...prev, loader: false}));
             showMessage({ message: "New pet created successfully", type: 'success'});
@@ -125,24 +139,107 @@ const AddAdditionalPetDetails = ({route}: any) => {
       pet_vermisst: selectedPetMissing,
       form_id: formId.toString()
     } 
-    dispatch(
-      createPet(body, (res: any) => {
-        if(res) {
-          const { data } = res;
-          resolve(data);
-        } else {
-          reject();
-        }
-      }),
-    );
+    if(isEdit){
+      body.pet_id = petObj.id;
+    }
+    console.log("Pet", body);
+    if(isEdit) {
+      dispatch(
+        updatePetDetails(body, (res: any) => {
+          if(res) {
+            const { data } = res;
+            resolve(data);
+          } else {
+            reject();
+          }
+        }),
+      );
+    } else {
+      dispatch(
+        createPet(body, (res: any) => {
+          if(res) {
+            const { data } = res;
+            resolve(data);
+          } else {
+            reject();
+          }
+        }),
+      );
+    }
   });
 
   const uploadPetProfileImage = () => new Promise(function(resolve, reject) {
-    if(petProfilePicRes) {
-      const body = {
-        petProfilePicRes: petProfilePicRes,
-        formId: formId.toString()
-      } 
+    if(petProfilePicRes && !petProfilePicRes.isEditMode) {
+      const formData = new FormData();
+      formData.append('pet_profile', {
+        name: petProfilePicRes.path.substring(petProfilePicRes.path.lastIndexOf('/') + 1),
+        type: petProfilePicRes.mime,
+        uri: Platform.OS === 'ios' ? petProfilePicRes.path.replace('file://', '') : 
+          petProfilePicRes.path,
+      });
+      formData.append('form_id',  formId.toString());
+      let body = {
+        data: formData,
+      };
+      dispatch(
+        uploadPetProfilePhoto(body, (res: any) => {
+          if(res) {
+            const { data } = res;
+            resolve(data);
+          } else {
+            reject();
+          }
+        }),
+      );
+    } else {
+      resolve({});
+    }
+  });
+
+  const openCamera = () => {
+    try {
+      ImagePicker.openCamera({
+        width: state.imageType === 'cover' ? 1350 : 500,
+        height: 500,
+        cropping: true,
+      }).then(image => {
+        setState(prev => ({...prev, imageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+      });
+    } catch (e) {
+      console.log('error', e);
+    }
+  };
+
+  const openGallery = () => {
+    try {
+      ImagePicker.openPicker({
+        width: state.imageType === 'cover' ? 1350 : 500,
+        height: 500,
+        cropping: true,
+      }).then((image: any) => {
+        let data = state.allMultipleImageLocalArray;
+        data.push(image);
+        setState(prev => ({...prev, allMultipleImageLocalArray: data, imageModalVisible: !prev.imageModalVisible}));
+      });
+    } catch (e) {
+      console.log('error', e);
+    }
+  };
+
+  const uploadPetProfileMultipleImages = () => new Promise(function(resolve, reject) {
+    if(state.allMultipleImageLocalArray) {
+      const formData = new FormData();
+      state.allMultipleImageLocalArray.forEach((images: any, index: number) => {
+        formData.append('pet_profile[]', {
+          name: images.path.substring(images.path.lastIndexOf('/') + 1),
+          type: images.mime,
+          uri: Platform.OS === 'ios' ? images.path.replace('file://', '') : images.path,
+        });
+      });
+      formData.append('form_id',  formId.toString());
+      let body = {
+        data: formData,
+      };
       dispatch(
         uploadPetProfilePhoto(body, (res: any) => {
           if(res) {
@@ -157,7 +254,7 @@ const AddAdditionalPetDetails = ({route}: any) => {
   });
 
   const selectProfileImage = async () => {
-    setState(prev => ({...prev, actionSheetPosition: 2, isActionSheetShow: true, actionSheetData: imageOptionsArray}));
+    setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}));
   }
 
   const clickOnActionSheetOption = async (index: number) => {
@@ -181,14 +278,32 @@ const AddAdditionalPetDetails = ({route}: any) => {
       <Spinner visible={state.loader} />
       <Header/>
       <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
-          <View style={[styles.flexOne, {paddingLeft: scale(25), paddingRight: scale(25),
-            paddingBottom: scale(25)}]}>
-            {(petProfilePicRes &&  petProfilePicRes.assets) ?
+          <View style={[styles.flexOne, {padding: scale(25)}]}>
+            {/* {petProfilePicRes ?
               <Image 
                 style={[styles.petImageStyle,{ marginBottom: verticalScale(15), marginTop: 0 }]} 
-                source={{uri: petProfilePicRes.assets[0].uri}} />
+                source={{uri: petProfilePicRes.path}} />
                 :
                 <></>
+            } */}
+            {petProfilePicRes &&
+              <View style={styles.flexOne}>
+                <LinearGradient
+                  isHorizontal={false}
+                  childStyle={styles.gradientChildStyle}
+                  allColorsArray={[colors.listBackGradientTwo, colors.listBackGradientThree]}
+                  childrean={
+                    <View style={[styles.flexOne,{alignItems: 'center', paddingTop: verticalScale(10)}]}>
+                      <Text style={styles.digitalPassportLabel}>DIGITALER TIERPASS</Text>
+                      <Text style={styles.petPassportLabel}>PET PASSPORT</Text>
+                    </View>
+                  }
+                />
+                <Image
+                  style={styles.petProfilePicView}
+                  source={{uri: petProfilePicRes.path}}
+                  resizeMode="contain"/>
+              </View>
             }
             <TextInput
               mode="outlined"
@@ -260,7 +375,7 @@ const AddAdditionalPetDetails = ({route}: any) => {
                 </View>
               </View>
             </Pressable>
-            <FlatList
+            {/* <FlatList
               data={state.allMultipleImageLocalArray}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
@@ -288,7 +403,7 @@ const AddAdditionalPetDetails = ({route}: any) => {
                   </View>
                 )
               }}
-            />
+            /> */}
             <View style={styles.checkBoxParentViewBack}>
               <Checkbox
                 status={ state.isTermsConditionsCheck ? 'checked' : 'unchecked'}
@@ -315,6 +430,12 @@ const AddAdditionalPetDetails = ({route}: any) => {
             onPressItem={clickOnActionSheetOption}
           />
         </ActionSheetModal>
+        <ImageSelection
+          modalVisible={state.imageModalVisible}
+          setModalVisible={() =>  setState(prev => ({...prev, visible: !prev.imageModalVisible}))}
+          onPressCamera={openCamera}
+          onPressGallery={openGallery}
+        /> 
     </SafeAreaView>
   );
 };

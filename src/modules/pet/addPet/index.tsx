@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import {FlatList, Image, Pressable, ScrollView, Text, View} from 'react-native';
+import {Image, Pressable, ScrollView, Text, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {navigate} from '../../../routing/navigationRef';
 import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
-import {setTabBgColor} from '../../../redux/actions/authAction';
 import Header from '../../../components/header';
 import { useTheme } from '../../../providers/ThemeProvider';
 import LinearGradient from '../../../components/linearGradient';
 import AllImages from '../../../utils/Constants/AllImages';
-import Icon from 'react-native-vector-icons/Feather';
 import AntIcon from 'react-native-vector-icons/AntDesign';
-import { deletePet, getAllCountryList, getPetArtList, getPetListData, getPetRaceList } from '../../../redux/actions/petAction';
+import { getAllCountryList, getPetArtList, getPetDetails, getPetRaceList } from '../../../redux/actions/petAction';
 import Spinner from '../../../components/spinner';
-import Share from 'react-native-share';
-import { PetListArrayInterface } from './types';
-import { PET_PASSPORT_MENU_SCREEN } from '../petPassport/petPassportMenu';
 import { scale, verticalScale } from '../../../theme/responsive';
-import { Button, Checkbox, RadioButton, TextInput } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 import ActionSheet from '../../../components/actionSheet';
 import ActionSheetModal from 'react-native-modal';
 import { TAG_DATE_FORMATE, allGenderStaticData, allImageOptionsArray, imageOptionsTitleData, onImageOptionPress } from '../../../utils/Constants/AllConstance';
@@ -27,6 +22,8 @@ import moment from 'moment';
 import { TouchableWithoutFeedback } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { ADD_ADDITIONAL_PET_DETAILS_SCREEN } from './AddAdditionalPetDetails';
+import ImagePicker from 'react-native-image-crop-picker';
+import ImageSelection from '../../../components/imageSelection';
 
 export const ADD_PET_SCREEN = {
   name: 'AddPet',
@@ -34,7 +31,7 @@ export const ADD_PET_SCREEN = {
 
 const AddPet = ({route}: any) => {
   const dispatch = useDispatch();
-  const { formId } = route.params;
+  const { formId, petId, isEditMode } = route.params;
   const {colors} = useTheme();
   const [state, setState] = useState({
     loader: false,
@@ -52,7 +49,10 @@ const AddPet = ({route}: any) => {
     selectedCountry: "Please Select Country",
     postCode: "",
     selectedDateOfBirth: "Select Date Of Birth",
-    isDateModalOpen: false
+    isDateModalOpen: false,
+    imageType: '',
+    imageModalVisible: false,
+    petObj: {}
   });
 
   //Static Data
@@ -60,6 +60,7 @@ const AddPet = ({route}: any) => {
   const imageOptionsArray = imageOptionsTitleData();
 
   useEffect(() => {
+    callPetDetails();
     callPetArtListFn();
     callAllCountryListFn();
   }, []);
@@ -113,6 +114,31 @@ const AddPet = ({route}: any) => {
     );
   };
 
+  const callPetDetails = () => {
+    if(petId && isEditMode) {
+      dispatch(
+        getPetDetails({petId: petId} , (res: any) => {
+          if(res) {
+            const { data } = res;
+            const imageObj = {
+              path: data.pet_image.pet_image_url,
+              mime: "jpg",
+              isEditMode: true
+            }
+            setState(prev => ({...prev, petName: data.pet_name, selectedPetArt: data.pet_art,
+              selectedCountry: data.pet_country, selectedPetRace: data.pet_race, selectedGender:
+              data.pet_gender, selectedDateOfBirth: data.pet_birth_date, postCode: data.pet_zipcode,
+              imageResponse: imageObj, petObj: data
+            }));
+            callPetRaceListFn(data.pet_art);
+            // const newArrayOfObj = data.map(({name: title, values: id}: any) => ({title, id}));
+            // setState(prev => ({...prev, loader: false, petRaceListData:  newArrayOfObj}));
+          }
+        }),
+      );
+    }
+  };
+
   const dropDownPosition = (position: number) => {
     setState(prev => ({...prev, actionSheetPosition: position}));
     if(position == 0) {
@@ -124,7 +150,8 @@ const AddPet = ({route}: any) => {
     } else if(position == 3) {
       setState(prev => ({...prev, actionSheetData: state.countryList, isActionSheetShow: true}));
     } else if(position == 4) {
-      setState(prev => ({...prev, actionSheetData: imageOptionsArray, isActionSheetShow: true}));
+      //setState(prev => ({...prev, actionSheetData: imageOptionsArray, isActionSheetShow: true}));
+      setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}));
     }
   }
 
@@ -149,6 +176,36 @@ const AddPet = ({route}: any) => {
     }
   }
 
+  const openCamera = () => {
+    try {
+      ImagePicker.openCamera({
+        width: state.imageType === 'cover' ? 1350 : 500,
+        height: 500,
+        cropping: true,
+      }).then(image => {
+        image.isEditMode = false;
+        setState(prev => ({...prev, imageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+      });
+    } catch (e) {
+      console.log('error', e);
+    }
+  };
+
+  const openGallery = () => {
+    try {
+      ImagePicker.openPicker({
+        width: state.imageType === 'cover' ? 1350 : 500,
+        height: 500,
+        cropping: true,
+      }).then(image => {
+        image.isEditMode = false;
+        setState(prev => ({...prev, imageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+      });
+    } catch (e) {
+      console.log('error', e);
+    }
+  };
+
   const onContinuePress = () => {
     const artDefaultMessage = "Please Select Art";
     const raceDefaultMessage = "Please Select Race";
@@ -156,7 +213,7 @@ const AddPet = ({route}: any) => {
     const countryDefaultMessage = "Please Select Country";
     const dobDefaultMessage = "Select Date Of Birth";
     const {petName, selectedPetArt, selectedPetRace, selectedGender, selectedCountry, postCode,
-      selectedDateOfBirth, imageResponse} = state;
+      selectedDateOfBirth, imageResponse, petObj} = state;
 
     if(petName && selectedPetArt!=artDefaultMessage  && selectedPetRace!=raceDefaultMessage
       && selectedGender!=genderDefaultMessage && selectedCountry!=countryDefaultMessage 
@@ -164,7 +221,7 @@ const AddPet = ({route}: any) => {
       navigate(ADD_ADDITIONAL_PET_DETAILS_SCREEN.name, {petName, selectedPetArt,
         selectedPetRace, selectedGender, selectedDateOfBirth, formId, postCode,
         petProfilePicRes: imageResponse ? imageResponse : "", selectedCountry,
-        isEdit: false});
+        isEdit: isEditMode, petObj});
     } else {
       if(!petName) {
         showMessage({ message: "Please enter pet name", type: 'danger'});
@@ -191,34 +248,34 @@ const AddPet = ({route}: any) => {
       <View style={styles.flexZero}>
         <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
           <View style={[styles.flexOne, {padding: scale(25)}]}>
-          <View style={styles.flexOne}>
-            <LinearGradient
-              isHorizontal={false}
-              childStyle={styles.gradientChildStyle}
-              allColorsArray={[darkColors.listBackGradientTwo, darkColors.listBackGradientThree]}
-              childrean={
-                <View style={[styles.flexOne,{alignItems: 'center', paddingTop: verticalScale(10)}]}>
-                  <Text style={styles.digitalPassportLabel}>DIGITALER TIERPASS</Text>
-                  <Text style={styles.petPassportLabel}>PET PASSPORT</Text>
-                </View>
-              }
-            />
-            <Image
-              style={styles.petProfilePicView}
-              source={(state.imageResponse && state.imageResponse.assets) ? 
-                {uri: state.imageResponse?.assets[0].uri} : AllImages.appPlaceholderIcon}
-              resizeMode="contain"/>
+            <View style={styles.flexOne}>
+              <LinearGradient
+                isHorizontal={false}
+                childStyle={styles.gradientChildStyle}
+                allColorsArray={[darkColors.listBackGradientTwo, darkColors.listBackGradientThree]}
+                childrean={
+                  <View style={[styles.flexOne,{alignItems: 'center', paddingTop: verticalScale(10)}]}>
+                    <Text style={styles.digitalPassportLabel}>DIGITALER TIERPASS</Text>
+                    <Text style={styles.petPassportLabel}>PET PASSPORT</Text>
+                  </View>
+                }
+              />
+              <Image
+                style={styles.petProfilePicView}
+                source={state.imageResponse ? 
+                  {uri: state.imageResponse?.path} : AllImages.appPlaceholderIcon}
+                resizeMode="contain"/>
 
-            <View style={styles.uploadWrapper}>
-              <TouchableWithoutFeedback
-                onPress={() => dropDownPosition(4)}>
-                <Image
-                  resizeMode="contain"
-                  style={styles.pressableUpload}
-                  source={AllImages.uploadIcon}
-                />
-              </TouchableWithoutFeedback>
-            </View>
+              <View style={styles.uploadWrapper}>
+                <TouchableWithoutFeedback
+                  onPress={() => dropDownPosition(4)}>
+                  <Image
+                    resizeMode="contain"
+                    style={styles.pressableUpload}
+                    source={AllImages.uploadIcon}
+                  />
+                </TouchableWithoutFeedback>
+              </View>
             </View>
             <TextInput
               mode="outlined"
@@ -312,16 +369,6 @@ const AddPet = ({route}: any) => {
                 </View>
               </View>
             </Pressable>
-          {/*  <Pressable
-              onPress={addProfilePicture}>
-              <View style={styles.petViewParentView}>
-                <Image
-                  style={[styles.petImageStyle, {borderWidth: 0}, !(imageResponse && 
-                    imageResponse.assets) && {tintColor: colors.darkGreen}]}
-                  source={(imageResponse && imageResponse.assets) ? {uri: imageResponse?.assets[0].uri} : AllImages.addIcon}/>
-                <Text style={styles.petNameTextStyle}>{"Add Profile Picture"}</Text>
-              </View>
-            </Pressable>*/}
             <Button
               labelStyle={styles.loginFontStyle} 
               style={[styles.allButonStyle,{marginBottom: verticalScale(50)}]} mode="contained" 
@@ -350,6 +397,12 @@ const AddPet = ({route}: any) => {
           setState(prev => ({...prev, isDateModalOpen: false, selectedDateOfBirth: updatedDate}))
         }}
         onCancel={() => setState(prev => ({...prev, isDateModalOpen: false}))}
+      />
+      <ImageSelection
+        modalVisible={state.imageModalVisible}
+        setModalVisible={() =>  setState(prev => ({...prev, visible: !prev.imageModalVisible}))}
+        onPressCamera={openCamera}
+        onPressGallery={openGallery}
       />  
     </SafeAreaView>
   );

@@ -77,6 +77,7 @@ const MyPetList = () => {
     setState(prev => ({...prev, menuOpenPosition: -1, isAdditionalMenuShow: false}));  
     if(index == 0){
       //Edit
+      navigate(ADD_PET_SCREEN.name, {formId: data.form_id, petId: data.pet_id, isEditMode: true})
     } else if(index == 1) {
       //Share
       const shareOptions = {
@@ -116,7 +117,7 @@ const MyPetList = () => {
   }
 
   const onAddPetsPress = () => {
-    navigate(ADD_PET_SCREEN.name, {formId: state.formId});
+    navigate(ADD_PET_SCREEN.name, {formId: state.formId, isEditMode: false});
   }
 
   const onOpenCloseDeleteModal = (status: boolean) => {
@@ -141,26 +142,26 @@ const MyPetList = () => {
                   <Text style={styles.petListItemTextValueStyle}>  {item.pet_name}</Text>
                 </Text>
                 <View style={styles.flexDirectionRowView}>
-                  <View style={styles.flexOne}>
+                  <View style={styles.flexZero}>
                     <Text style={styles.petListItemTextLabelStyle}>Gender
                       <Text style={styles.petListItemTextValueStyle}>  {item.pet_gender}</Text>
                     </Text>
                   </View>
-                  <View style={styles.flexOne}>
+                  <View style={[styles.flexOne,{marginLeft: scale(10)}]}>
                     <Text style={styles.petListItemTextLabelStyle}>Species
-                      <Text style={styles.petListItemTextValueStyle}>  {item.pet_name}</Text>
+                      <Text style={styles.petListItemTextValueStyle}>  {item.pet_art}</Text>
                     </Text>
                   </View>
                 </View>
                 <View style={styles.flexDirectionRowView}>
-                  <View style={styles.flexOne}>
+                  <View style={styles.flexZero}>
                     <Text style={styles.petListItemTextLabelStyle}>Age
                       <Text style={styles.petListItemTextValueStyle}>  {item.pet_age}</Text>
                     </Text>
                   </View>
-                  <View style={styles.flexOne}>
+                  <View style={[styles.flexOne,{marginLeft: scale(10)}]}>
                     <Text style={styles.petListItemTextLabelStyle}>Breed
-                      <Text style={styles.petListItemTextValueStyle}>  {item.pet_name}</Text>
+                      <Text style={styles.petListItemTextValueStyle}>  {item.pet_race}</Text>
                     </Text>
                   </View>
                 </View>

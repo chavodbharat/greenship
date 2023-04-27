@@ -222,20 +222,51 @@ function* createPet(data: object) {
 
 //Add Pet Profile
 function* uploadPetProfilePhoto(data: object) {
-  const {payload, callback} = data;
-
-  console.log("petProfilePicRes.assets[0].fileName", payload.petProfilePicRes.assets[0])
-  const formData = new FormData();
-  formData.append('pet_profile[]', {
-    name: payload.petProfilePicRes.assets[0].fileName,
-    type: payload.petProfilePicRes.assets[0].type,
-    uri: Platform.OS === 'ios' ? payload.petProfilePicRes.assets[0].uri.replace('file://', '') : 
-      payload.petProfilePicRes.assets[0].uri,
-  });
-  formData.append('form_id',  payload.formId);
-  
+  const {payload, callback} = data;  
   utilActions
-    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/image/add`, formData, 'POST', true)
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/image/add`, payload?.data, 'POST', true)
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Get Pet Details
+function* getPetDetails(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/${payload.petId}`, null, 'GET', false)
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Edit Pet
+function* updatePetDetails(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/edit`, payload, 'POST', false)
     .then(response => {
       if (response.success && response.statusCode == 200) {
         callback(response);
@@ -263,4 +294,6 @@ export default function* watchPetSaga() {
   yield takeLatest(types.CREATE_PET, createPet);
   yield takeLatest(types.UPLOAD_PET_PROFILE_IMAGE, uploadPetProfilePhoto);
   yield takeLatest(types.GET_COUNTRY_LIST, getAllCountryList);
+  yield takeLatest(types.GET_PET_DETAILS, getPetDetails);
+  yield takeLatest(types.UPDATE_PET_DETAILS, updatePetDetails);
 }

@@ -76,3 +76,19 @@ export const uploadPetProfilePhoto = (payload: object, callback: Function) => {
     callback,
   };
 };
+
+export const getPetDetails = (payload: object, callback: Function) => {
+  return {
+    type: types.GET_PET_DETAILS,
+    payload,
+    callback,
+  };
+};
+
+export const updatePetDetails = (payload: object, callback: Function) => {
+  return {
+    type: types.UPDATE_PET_DETAILS,
+    payload,
+    callback,
+  };
+};
