@@ -276,7 +276,8 @@ const AddAdditionalPetDetails = ({route}: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state.loader} />
-      <Header/>
+      <Header
+        statusBarColor={colors.listBackGradientThree}/>
       <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
           <View style={[styles.flexOne, {padding: scale(25)}]}>
             {/* {petProfilePicRes ?

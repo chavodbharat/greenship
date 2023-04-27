@@ -248,7 +248,8 @@ const MyPetList = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} />
-      <Header/>
+      <Header
+        statusBarColor={colors.listBackGradientThree}/>
       <View style={styles.container}>
         <FlatList
           data={state.petListData}

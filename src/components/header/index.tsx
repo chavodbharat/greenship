@@ -1,13 +1,14 @@
 import React, {useMemo} from 'react';
 import styles from './styles';
-import {Image, Pressable, View} from 'react-native';
+import {Image, Pressable, StatusBar, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {shallowEqual, useSelector} from 'react-redux';
 import { useTheme } from '../../providers/ThemeProvider';
 import AllImages from '../../utils/Constants/AllImages';
 import { goBack } from '../../routing/navigationRef';
+import { HeaderTypePropsInterface } from './types';
 
-const Header = () => {
+const Header = ({statusBarColor}: HeaderTypePropsInterface) => {
 
   const onBackPress = () => {
     goBack();
@@ -15,6 +16,10 @@ const Header = () => {
   
   return (
     <View style={styles.headerParentView}>
+      <StatusBar
+        backgroundColor={statusBarColor}
+        barStyle={'light-content'}
+      />
       <Pressable onPress={onBackPress}>
         <View style={styles.flexZeroView}>
           <Image

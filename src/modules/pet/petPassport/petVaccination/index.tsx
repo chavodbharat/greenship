@@ -19,6 +19,7 @@ import CustomDateRangeModal from '../../../../components/customDateRangeModal';
 import ActionSheetModal from 'react-native-modal';
 import ActionSheet from '../../../../components/actionSheet';
 import { showMessage } from 'react-native-flash-message';
+import { useTheme } from '../../../../providers/ThemeProvider';
 
 export const PET_VACCINATION_SCREEN = {
   name: 'PetVaccination',
@@ -28,6 +29,7 @@ const PetVaccination = ({route}: any) => {
   const dispatch = useDispatch();
   const { petObj, vaccineObj } = route.params;
   
+  const {colors} = useTheme();
   const [state, setState] = useState({
     loader: false,
     petVaccineListData: [],
@@ -301,7 +303,8 @@ const PetVaccination = ({route}: any) => {
   return (
     <SafeAreaView style={styles.flexOne}>
       <Spinner visible={state.loader} />
-      <Header/>
+      <Header
+        statusBarColor={colors.listBackGradientThree}/>
       <PetPassportSubHeader
         title={vaccineObj.label}
         petImage={petObj.pet_image}

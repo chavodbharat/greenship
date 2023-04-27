@@ -244,7 +244,8 @@ const AddPet = ({route}: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} />
-      <Header/>
+      <Header
+        statusBarColor={colors.listBackGradientThree}/>
       <View style={styles.flexZero}>
         <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
           <View style={[styles.flexOne, {padding: scale(25)}]}>

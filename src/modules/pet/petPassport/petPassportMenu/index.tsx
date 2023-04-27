@@ -12,6 +12,7 @@ import { getPetVaccineMenuList } from '../../../../redux/actions/petAction';
 import PetPassportSubHeader from '../../../../components/petPassportSubHeader';
 import { navigate } from '../../../../routing/navigationRef';
 import { PET_VACCINATION_SCREEN } from '../petVaccination';
+import { useTheme } from '../../../../providers/ThemeProvider';
 
 export const PET_PASSPORT_MENU_SCREEN = {
   name: 'PetPassportMenu',
@@ -21,6 +22,7 @@ const PetPassportMenu = ({route}: any) => {
   const dispatch = useDispatch();
   const { petObj } = route.params;
   
+  const {colors} = useTheme();
   const [state, setState] = useState({
     loader: false,
     petPassportOptionsData: []
@@ -74,7 +76,8 @@ const PetPassportMenu = ({route}: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state.loader} />
-      <Header/>
+      <Header
+        statusBarColor={colors.listBackGradientThree}/>
       <PetPassportSubHeader
         title={petObj.pet_name}
         petImage={petObj.pet_image}
