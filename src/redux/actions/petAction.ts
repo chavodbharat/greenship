@@ -37,4 +37,3 @@ export const addPetVaccine = (payload: object, callback: Function) => {
     callback,
   };
 };
-
