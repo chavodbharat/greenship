@@ -7,6 +7,7 @@ import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
 import {setTabBgColor} from '../../../redux/actions/authAction';
 import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
+import {MY_MEMBER_LIST_SCREEN} from '../../community/memberList';
 import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
 import {useIsFocused} from '@react-navigation/native';
@@ -48,6 +49,8 @@ const Home = () => {
   const onTilePress = (index: any) => {
     if (index === 0) {
       navigate(MY_PET_LIST_SCREEN.name);
+    } else if (index === 1) {
+      navigate(MY_MEMBER_LIST_SCREEN.name, {userPic: state.userProfilePic});
     } else if (index === 3) {
       navigate('Emergency');
     } else {

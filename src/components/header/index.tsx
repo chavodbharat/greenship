@@ -8,7 +8,7 @@ import AllImages from '../../utils/Constants/AllImages';
 import { goBack } from '../../routing/navigationRef';
 import { HeaderTypePropsInterface } from './types';
 
-const Header = ({statusBarColor}: HeaderTypePropsInterface) => {
+const Header = ({statusBarColor, isfilter}: HeaderTypePropsInterface) => {
 
   const onBackPress = () => {
     goBack();
@@ -30,12 +30,13 @@ const Header = ({statusBarColor}: HeaderTypePropsInterface) => {
       </Pressable>
       
       <View style={styles.flexOneView}/>
-      <View style={styles.flexZeroView}>
+     {isfilter ? null : 
+     <View style={styles.flexZeroView}>
         <Image
           resizeMode="contain"
           style={styles.headerImageStyle}
           source={AllImages.filterIcon}/>
-      </View>
+      </View>}
       <View style={styles.flexZeroView}>
         <Image
           resizeMode="contain"
