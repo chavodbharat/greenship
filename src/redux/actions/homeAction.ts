@@ -53,3 +53,17 @@ export const updateBannerImage = (payload: object, callback: Function) => {
     callback,
   };
 };
+
+export const getProfileFieldsReq = (callback: Function) => {
+  return {
+    type: types.GET_PROFILE_FIELDS,
+    callback,
+  };
+};
+export const updateProfileReq = (payload: object, callback: Function) => {
+  return {
+    type: types.UPDATE_PROFILE,
+    payload,
+    callback,
+  };
+};

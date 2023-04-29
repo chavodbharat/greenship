@@ -6,7 +6,7 @@ import {fonts} from '../../../theme/fonts';
 export default StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: darkColors.darkGreen,
   },
   container: {
     flex: 1,
@@ -24,7 +24,7 @@ export default StyleSheet.create({
     height: scale(50),
     width: scale(50),
     borderRadius: scale(8),
-    backgroundColor: 'red',
+    backgroundColor: 'gray',
     marginVertical: scale(5),
     marginHorizontal: scale(5),
     borderStartColor: 'gray',
@@ -64,5 +64,8 @@ export default StyleSheet.create({
   end: {
     flex: 1,
     justifyContent: 'flex-end',
+  },
+  lg: {
+    borderRadius: scale(8),
   },
 });
