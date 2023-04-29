@@ -20,13 +20,13 @@ export default StyleSheet.create({
   flexZero: {
     flex: 0
   },
-  petViewParentView: {
+  memberViewParentView: {
     flex: 1,
     flexDirection: 'row',
     marginTop: verticalScale(8), 
     marginBottom: verticalScale(8)
   },
-  petAddParentView: {
+  memberAddParentView: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center', 
@@ -37,9 +37,9 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: darkColors.darkGreen 
   },
-  petImageStyle: {
-    width: scale(100), 
-    height: scale(100), 
+  memberImageStyle: {
+    width: scale(120), 
+    height: scale(120), 
     borderRadius: 8, 
     borderWidth: 1, 
     borderColor: darkColors.darkGreen,
@@ -56,26 +56,32 @@ export default StyleSheet.create({
     borderWidth:1,
     borderColor:darkColors.darkGreen,
   },
-  petAddImageStyle: {
+  memberAddImageStyle: {
     width: scale(80), 
     height: scale(80), 
     marginRight: verticalScale(20),
     tintColor: darkColors.darkGreen,
   },
-  petNameTextStyle: {
+  memberNameTextStyle: {
     fontSize: moderateScale(16),
     color: darkColors.black, 
     fontFamily: fonts.MontserratBold
   },
-  petListItemTextLabelStyle: {
+  memberListItemTextLabelStyle: {
     fontSize: moderateScale(14),
     color: darkColors.white, 
     fontFamily: fonts.MontserratRegular
   },
-  petListItemTextValueStyle: {
+  memberListItemTextValueStyle: {
     fontSize: moderateScale(14),
     color: darkColors.white, 
     fontFamily: fonts.MontserratBold
+  },
+  memberListItemDesTextValueStyle: {
+    fontSize: moderateScale(14),
+    color: darkColors.white, 
+    fontFamily: fonts.MontserratRegular,
+    // marginTop:scale(5)
   },
   missingStatusTextStyle: {
     fontSize: moderateScale(12),
@@ -99,7 +105,7 @@ export default StyleSheet.create({
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     flexDirection: 'row',
-    backgroundColor: darkColors.petListEditDeleteBackColor, 
+    backgroundColor: darkColors.memberListEditDeleteBackColor, 
     padding: scale(10)
   },
   handImageStyle: {

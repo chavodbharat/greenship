@@ -14,7 +14,7 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import { getMemberListData } from '../../../redux/actions/memberAction';
 import Spinner from '../../../components/spinner';
 import Share from 'react-native-share';
-import { PET_PASSPORT_MENU_SCREEN } from '../petPassport/petPassportMenu';
+import { member_PASSPORT_MENU_SCREEN } from '../memberPassport/memberPassportMenu';
 import { scale } from '../../../theme/responsive';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -68,26 +68,28 @@ const MyMemberList = ({route}) => {
       <LinearGradient 
       start={{x: 0, y: 0}} 
       end={{x: 1, y: 0}} 
-      colors={index%2==0?[colors.darkGreen, colors.darkGreen, colors.lightGreen]:[ darkColors.gradientGary, darkColors.gradientGary, darkColors.white]} 
+      colors={index%2==0?[colors.darkGreen, colors.darkGreen, colors.green]:[ darkColors.gradientGary, darkColors.gradientGary, darkColors.white]} 
       style={styles.mainView}>
          <Pressable
                   onPress={() =>{}}>
-            <View style={styles.petViewParentView}>
+            <View style={styles.memberViewParentView}>
               <View style={styles.flexZero}>
                 <Image
-                  style={styles.petImageStyle}
+                  style={styles.memberImageStyle}
                   source={{uri: item.avatar_urls.full}}/>
               </View>
               <View style={[styles.flexOne,{marginLeft:scale(10)}]}> 
-                  <Text style={[styles.petListItemTextValueStyle,{color:index%2==0?darkColors.white:darkColors.black}]}>  {item.name}</Text>
-                <View style={styles.flexDirectionRowView}>
-                  <View style={styles.flexOne}>
-                      <Text style={[styles.petListItemTextValueStyle,{color:index%2==0?darkColors.white:darkColors.black}]}>  {item.user_login}</Text>
+              <View style={styles.flexOne}>
+                  <Text style={[styles.memberListItemTextValueStyle,{color:index%2==0?darkColors.white:darkColors.black}]}>  {item.name}</Text>
                   </View>
-                  
-                </View>
+                  <View style={styles.flexOne}>
+                      <Text style={[styles.memberListItemDesTextValueStyle,{color:index%2==0?darkColors.white:darkColors.black}]}>  {item.user_login}</Text>
+                  </View>
                 <View style={styles.flexOne}>
-                      <Text style={[styles.petListItemTextValueStyle,{color:index%2==0?darkColors.white:darkColors.black}]}>  {item.friendship_status_slug}</Text>
+                      <Text style={[styles.memberListItemDesTextValueStyle,{color:index%2==0?darkColors.white:darkColors.black}]}>  {item.friendship_status_slug}</Text>
+                  </View>
+                  <View style={styles.flexOne}>
+                      <Text style={[styles.memberListItemDesTextValueStyle,{color:index%2==0?darkColors.white:darkColors.black}]}>  owns 3 animals</Text>
                   </View>
               </View>
             </View>
