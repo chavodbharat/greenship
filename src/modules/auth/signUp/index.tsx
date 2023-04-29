@@ -99,6 +99,7 @@ const SignUp = () => {
       }),
     );
   };
+
   return (
     <SafeAreaView style={styles.main}>
       <NavBar />

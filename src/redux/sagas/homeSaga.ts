@@ -152,6 +152,34 @@ function* updateBannerImage(data: object) {
     });
 }
 
+function* getProfileFields(data: object) {
+  const {callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/xprofile/fields`, null, 'GET')
+    .then(response => {
+      callback(response);
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+function* updateProfile(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(
+      `${serviceUrl.apiUrl}greensheep-api/v1/xprofile/data/`,
+      payload,
+      'POST',
+    )
+    .then(response => {
+      callback(response);
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
 export default function* watchHomeSaga() {
   yield takeLatest(types.GET_MISSING_PET_LIST, getMissingPetList);
   yield takeLatest(types.GET_MY_PET_LIST, getMyPetList);
@@ -160,5 +188,6 @@ export default function* watchHomeSaga() {
   yield takeLatest(types.UPDATE_USER_PROFILE_PIC, updateUserProfilePic);
   yield takeLatest(types.UPDATE_BANNER_IMAGE, updateBannerImage);
   yield takeLatest(types.GET_BANNER_IMAGE, getBannerImage);
-  
+  yield takeLatest(types.GET_PROFILE_FIELDS, getProfileFields);
+  yield takeLatest(types.UPDATE_PROFILE, updateProfile);
 }
