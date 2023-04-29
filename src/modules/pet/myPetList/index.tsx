@@ -77,7 +77,8 @@ const MyPetList = () => {
     setState(prev => ({...prev, menuOpenPosition: -1, isAdditionalMenuShow: false}));  
     if(index == 0){
       //Edit
-      navigate(ADD_PET_SCREEN.name, {formId: data.form_id, petId: data.pet_id, isEditMode: true})
+      navigate(ADD_PET_SCREEN.name, {formId: data.form_id, petId: data.pet_id, 
+        isEditMode: true, isViewOnly: false})
     } else if(index == 1) {
       //Share
       const shareOptions = {
@@ -117,7 +118,7 @@ const MyPetList = () => {
   }
 
   const onAddPetsPress = () => {
-    navigate(ADD_PET_SCREEN.name, {formId: state.formId, isEditMode: false});
+    navigate(ADD_PET_SCREEN.name, {formId: state.formId, isEditMode: false, isViewOnly: false});
   }
 
   const onOpenCloseDeleteModal = (status: boolean) => {

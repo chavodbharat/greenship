@@ -7,6 +7,9 @@ const AllImages = {
     appPlaceholderIcon: require("../../assets/images/ic_no_avatar.png"),
     uploadIcon: require("../../assets/images/upload.png"),
     addIcon: require("../../assets/images/ic_add.png"),
+    petHealthIcon: require("../../assets/images/ic_pet_health.png"),
+    myPetIcon: require("../../assets/images/myPets.png"),
+    
 };
 
 export default AllImages;

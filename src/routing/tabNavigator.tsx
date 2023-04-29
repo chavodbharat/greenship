@@ -25,6 +25,7 @@ import Profile from '../modules/dashBoard/profile';
 import EditProfile from '../modules/dashBoard/profile/editProfile';
 import AddPet, { ADD_PET_SCREEN } from '../modules/pet/addPet';
 import AddAdditionalPetDetails, { ADD_ADDITIONAL_PET_DETAILS_SCREEN } from '../modules/pet/addPet/AddAdditionalPetDetails';
+import VaccinationMenu, { VACCINATION_MENU_SCREEN } from '../modules/pet/petPassport/vaccinationMenu';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,6 +46,7 @@ function HomeStackScreen() {
       <HomeStack.Screen name={PET_VACCINATION_SCREEN.name} component={PetVaccination} />
       <HomeStack.Screen name={ADD_PET_SCREEN.name} component={AddPet} />
       <HomeStack.Screen name={ADD_ADDITIONAL_PET_DETAILS_SCREEN.name} component={AddAdditionalPetDetails} />
+      <HomeStack.Screen name={VACCINATION_MENU_SCREEN.name} component={VaccinationMenu} />
       <HomeStack.Screen name="Emergency" component={Emergency} />
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="EditProfile" component={EditProfile} />

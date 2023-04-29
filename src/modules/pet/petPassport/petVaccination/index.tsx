@@ -328,7 +328,7 @@ const PetVaccination = ({route}: any) => {
         statusBarColor={colors.listBackGradientThree}/>
       <PetPassportSubHeader
         title={vaccineObj.label}
-        petImage={petObj.pet_image}
+        petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}
       />  
       <View style={[styles.flexOne, {marginLeft: scale(5), marginRight: scale(5),
         marginTop: verticalScale(3)}]}>

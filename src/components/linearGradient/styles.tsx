@@ -10,6 +10,9 @@ export const Styles = StyleSheet.create({
     marginRight: scale(10),
     marginTop: verticalScale(5),
     marginBottom: verticalScale(5),
-    borderRadius: scale(5)
+    borderTopRightRadius: scale(5),
+    borderBottomRightRadius: scale(5),
+    borderTopLeftRadius: scale(5),
+    borderBottomLeftRadius: scale(5)
   }
 });

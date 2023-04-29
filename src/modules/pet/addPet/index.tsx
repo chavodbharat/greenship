@@ -24,6 +24,7 @@ import { showMessage } from 'react-native-flash-message';
 import { ADD_ADDITIONAL_PET_DETAILS_SCREEN } from './AddAdditionalPetDetails';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageSelection from '../../../components/imageSelection';
+import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 
 export const ADD_PET_SCREEN = {
   name: 'AddPet',
@@ -31,7 +32,7 @@ export const ADD_PET_SCREEN = {
 
 const AddPet = ({route}: any) => {
   const dispatch = useDispatch();
-  const { formId, petId, isEditMode } = route.params;
+  const { formId, petId, isEditMode, isViewOnly } = route.params;
   const {colors} = useTheme();
   const [state, setState] = useState({
     loader: false,
@@ -114,7 +115,7 @@ const AddPet = ({route}: any) => {
   };
 
   const callPetDetails = () => {
-    if(petId && isEditMode) {
+    if(petId && (isEditMode || isViewOnly)) {
       dispatch(
         getPetDetails({petId: petId} , (res: any) => {
           if(res) {
@@ -263,7 +264,7 @@ const AddPet = ({route}: any) => {
 
               <View style={styles.uploadWrapper}>
                 <TouchableWithoutFeedback
-                  onPress={() => dropDownPosition(4)}>
+                  onPress={() => !isViewOnly && dropDownPosition(4)}>
                   <Image
                     resizeMode="contain"
                     style={styles.pressableUpload}
@@ -276,6 +277,7 @@ const AddPet = ({route}: any) => {
               mode="outlined"
               value={state.petName}
               label={"Name"}
+              editable={!isViewOnly}
               activeOutlineColor={colors.listBackGradientThree}
               outlineColor={colors.listBackGradientThree}
               style={styles.textInputStyle}
@@ -283,7 +285,7 @@ const AddPet = ({route}: any) => {
               placeholder={"Enter Name"}
             />
             <Pressable
-              onPress={() => dropDownPosition(0)}>
+              onPress={() => !isViewOnly && dropDownPosition(0)}>
               <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
                 <View style={styles.flexOne}>
                   <Text style={[styles.dropdownLabelStyle, state.selectedPetArt!="Please Select Art" &&
@@ -297,7 +299,7 @@ const AddPet = ({route}: any) => {
               </View>
             </Pressable>
             <Pressable
-              onPress={() => dropDownPosition(1)}>
+              onPress={() => !isViewOnly && dropDownPosition(1)}>
               <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
                 <View style={styles.flexOne}>
                   <Text style={[styles.dropdownLabelStyle, state.selectedPetRace!="Please Select Race" &&
@@ -311,7 +313,7 @@ const AddPet = ({route}: any) => {
               </View>
             </Pressable>
             <Pressable
-              onPress={() => dropDownPosition(2)}>
+              onPress={() => !isViewOnly && dropDownPosition(2)}>
               <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
                 <View style={styles.flexOne}>
                   <Text style={[styles.dropdownLabelStyle, state.selectedGender != "Please Select Gender" &&
@@ -325,7 +327,7 @@ const AddPet = ({route}: any) => {
               </View>
             </Pressable>
             <Pressable
-              onPress={() => dropDownPosition(3)}>
+              onPress={() => !isViewOnly && dropDownPosition(3)}>
               <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
                 <View style={styles.flexOne}>
                   <Text style={[styles.dropdownLabelStyle, state.selectedCountry!="Please Select Country" &&
@@ -342,6 +344,7 @@ const AddPet = ({route}: any) => {
               mode="outlined"
               value={state.postCode}
               label={"Postcode"}
+              editable={!isViewOnly}
               activeOutlineColor={colors.listBackGradientThree}
               outlineColor={colors.listBackGradientThree}
               style={styles.textInputStyle}
@@ -349,7 +352,7 @@ const AddPet = ({route}: any) => {
               placeholder={"Enter Postcode"}
             />
             <Pressable
-              onPress={() => setState(prev => ({...prev, isDateModalOpen: true}))}>
+              onPress={() => !isViewOnly && setState(prev => ({...prev, isDateModalOpen: true}))}>
               <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
                 <View style={styles.flexOne}>
                   <Text style={[styles.dropdownLabelStyle, state.selectedDateOfBirth != "Select Date Of Birth" &&
@@ -364,12 +367,14 @@ const AddPet = ({route}: any) => {
                 </View>
               </View>
             </Pressable>
-            <Button
-              labelStyle={styles.loginFontStyle} 
-              style={[styles.allButonStyle,{marginBottom: verticalScale(50)}]} mode="contained" 
-              onPress={onContinuePress}>
-              Continue
-            </Button> 
+            {!isViewOnly &&
+              <Button
+                labelStyle={styles.loginFontStyle} 
+                style={[styles.allButonStyle,{marginBottom: verticalScale(50)}]} mode="contained" 
+                onPress={onContinuePress}>
+                Continue
+              </Button> 
+            }
           </View>
         </ScrollView>
       </View>
@@ -398,7 +403,11 @@ const AddPet = ({route}: any) => {
         setModalVisible={() =>  setState(prev => ({...prev, visible: !prev.imageModalVisible}))}
         onPressCamera={openCamera}
         onPressGallery={openGallery}
-      />  
+      />
+      {(isEditMode || isViewOnly) &&
+        <PetHealthFloatingButton
+          petObj={state.petObj}/>
+      }
     </SafeAreaView>
   );
 };
