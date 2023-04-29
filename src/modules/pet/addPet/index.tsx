@@ -16,7 +16,7 @@ import { scale, verticalScale } from '../../../theme/responsive';
 import { Button, TextInput } from 'react-native-paper';
 import ActionSheet from '../../../components/actionSheet';
 import ActionSheetModal from 'react-native-modal';
-import { TAG_DATE_FORMATE, allGenderStaticData, allImageOptionsArray, imageOptionsTitleData, onImageOptionPress } from '../../../utils/Constants/AllConstance';
+import { TAG_DATE_FORMATE, allGenderStaticData } from '../../../utils/Constants/AllConstance';
 import DatePicker from 'react-native-date-picker'
 import moment from 'moment';
 import { TouchableWithoutFeedback } from 'react-native';
@@ -57,7 +57,6 @@ const AddPet = ({route}: any) => {
 
   //Static Data
   const petGenderListData = allGenderStaticData();
-  const imageOptionsArray = imageOptionsTitleData();
 
   useEffect(() => {
     callPetDetails();
@@ -150,7 +149,6 @@ const AddPet = ({route}: any) => {
     } else if(position == 3) {
       setState(prev => ({...prev, actionSheetData: state.countryList, isActionSheetShow: true}));
     } else if(position == 4) {
-      //setState(prev => ({...prev, actionSheetData: imageOptionsArray, isActionSheetShow: true}));
       setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}));
     }
   }
@@ -168,10 +166,6 @@ const AddPet = ({route}: any) => {
         setState(prev => ({...prev, selectedGender: petGenderListData[index].title, isActionSheetShow: false}));
       } else if(actionSheetPosition == 3) {
         setState(prev => ({...prev, selectedCountry: countryList[index].title, isActionSheetShow: false}));
-      } else if(actionSheetPosition == 4) {
-        const originalMessageObj = allImageOptionsArray().find((item: any) => item.type === imageOptionsArray[index].id);
-        const data = await onImageOptionPress(originalMessageObj?.type, originalMessageObj?.options);
-        setState(prev => ({...prev, imageResponse: data, isActionSheetShow: false}));
       }
     }
   }

@@ -9,7 +9,7 @@ import { scale, verticalScale } from '../../../theme/responsive';
 import { Button, Checkbox, TextInput } from 'react-native-paper';
 import { useTheme } from '../../../providers/ThemeProvider';
 import AllImages from '../../../utils/Constants/AllImages';
-import { TAG_TIMEOUT, allImageOptionsArray, imageOptionsTitleData, onImageOptionPress, yesNoData } from '../../../utils/Constants/AllConstance';
+import { TAG_TIMEOUT, yesNoData } from '../../../utils/Constants/AllConstance';
 import ActionSheetModal from 'react-native-modal';
 import ActionSheet from '../../../components/actionSheet';
 import { showMessage } from 'react-native-flash-message';
@@ -48,7 +48,6 @@ const AddAdditionalPetDetails = ({route}: any) => {
   });
 
   //Static Data
-  const imageOptionsArray = imageOptionsTitleData();
   const yesNoOptions = yesNoData();
 
   useEffect(() => {
@@ -263,13 +262,6 @@ const AddAdditionalPetDetails = ({route}: any) => {
       setState(prev => ({...prev,  selectedPetMissing: yesNoOptions[index].title, isActionSheetShow: false}));
     } else if(actionSheetPosition == 1) {
       setState(prev => ({...prev,  selectedFamilyTree: yesNoOptions[index].title, isActionSheetShow: false}));
-    } else if(actionSheetPosition == 2) {
-      const originalMessageObj = allImageOptionsArray().find((item: any) => item.type === imageOptionsArray[index].id);
-      const data = await onImageOptionPress(originalMessageObj?.type, originalMessageObj?.options);
-      if(data.assets && data.assets.length > 0){
-        setState(prev => ({...prev,  allMultipleImageLocalArray: prev.allMultipleImageLocalArray.push(data.assets[0]), 
-          isActionSheetShow: false}));
-      }
     }
   }
 

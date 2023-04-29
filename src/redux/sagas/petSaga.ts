@@ -101,16 +101,16 @@ function* addPetVaccine(data: object) {
 
   const formData = new FormData();
   formData.append('manufature', {
-    name: payload.manufatureImageRes.fileName,
-    type: payload.manufatureImageRes.type,
-    uri: Platform.OS === 'ios' ? payload.manufatureImageRes.uri.replace('file://', '') : 
-      payload.manufatureImageRes.uri,
+    name: payload.manufatureImageRes.path.substring(payload.manufatureImageRes.path.lastIndexOf('/') + 1),
+    type: payload.manufatureImageRes.mime,
+    uri: Platform.OS === 'ios' ? payload.manufatureImageRes.path.replace('file://', '') : 
+      payload.manufatureImageRes.path,
   });
   formData.append('authorised', {
-    name: payload.authorisedImageRes.fileName,
-    type: payload.authorisedImageRes.type,
-    uri: Platform.OS === 'ios' ? payload.authorisedImageRes.uri.replace('file://', '') : 
-    payload.authorisedImageRes.uri,
+    name: payload.authorisedImageRes.path.substring(payload.authorisedImageRes.path.lastIndexOf('/') + 1),
+    type: payload.authorisedImageRes.mime,
+    uri: Platform.OS === 'ios' ? payload.authorisedImageRes.path.replace('file://', '') : 
+    payload.authorisedImageRes.path,
   });
   formData.append('vaccine_type',  payload.vaccineType);
   formData.append('start_date',  payload.startDate);

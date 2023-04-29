@@ -7,19 +7,18 @@ import Header from '../../../../components/header';
 import LinearGradient from '../../../../components/linearGradient';
 import Spinner from '../.././../../components/spinner';
 import { scale, verticalScale } from '../../../../theme/responsive';
-import { MenuOptions } from './types';
-import { addPetVaccine, getPetVaccinationList, getPetVaccineMenuList } from '../../../../redux/actions/petAction';
+import { addPetVaccine, getPetVaccinationList } from '../../../../redux/actions/petAction';
 import PetPassportSubHeader from '../../../../components/petPassportSubHeader';
-import { TAG_DATE_FORMATE, allImageOptionsArray, imageOptionsTitleData, onImageOptionPress } from '../../../../utils/Constants/AllConstance';
+import { TAG_DATE_FORMATE } from '../../../../utils/Constants/AllConstance';
 import Icon from 'react-native-vector-icons/Feather';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import moment from 'moment';
 import { darkColors } from '../../../../theme/colors';
 import CustomDateRangeModal from '../../../../components/customDateRangeModal';
-import ActionSheetModal from 'react-native-modal';
-import ActionSheet from '../../../../components/actionSheet';
 import { showMessage } from 'react-native-flash-message';
 import { useTheme } from '../../../../providers/ThemeProvider';
+import ImageSelection from '../../../../components/imageSelection';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export const PET_VACCINATION_SCREEN = {
   name: 'PetVaccination',
@@ -37,9 +36,9 @@ const PetVaccination = ({route}: any) => {
     authorisedImageResponse: null,
     dateRange: { startDate: undefined, endDate: undefined},
     datePickerOpenStatus: false,
-    isActionSheetShow: false,
     imageOptionPosition: 0,
-    actionSheetData: imageOptionsTitleData()
+    imageType: '',
+    imageModalVisible: false,
   });
 
   useEffect(() => {
@@ -142,7 +141,7 @@ const PetVaccination = ({route}: any) => {
   }
 
   const onVaccineImageSelect = (position: number) => {
-    setState(prev => ({...prev, isActionSheetShow: true, imageOptionPosition: position}));
+    setState(prev => ({...prev, imageModalVisible: true, imageOptionPosition: position}));
   }
 
   const onDateSelected = (dateRange: any) => {
@@ -154,22 +153,44 @@ const PetVaccination = ({route}: any) => {
     setState(prev => ({...prev, datePickerOpenStatus: status})); 
   }
 
-  const hideActionSheet = () => {
-    setState(prev => ({...prev, isActionSheetShow: false})); 
-  }
-
-  const clickOnActionSheetOption = async (index: number) => {
-    const originalMessageObj = allImageOptionsArray().find((item: any) => item.type === state.actionSheetData[index].id);
-    const data = await onImageOptionPress(originalMessageObj?.type, originalMessageObj?.options);
-    if(data && data.assets && data.assets.length > 0) {
-      if(state.imageOptionPosition == 1) {
-        setState(prev => ({...prev, manufactureImageResponse: data.assets[0]}));
-      } else {
-        setState(prev => ({...prev, authorisedImageResponse: data.assets[0]})); 
-      }
+  const openCamera = () => {
+    try {
+      ImagePicker.openCamera({
+        width: state.imageType === 'cover' ? 1350 : 500,
+        height: 500,
+        cropping: true,
+      }).then(image => {
+        if(state.imageOptionPosition == 1) {
+          setState(prev => ({...prev, manufactureImageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+        } else {
+          setState(prev => ({...prev, authorisedImageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+       //   setState(prev => ({...prev, authorisedImageResponse: data.assets[0]})); 
+        }
+      });
+    } catch (e) {
+      console.log('error', e);
     }
-    hideActionSheet();
-  }
+  };
+
+  const openGallery = () => {
+    try {
+      ImagePicker.openPicker({
+        width: state.imageType === 'cover' ? 1350 : 500,
+        height: 500,
+        cropping: true,
+      }).then(image => {
+        if(state.imageOptionPosition == 1) {
+          setState(prev => ({...prev, manufactureImageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+        } else {
+          setState(prev => ({...prev, authorisedImageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+       //   setState(prev => ({...prev, authorisedImageResponse: data.assets[0]})); 
+        }
+       // setState(prev => ({...prev, imageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+      });
+    } catch (e) {
+      console.log('error', e);
+    }
+  };
 
   const renderItem = ({item, index}: any) => {
     return (
@@ -251,7 +272,7 @@ const PetVaccination = ({route}: any) => {
                   <View style={[styles.petPassportOptionView,{ marginTop: 0, marginBottom: 0}]}>
                     <Image
                       style={styles.vaccinationImageStyle}
-                      source={{uri: state.manufactureImageResponse.uri}}/>
+                      source={{uri: state.manufactureImageResponse.path}}/>
                   </View>
                   :  
                   <View style={styles.petPassportOptionView}>
@@ -277,7 +298,7 @@ const PetVaccination = ({route}: any) => {
                   <View style={[styles.petPassportOptionView,{ marginTop: 0, marginBottom: 0}]}>
                     <Image
                       style={styles.vaccinationImageStyle}
-                      source={{uri: state.authorisedImageResponse.uri}}/>
+                      source={{uri: state.authorisedImageResponse.path}}/>
                   </View>
                   :  
                   <View style={styles.petPassportOptionView}>
@@ -324,15 +345,12 @@ const PetVaccination = ({route}: any) => {
         isModalVisible={state.datePickerOpenStatus}
         onClose={() => onDateIconPress(false)}
         onSubmit={(range) => onDateSelected(range)} />
-      <ActionSheetModal
-        isVisible={state.isActionSheetShow}
-        style={styles.actionModalStyle}>
-        <ActionSheet
-          actionSheetItems={state.actionSheetData}
-          onCancelPress={hideActionSheet}
-          onPressItem={clickOnActionSheetOption}
-        />
-      </ActionSheetModal>
+      <ImageSelection
+        modalVisible={state.imageModalVisible}
+        setModalVisible={() =>  setState(prev => ({...prev, visible: !prev.imageModalVisible}))}
+        onPressCamera={openCamera}
+        onPressGallery={openGallery}
+      />  
       {/* {state.datePickerOpenStatus &&
       <DateRangePicker
           onSelectDateRange={(range) => {
