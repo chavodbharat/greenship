@@ -37,10 +37,11 @@ export default StyleSheet.create({
   },
 
   txtInput: {
-    color: darkColors.darkGrey,
+    marginHorizontal: scale(40),
+    marginVertical: scale(5),
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratRegular,
-    marginHorizontal: scale(40),
+    color: darkColors.darkGrey,
     backgroundColor: 'white',
   },
 

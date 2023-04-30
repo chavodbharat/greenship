@@ -3,10 +3,12 @@ import authReducer from './authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {types} from '../ActionTypes';
 import homeReducer from './homeReducer';
+import petReducer from './petReducer';
 
 const appReducer = combineReducers({
   auth: authReducer,
   home: homeReducer,
+  pet: petReducer,
 });
 
 const rootReducer = (state: any, action: any) => {

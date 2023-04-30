@@ -10,6 +10,8 @@ import {types} from '../redux/ActionTypes';
 import SignUp from '../modules/auth/signUp';
 import Login from '../modules/auth/login';
 import ResetPassword from '../modules/auth/resetPassword';
+import ResetPasswordOtpVerification, { RESET_PASSWORD_OTP_VERIFICATION_SCREEN } from '../modules/auth/resetPasswordOtpVerification';
+import GenerateNewPassword, { GENERATE_NEW_PASSWORD_SCREEN } from '../modules/auth/generateNewPassword';
 
 const DashBoardStack = createStackNavigator();
 const AuthStack = createStackNavigator();
@@ -70,6 +72,8 @@ export default function RootStack() {
           <AuthStack.Screen name="SignUp" component={SignUp} />
           <AuthStack.Screen name="Login" component={Login} />
           <AuthStack.Screen name="ResetPassword" component={ResetPassword} />
+          <AuthStack.Screen name={RESET_PASSWORD_OTP_VERIFICATION_SCREEN.name} component={ResetPasswordOtpVerification} />
+          <AuthStack.Screen name={GENERATE_NEW_PASSWORD_SCREEN.name} component={GenerateNewPassword} />
         </AuthStack.Navigator>
       )}
     </NavigationContainer>

@@ -21,6 +21,8 @@ import { scale } from '../../../theme/responsive';
 import { ADD_PET_SCREEN } from '../addPet';
 import { useIsFocused } from '@react-navigation/native';
 import DeleteModal from '../../../components/deleteModal';
+import { store } from '../../../store/configureStore';
+import { types } from '../../../redux/ActionTypes';
 
 export const MY_PET_LIST_SCREEN = {
   name: 'MyPetList',
@@ -51,7 +53,12 @@ const MyPetList = () => {
       getPetListData((res: any) => {
         if(res) {
           const { data } = res;
-          setState(prev => ({...prev, loader: false, petListData:  data.pets_list.reverse(), formId: data.new_form_id}));
+          store.dispatch({
+            type: types.UPDATE_NEW_FORM_ID,
+            payload: data.new_form_id,
+          });
+          setState(prev => ({...prev, loader: false, petListData:  data.pets_list.reverse(), 
+            formId: data.new_form_id}));
         } else {
           setState(prev => ({...prev, loader: false, petListData: []}));
         }
@@ -115,10 +122,6 @@ const MyPetList = () => {
     } else {
       setState(prev => ({...prev, menuOpenPosition: -1}));
     }
-  }
-
-  const onAddPetsPress = () => {
-    navigate(ADD_PET_SCREEN.name, {formId: state.formId, isEditMode: false, isViewOnly: false});
   }
 
   const onOpenCloseDeleteModal = (status: boolean) => {
@@ -233,19 +236,7 @@ const MyPetList = () => {
       />
     )
   }
-
-  
-  const renderHeaderItemView = () => {
-    return(
-      <Pressable
-        onPress={() => onAddPetsPress()}>
-        <View style={styles.petAddParentView}>
-          <Text style={styles.petNameTextStyle}>Add Pet</Text>
-        </View>
-      </Pressable>
-    )
-  }
-
+ 
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} />
@@ -256,7 +247,6 @@ const MyPetList = () => {
           data={state.petListData}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
-          ListHeaderComponent={renderHeaderItemView}
         />
       </View>
       <DeleteModal

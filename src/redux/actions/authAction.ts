@@ -30,3 +30,19 @@ export const setTabBgColor = (payload: any) => {
     payload,
   };
 };
+
+export const verifyOtp = (payload: object, callback: Function) => {
+  return {
+    type: types.VERIFY_OTP,
+    payload,
+    callback,
+  };
+};
+
+export const setNewPassword = (payload: object, callback: Function) => {
+  return {
+    type: types.SET_NEW_PASSWORD,
+    payload,
+    callback,
+  };
+};

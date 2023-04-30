@@ -89,8 +89,65 @@ function* registerUser(data: object) {
     });
 }
 
+
+function* verifyOtp(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(
+      `${serviceUrl.apiUrl}greensheep-api/v1/login/forgot-validate-code`,
+      payload,
+      'POST',
+    )
+    .then(response => {
+      if (response.success) {
+        showMessage({
+          message: response?.message,
+          type: 'success',
+        });
+      } else {
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+      callback(response);
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+function* setNewPassword(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(
+      `${serviceUrl.apiUrl}greensheep-api/v1/login/forgot-set-password`,
+      payload,
+      'POST',
+    )
+    .then(response => {
+      if (response.success) {
+        showMessage({
+          message: response?.message,
+          type: 'success',
+        });
+      } else {
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+      callback(response);
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
 export default function* watchAuthSaga() {
   yield takeLatest(types.LOGIN_USER, loginUser);
   yield takeLatest(types.RESET_PASSWORD, resetPassword);
   yield takeLatest(types.REGISTER_USER, registerUser);
+  yield takeLatest(types.VERIFY_OTP, verifyOtp)
+  yield takeLatest(types.SET_NEW_PASSWORD, setNewPassword)
 }

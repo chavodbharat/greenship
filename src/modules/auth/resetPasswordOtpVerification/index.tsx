@@ -5,40 +5,46 @@ import NavBar from '../../../components/navBar';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
-import {resetPasswordReq} from '../../../redux/actions/authAction';
+import {verifyOtp} from '../../../redux/actions/authAction';
 import {goBack, navigate} from '../../../routing/navigationRef';
 import Spinner from '../../../components/spinner';
-import { RESET_PASSWORD_OTP_VERIFICATION_SCREEN } from '../resetPasswordOtpVerification';
+import { GENERATE_NEW_PASSWORD_SCREEN } from '../generateNewPassword';
 import { TextInput } from 'react-native-paper';
 
-const ResetPassword = () => {
-  const dispatch = useDispatch();
+export const RESET_PASSWORD_OTP_VERIFICATION_SCREEN = {
+  name: 'ResetPasswordOtpVerification',
+};
 
+const ResetPasswordOtpVerification = ({route}: any) => {
+  const dispatch = useDispatch();
+  const { email } = route.params;
   const [state, setState] = useState({
-    userName: '',
-    userNameError: false,
+    verificationCode: '',
+    verificationCodeError: false,
     loader: false,
   });
 
   const onSubmit = () => {
-    if (state?.userName === '') {
-      setState(prev => ({...prev, userNameError: true}));
+    if (state?.verificationCode === '') {
+      setState(prev => ({...prev, verificationCodeError: true}));
     } else {
-      callRestPasswordFn();
+      callOtpVerificationFn();
     }
   };
 
-  const callRestPasswordFn = () => {
+  const callOtpVerificationFn = () => {
     setState(prev => ({...prev, loader: true}));
 
     let body = {
-      user_email: state?.userName,
+      user_email: email,
+      code: state?.verificationCode,
     };
+  
     dispatch(
-      resetPasswordReq(body, res => {
+      verifyOtp(body, res => {
         setState(prev => ({...prev, loader: false}));
         if (res?.success) {
-          navigate(RESET_PASSWORD_OTP_VERIFICATION_SCREEN.name, {email: state.userName})
+          navigate(GENERATE_NEW_PASSWORD_SCREEN.name, {email, verificationCode: state.verificationCode});
         }
       }),
     );
@@ -54,35 +60,36 @@ const ResetPassword = () => {
           source={require('../../../assets/images/ic_app_landscape_logo.png')}
         />
         <Text style={styles.desc}>
-          Please enter your email address or Username to
-          <Text> reset your password</Text>
+        Enter the verification code that was sent to your email
         </Text>
         <TextInput
-          value={state.userName}
+          value={state.verificationCode}
+          maxLength={4}
           activeOutlineColor={darkColors.darkGreen}
           outlineColor={darkColors.darkGreen}
           mode="outlined"
           onChangeText={value => {
             setState(prev => ({
               ...prev,
-              userName: value,
-              userNameError: false,
+              verificationCode: value,
+              verificationCodeError: false,
             }));
           }}
           style={styles.txtInput}
-          placeholder="Username or E-mail"
-          label="Username or E-mail"
+          keyboardType={'number-pad'}
+          placeholder="Enter Verification Code"
+          label="Enter Verification Code"
           placeholderTextColor={darkColors.darkGrey}
           autoCapitalize="none"
         />
 
-        {state.userNameError ? (
-          <Text style={styles.error}>Please enter username/email</Text>
+        {state.verificationCodeError ? (
+          <Text style={styles.error}>Please enter verification code</Text>
         ) : null}
 
         <View style={styles.btnView}>
           <Pressable onPress={onSubmit} style={styles.resetPasswordBtn}>
-            <Text style={styles.btnLabel}>ResetPassword</Text>
+            <Text style={styles.btnLabel}>Verify</Text>
           </Pressable>
         </View>
       </View>
@@ -90,4 +97,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordOtpVerification;

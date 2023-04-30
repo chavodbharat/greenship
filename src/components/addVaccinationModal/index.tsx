@@ -1,12 +1,8 @@
-import React, {useMemo, useState} from 'react';
+import React, {useState} from 'react';
 import styles from './styles';
 import {Image, Pressable, Text, View} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import {shallowEqual, useSelector} from 'react-redux';
 import {darkColors} from '../../theme/colors';
-import Modal from "react-native-modal";
 import { AddVaccinationModalTypePropsInterface } from './types';
-import DateRangePicker from 'rn-select-date-range';
 import LinearGradient from '../linearGradient';
 import moment from 'moment';
 import AntIcon from 'react-native-vector-icons/AntDesign';
