@@ -184,10 +184,10 @@ function* updateProfile(data: object) {
 function* getNotificationList(data: object) {
   const {payload, callback} = data;
   utilActions
-    .apiCall(`${serviceUrl.apiUrl}/buddypress/v1/notifications?context=view&user_id=` 
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/notifications?context=view&user_id=` 
       + payload.user_id, null, 'GET')
     .then(response => {
-      if (response.success && response.statusCode == 200) {
+      if(Array.isArray(response)){
         callback(response);
       } else {
         callback();

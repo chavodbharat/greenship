@@ -13,6 +13,7 @@
     "rr": "adb shell input keyevent 82"
   },
   "dependencies": {
+    "@miblanchard/react-native-slider": "^2.3.1",
     "@react-native-async-storage/async-storage": "^1.17.12",
     "@react-native-community/datetimepicker": "^7.0.0",
     "@react-native-community/hooks": "^3.0.0",

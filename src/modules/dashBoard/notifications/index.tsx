@@ -9,32 +9,17 @@ import { fonts } from '../../../theme/fonts';
 import { darkColors } from '../../../theme/colors';
 import Header from '../../../components/header';
 import { getNotificationList } from '../../../redux/actions/homeAction';
+import { useIsFocused } from '@react-navigation/native';
+import moment from 'moment';
+import { TAG_DATE_FORMATE } from '../../../utils/Constants/AllConstance';
 
 const Notifications = () => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
+  const isFocused = useIsFocused();
   const [state, setState] = useState({
     loader: false,
-    notificationList: [
-      {
-        "id": 1,
-        "title": "Bharat accepted your friend request",
-        "time": "2 days, 11:30 hours ago",
-        "image": AllImages.appPlaceholderIcon
-      },
-      {
-        "id": 1,
-        "title": "Ravi accepted your friend request",
-        "time": "2 days, 11:30 hours ago",
-        "image": AllImages.appPlaceholderIcon
-      },
-      {
-        "id": 1,
-        "title": "Keyur158 accepted your friend request",
-        "time": "2 days, 11:30 hours ago",
-        "image": AllImages.appPlaceholderIcon
-      }
-    ]
+    notificationList: []
   });
 
   const {userData} = useSelector(
@@ -46,32 +31,23 @@ const Notifications = () => {
 
   useEffect(() => {
     callNotificationListFn();
-  }, []);
+  }, [isFocused]);
   
   const callNotificationListFn = () => {
-   // setState(prev => ({...prev, loader: true}));
+    setState(prev => ({...prev, loader: true}));
     const body = {
       user_id: userData?.id
     } 
 
-    console.log("Body", body);
-
-    // dispatch(
-    //   getNotificationList(body, (res: any) => {
-    //     if(res) {
-    //       const { data } = res;
-    //       console.log("Data", data);
-    //       // store.dispatch({
-    //       //   type: types.UPDATE_NEW_FORM_ID,
-    //       //   payload: data.new_form_id,
-    //       // });
-    //       // setState(prev => ({...prev, loader: false, petListData:  data.pets_list.reverse(), 
-    //       //   formId: data.new_form_id}));
-    //     } else {
-    //       setState(prev => ({...prev, loader: false, notificationList: []}));
-    //     }
-    //   }),
-    // );
+    dispatch(
+      getNotificationList(body, (res: any) => {
+        if(res) {
+          setState(prev => ({...prev, loader: false, notificationList: res}));
+        } else {
+          setState(prev => ({...prev, loader: false, notificationList: []}));
+        }
+      }),
+    );
   };
   
   const renderItem = ({item, index}: any) => {
@@ -80,13 +56,13 @@ const Notifications = () => {
         <View style={styles.notificationImageParentView}>
           <Image
             style={styles.notificationImageView}
-            source={item.image}/>
+            source={item.image ? {uri: item.image} : AllImages.appPlaceholderIcon}/>
         </View>
         <View style={styles.notificationTitleParentView}>
           <Text style={{fontFamily: fonts.MontserratBold, fontSize: 14,
-            color: darkColors.black}}>{item.title}</Text>
+            color: darkColors.black}}>{item.action.replace(/_/g, " ")}</Text>
           <Text style={{fontFamily: fonts.MontserratRegular, color: darkColors.darkGrey,
-            marginTop: 5}}>{item.time}</Text>
+            marginTop: 5}}>{moment(item.date).format(TAG_DATE_FORMATE)}</Text>
         </View>
       </View>
     )

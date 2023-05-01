@@ -4,23 +4,20 @@ import {View, Text, SafeAreaView, Image, Pressable} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {darkColors} from '../../../theme/colors';
 import { useTheme } from '../../../providers/ThemeProvider';
-import {goBack, navigate} from '../../../routing/navigationRef';
-import {scale, verticalScale} from '../../../theme/responsive';
-import LinearGradient from 'react-native-linear-gradient';
-import Accordion from '../../../components/accordion';
+import {goBack} from '../../../routing/navigationRef';
+import {scale} from '../../../theme/responsive';
 import {shallowEqual, useSelector,useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-paper';
-import SelectDropdown from 'react-native-select-dropdown';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { ADD_ADDITIONAL_PET_DETAILS_SCREEN } from './AddAdditionalPetDetails';
-import { TAG_DATE_FORMATE, allGenderStaticData } from '../../../utils/Constants/AllConstance';
-import { getAllCountryList, getPetArtList, getPetDetails, getPetRaceList } from '../../../redux/actions/petAction';
+import { allGenderStaticData } from '../../../utils/Constants/AllConstance';
+import { getPetArtList } from '../../../redux/actions/petAction';
 import AllImages from '../../../utils/Constants/AllImages';
 import ActionSheet from '../../../components/actionSheet';
 import ActionSheetModal from 'react-native-modal';
+import CustomTrackMarkSlider from '../../../components/customTrackMarkSlider';
 
 const genderType = ['Men', 'Women', 'Other'];
-const SearchMember = ({route}) => {
+
+const SearchMember = ({route}: any) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const profilePic = route?.params?.userPic;
@@ -79,8 +76,6 @@ const SearchMember = ({route}) => {
       }),
     );
   };
-
-
 
   const dropDownPosition = (position: number) => {
     setAnimalState(prev => ({...prev, actionSheetPosition: position}));
@@ -234,7 +229,9 @@ const SearchMember = ({route}) => {
               </View>
             </Pressable>
 
-<Pressable onPress={()=>{}} style={styles.loginBtn}>
+            <CustomTrackMarkSlider/>
+
+          <Pressable onPress={()=>{}} style={styles.loginBtn}>
             <Text style={styles.btnLabel}>Search now</Text>
           </Pressable>
           </View>
