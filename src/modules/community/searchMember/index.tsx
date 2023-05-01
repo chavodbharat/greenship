@@ -127,7 +127,7 @@ const SearchMember = ({route}) => {
           :
           <View style={{width:'100%',paddingVertical:scale(10)}}>
                <TextInput
-            value={state.name}
+            value={animalState.name}
             mode="outlined"
             label={'Name'}
             activeOutlineColor={darkColors.darkGreen}
