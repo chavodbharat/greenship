@@ -1,9 +1,6 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import styles from './styles';
-import {Image, Pressable, StatusBar, TouchableWithoutFeedback, View} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import {shallowEqual, useSelector} from 'react-redux';
-import { useTheme } from '../../providers/ThemeProvider';
+import {Image, Pressable, StatusBar, View} from 'react-native';
 import AllImages from '../../utils/Constants/AllImages';
 import { goBack } from '../../routing/navigationRef';
 import { HeaderTypePropsInterface } from './types';
@@ -37,15 +34,14 @@ const Header = ({statusBarColor, isfilter, onSearchPress}: HeaderTypePropsInterf
           style={styles.headerImageStyle}
           source={AllImages.filterIcon}/>
       </View>}
-      <TouchableWithoutFeedback
-        onPress={onSearchPress}>
+      <Pressable onPress={onSearchPress}>
         <View style={styles.flexZeroView}>
           <Image
             resizeMode="contain"
             style={styles.headerImageStyle}
             source={AllImages.searchIcon}/>
         </View>
-      </TouchableWithoutFeedback>
+      </Pressable>
     </View>
   );
 };

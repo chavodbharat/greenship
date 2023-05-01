@@ -29,7 +29,7 @@ export const MY_PET_LIST_SCREEN = {
   name: 'MyPetList',
 };
 
-const MyPetList = () => {
+const MyPetList = ({route}) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const isFocused = useIsFocused();
@@ -42,7 +42,7 @@ const MyPetList = () => {
     isModalVisible: false,
     currentPetId: "",
   });
-
+  const profilePic = route?.params?.userPic;
   useEffect(() => {
     callPetListFn();
   }, [isFocused]);

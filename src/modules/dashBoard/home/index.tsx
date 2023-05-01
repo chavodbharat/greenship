@@ -49,7 +49,7 @@ const Home = () => {
 
   const onTilePress = (index: any) => {
     if (index === 0) {
-      navigate(MY_PET_LIST_SCREEN.name);
+      navigate(MY_PET_LIST_SCREEN.name, {userPic: state.userProfilePic});
     } else if (index === 1) {
       navigate(MY_MEMBER_LIST_SCREEN.name, {userPic: state.userProfilePic});
     } else if (index === 3) {
