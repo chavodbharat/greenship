@@ -14,6 +14,7 @@ import { navigate } from '../../../../routing/navigationRef';
 import { PET_VACCINATION_SCREEN } from '../petVaccination';
 import { useTheme } from '../../../../providers/ThemeProvider';
 import { ADD_PET_SCREEN } from '../../addPet';
+import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
 
 export const PET_PASSPORT_MENU_SCREEN = {
   name: 'PetPassportMenu',
@@ -95,7 +96,7 @@ const PetPassportMenu = ({route}: any) => {
           renderItem={renderItem}
         />
       </View> 
-     
+      <PetHealthFloatingButton />
     </SafeAreaView>
   );
 };

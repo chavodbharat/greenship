@@ -23,6 +23,7 @@ import { useIsFocused } from '@react-navigation/native';
 import DeleteModal from '../../../components/deleteModal';
 import { store } from '../../../store/configureStore';
 import { types } from '../../../redux/ActionTypes';
+import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 
 export const MY_PET_LIST_SCREEN = {
   name: 'MyPetList',
@@ -253,6 +254,7 @@ const MyPetList = () => {
         isModalVisible={state.isModalVisible}
         onClose={() => onOpenCloseDeleteModal(false)}
         onDelete={() => callDeletePetFn(state.currentPetId)}/> 
+      <PetHealthFloatingButton />
     </SafeAreaView>
   );
 };

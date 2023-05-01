@@ -39,7 +39,9 @@ const FloatingAddButton = () => {
 
   const updateModalStatus = () => {
     if(auth.activeModule === 0){
-      navigate(ADD_PET_SCREEN.name,{formId: newFormId, isEditMode: false, isViewOnly: false});
+      if(newFormId){
+        navigate(ADD_PET_SCREEN.name,{formId: newFormId, isEditMode: false, isViewOnly: false});
+      }
     } else if (auth.activeModule === 3) {
       setState(prev => ({...prev, missingPetModal: !state.missingPetModal}));
     }

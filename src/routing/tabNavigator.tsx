@@ -56,7 +56,7 @@ function HomeStackScreen() {
   );
 }
 
-const TabNavigator = () => {
+const TabNavigator = ({navigation}: any) => {
   const {auth} = useSelector(
     state => ({
       auth: state?.auth,
@@ -176,8 +176,7 @@ const TabNavigator = () => {
         listeners={() => ({
           tabPress: e => {
             e.preventDefault(); // Prevents navigation
-            logout();
-            // Your code here for when you press the tab
+            navigation.openDrawer();
           },
         })}
         options={{

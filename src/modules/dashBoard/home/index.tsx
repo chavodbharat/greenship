@@ -11,6 +11,7 @@ import {MY_MEMBER_LIST_SCREEN} from '../../community/memberList';
 import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
 import {useIsFocused} from '@react-navigation/native';
+import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -239,6 +240,7 @@ const Home = () => {
           );
         })}
       </View>
+      <PetHealthFloatingButton />
     </SafeAreaView>
   );
 };

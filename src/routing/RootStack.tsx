@@ -12,9 +12,15 @@ import Login from '../modules/auth/login';
 import ResetPassword from '../modules/auth/resetPassword';
 import ResetPasswordOtpVerification, { RESET_PASSWORD_OTP_VERIFICATION_SCREEN } from '../modules/auth/resetPasswordOtpVerification';
 import GenerateNewPassword, { GENERATE_NEW_PASSWORD_SCREEN } from '../modules/auth/generateNewPassword';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { showMessage } from 'react-native-flash-message';
+import { Pressable, Text, View } from 'react-native';
+import styles from './styles';
 
 const DashBoardStack = createStackNavigator();
 const AuthStack = createStackNavigator();
+
+const Drawer = createDrawerNavigator();
 
 export default function RootStack() {
   const dispatch = useDispatch();
@@ -56,14 +62,37 @@ export default function RootStack() {
     animationEnabled: false,
   };
 
+  const logout = () => {
+    AsyncStorage.clear();
+    dispatch({type: types.UPDATE_SIGN_IN, payload: false});
+    dispatch({
+      type: types.LOGOUT_SUCCESS,
+    });
+    showMessage({
+      message: 'Logout Successfully..!!',
+      type: 'success',
+    });
+  };
+
+  function CustomDrawerContent({ navigation }: any) {
+    return (
+      <View style={styles.drawerParentView}>
+        <Pressable onPress={logout}>
+          <Text style={styles.drawerLabelStyle}>Logout</Text>
+        </Pressable>
+      </View>
+    );
+  }
+    
   return (
     <NavigationContainer ref={navigationRef}>
       {signedIn ? (
-        <DashBoardStack.Navigator
-          screenOptions={screenOptions}
-          initialRouteName="TabNavigator">
+        <Drawer.Navigator
+          screenOptions={{drawerPosition: 'right', headerShown: false, swipeEnabled: false}}
+          initialRouteName="TabNavigator"
+          drawerContent={(props) => <CustomDrawerContent {...props} />}>
           <DashBoardStack.Screen name="TabNavigator" component={TabNavigator} />
-        </DashBoardStack.Navigator>
+        </Drawer.Navigator>
       ) : (
         <AuthStack.Navigator
           screenOptions={screenOptions}

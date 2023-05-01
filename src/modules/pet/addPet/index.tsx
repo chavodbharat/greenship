@@ -403,10 +403,9 @@ const AddPet = ({route}: any) => {
         onPressCamera={openCamera}
         onPressGallery={openGallery}
       />
-      {(isEditMode || isViewOnly) &&
-        <PetHealthFloatingButton
-          petObj={state.petObj}/>
-      }
+      <PetHealthFloatingButton
+        petObj={state.petObj}
+        isPetHealthViewShow={(isEditMode || isViewOnly) ? true : false}/>
     </SafeAreaView>
   );
 };

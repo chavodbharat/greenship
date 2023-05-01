@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {moderateScale, scale, verticalScale} from '../../theme/responsive';
 import {darkColors} from '../../theme/colors';
 import { fonts } from '../../theme/fonts';
@@ -7,8 +7,8 @@ export default StyleSheet.create({
   petViewParentView: {
     position: 'absolute', 
     justifyContent: 'center',
-    top: 0, 
-    bottom: 0
+    top: Dimensions.get('window').width/1.2, 
+    bottom: Dimensions.get('window').width/1.2,
   },
   gradientPetChildStyle: {
     flex: 0, 
