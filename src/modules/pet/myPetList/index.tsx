@@ -239,7 +239,7 @@ const MyPetList = () => {
  
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner visible={state?.loader} />
+      <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
         statusBarColor={colors.listBackGradientThree}/>
       <View style={styles.container}>

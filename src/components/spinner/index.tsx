@@ -22,6 +22,7 @@ const Spinner = ({
   visible = false,
   children,
   spinnerKey,
+  color
 }: SpinnerPropTypes) => {
   const [spinnerVisible, setSpinnerVisibility] = React.useState(visible);
   const close = () => {
@@ -41,9 +42,9 @@ const Spinner = ({
     return (
       <View style={styles.background}>
         <View style={styles.textContainer}>
-          <ActivityIndicator color={darkColors.darkGreen} size={size} />
+          <ActivityIndicator color={color ? color : darkColors.darkGreen} size={size} />
 
-          <Text style={styles.textContent}>Please wait...</Text>
+          <Text style={[styles.textContent,{color:  color ? color : darkColors.darkGreen}]}>Please wait...</Text>
         </View>
       </View>
     );

@@ -17,7 +17,6 @@ import { Button, TextInput } from 'react-native-paper';
 import ActionSheet from '../../../components/actionSheet';
 import ActionSheetModal from 'react-native-modal';
 import { TAG_DATE_FORMATE, allGenderStaticData } from '../../../utils/Constants/AllConstance';
-import DatePicker from 'react-native-date-picker'
 import moment from 'moment';
 import { TouchableWithoutFeedback } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
@@ -25,6 +24,7 @@ import { ADD_ADDITIONAL_PET_DETAILS_SCREEN } from './AddAdditionalPetDetails';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageSelection from '../../../components/imageSelection';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 export const ADD_PET_SCREEN = {
   name: 'AddPet',
@@ -50,10 +50,10 @@ const AddPet = ({route}: any) => {
     selectedCountry: "Please Select Country",
     postCode: "",
     selectedDateOfBirth: "Select Date Of Birth",
-    isDateModalOpen: false,
     imageType: '',
     imageModalVisible: false,
-    petObj: {}
+    petObj: {},
+    datePickerStatus: false
   });
 
   //Static Data
@@ -238,7 +238,7 @@ const AddPet = ({route}: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner visible={state?.loader} />
+      <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
         statusBarColor={colors.listBackGradientThree}/>
       <View style={styles.flexZero}>
@@ -352,7 +352,7 @@ const AddPet = ({route}: any) => {
               placeholder={"Enter Postcode"}
             />
             <Pressable
-              onPress={() => !isViewOnly && setState(prev => ({...prev, isDateModalOpen: true}))}>
+              onPress={() => !isViewOnly && setState(prev => ({...prev, datePickerStatus: true}))}>
               <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
                 <View style={styles.flexOne}>
                   <Text style={[styles.dropdownLabelStyle, state.selectedDateOfBirth != "Select Date Of Birth" &&
@@ -387,16 +387,15 @@ const AddPet = ({route}: any) => {
           onPressItem={clickOnActionSheetOption}
         />
       </ActionSheetModal>
-      <DatePicker
-        modal
-        open={state.isDateModalOpen}
+       <DateTimePicker
         mode="date"
+        isVisible={state.datePickerStatus}
         date={new Date()}
-        onConfirm={(date) => {
+        onConfirm={date => {
           const updatedDate = moment(date).format(TAG_DATE_FORMATE);
-          setState(prev => ({...prev, isDateModalOpen: false, selectedDateOfBirth: updatedDate}))
+          setState(prev => ({...prev, selectedDateOfBirth: updatedDate, datePickerStatus: false}));
         }}
-        onCancel={() => setState(prev => ({...prev, isDateModalOpen: false}))}
+        onCancel={() => setState(prev => ({...prev, datePickerStatus: false}))}
       />
       <ImageSelection
         modalVisible={state.imageModalVisible}

@@ -180,6 +180,28 @@ function* updateProfile(data: object) {
     });
 }
 
+//Get Notification List
+function* getNotificationList(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}/buddypress/v1/notifications?context=view&user_id=` 
+      + payload.user_id, null, 'GET')
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
 export default function* watchHomeSaga() {
   yield takeLatest(types.GET_MISSING_PET_LIST, getMissingPetList);
   yield takeLatest(types.GET_MY_PET_LIST, getMyPetList);
@@ -190,4 +212,5 @@ export default function* watchHomeSaga() {
   yield takeLatest(types.GET_BANNER_IMAGE, getBannerImage);
   yield takeLatest(types.GET_PROFILE_FIELDS, getProfileFields);
   yield takeLatest(types.UPDATE_PROFILE, updateProfile);
+  yield takeLatest(types.GET_NOTIFICATION_LIST, getNotificationList);
 }

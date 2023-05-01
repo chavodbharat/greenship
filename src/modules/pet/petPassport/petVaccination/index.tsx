@@ -323,7 +323,7 @@ const PetVaccination = ({route}: any) => {
 
   return (
     <SafeAreaView style={styles.flexOne}>
-      <Spinner visible={state.loader} />
+      <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
         statusBarColor={colors.listBackGradientThree}/>
       <PetPassportSubHeader
