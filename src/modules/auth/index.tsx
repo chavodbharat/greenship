@@ -40,6 +40,15 @@ const Welcome = () => {
         <View style={styles.btn}>
           <Image
             style={styles.icon}
+            source={require('../../assets/images/facebook_logo.png')}
+          />
+          <View style={styles.wrapper}>
+            <Text style={styles.socialBtnLabel}>SignIn with facebook</Text>
+          </View>
+        </View>
+        <View style={styles.btn}>
+          <Image
+            style={styles.icon}
             source={require('../../assets/images/logo_google.png')}
           />
           <View style={styles.wrapper}>

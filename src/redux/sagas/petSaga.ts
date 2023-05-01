@@ -101,16 +101,16 @@ function* addPetVaccine(data: object) {
 
   const formData = new FormData();
   formData.append('manufature', {
-    name: payload.manufatureImageRes.fileName,
-    type: payload.manufatureImageRes.type,
-    uri: Platform.OS === 'ios' ? payload.manufatureImageRes.uri.replace('file://', '') : 
-      payload.manufatureImageRes.uri,
+    name: payload.manufatureImageRes.path.substring(payload.manufatureImageRes.path.lastIndexOf('/') + 1),
+    type: payload.manufatureImageRes.mime,
+    uri: Platform.OS === 'ios' ? payload.manufatureImageRes.path.replace('file://', '') : 
+      payload.manufatureImageRes.path,
   });
   formData.append('authorised', {
-    name: payload.authorisedImageRes.fileName,
-    type: payload.authorisedImageRes.type,
-    uri: Platform.OS === 'ios' ? payload.authorisedImageRes.uri.replace('file://', '') : 
-    payload.authorisedImageRes.uri,
+    name: payload.authorisedImageRes.path.substring(payload.authorisedImageRes.path.lastIndexOf('/') + 1),
+    type: payload.authorisedImageRes.mime,
+    uri: Platform.OS === 'ios' ? payload.authorisedImageRes.path.replace('file://', '') : 
+    payload.authorisedImageRes.path,
   });
   formData.append('vaccine_type',  payload.vaccineType);
   formData.append('start_date',  payload.startDate);
@@ -136,10 +136,164 @@ function* addPetVaccine(data: object) {
     });
 }
 
+//Get Pet Art List
+function* getPetArtList(data: object) {
+  const {callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/options/get-petart`, null, 'GET')
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Get Pet Race List
+function* getPetRaceList(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/options/get-petrace?pet_art=` + payload.petArt, null, 'GET')
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Get Country List
+function* getAllCountryList(data: object) {
+  const {callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/options/get-countries`, null, 'GET')
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Create New Pet
+function* createPet(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/create`, payload, 'POST', false)
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Add Pet Profile
+function* uploadPetProfilePhoto(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/image/add`, payload?.data, 'POST', true)
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Get Pet Details
+function* getPetDetails(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/${payload.petId}`, null, 'GET', false)
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Edit Pet
+function* updatePetDetails(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/edit`, payload, 'POST', false)
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
 export default function* watchPetSaga() {
   yield takeLatest(types.GET_PET_LIST, getPetListData);
   yield takeLatest(types.DELETE_PET, deletePet);
   yield takeLatest(types.GET_PET_VACCINE_MENU_LIST, getVaccineMenuList);
   yield takeLatest(types.GET_PET_VACCINATION_LIST, getVaccinationList);
   yield takeLatest(types.ADD_PET_VACCINE, addPetVaccine);
+  yield takeLatest(types.GET_PET_ART_LIST, getPetArtList);
+  yield takeLatest(types.GET_PET_RACE_LIST, getPetRaceList);
+  yield takeLatest(types.CREATE_PET, createPet);
+  yield takeLatest(types.UPLOAD_PET_PROFILE_IMAGE, uploadPetProfilePhoto);
+  yield takeLatest(types.GET_COUNTRY_LIST, getAllCountryList);
+  yield takeLatest(types.GET_PET_DETAILS, getPetDetails);
+  yield takeLatest(types.UPDATE_PET_DETAILS, updatePetDetails);
 }

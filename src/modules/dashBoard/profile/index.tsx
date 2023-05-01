@@ -8,6 +8,7 @@ import {scale, verticalScale} from '../../../theme/responsive';
 import LinearGradient from 'react-native-linear-gradient';
 import Accordion from '../../../components/accordion';
 import {shallowEqual, useSelector} from 'react-redux';
+import {StatusBar} from 'react-native';
 
 const accordionArray = [
   {
@@ -79,11 +80,7 @@ const Profile = ({route}) => {
           size={scale(30)}
         />
         <View style={styles.header}>
-          <Image
-            source={{uri: profilePic?.[0]?.full}}
-            resizeMode="contain"
-            style={styles.pic}
-          />
+          <Image source={{uri: profilePic?.[0]?.full}} style={styles.pic} />
           <Text style={styles.name}> {(userData?.nicename).toUpperCase()}</Text>
         </View>
 
@@ -91,6 +88,7 @@ const Profile = ({route}) => {
           {[...Array(4)].map((item, index) => {
             return (
               <LinearGradient
+                style={styles.lg}
                 colors={[
                   darkColors.gradientGary,
                   darkColors.gradientLightGray,

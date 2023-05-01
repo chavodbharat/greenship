@@ -1,25 +1,37 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import styles from './styles';
 import {View, Text, SafeAreaView, Image, Pressable} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {darkColors} from '../../../theme/colors';
+import { useTheme } from '../../../providers/ThemeProvider';
 import {goBack, navigate} from '../../../routing/navigationRef';
 import {scale, verticalScale} from '../../../theme/responsive';
 import LinearGradient from 'react-native-linear-gradient';
 import Accordion from '../../../components/accordion';
-import {shallowEqual, useSelector} from 'react-redux';
+import {shallowEqual, useSelector,useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { ADD_ADDITIONAL_PET_DETAILS_SCREEN } from './AddAdditionalPetDetails';
+import { TAG_DATE_FORMATE, allGenderStaticData } from '../../../utils/Constants/AllConstance';
+import { getAllCountryList, getPetArtList, getPetDetails, getPetRaceList } from '../../../redux/actions/petAction';
+import AllImages from '../../../utils/Constants/AllImages';
+import ActionSheet from '../../../components/actionSheet';
+import ActionSheetModal from 'react-native-modal';
 
 const genderType = ['Men', 'Women', 'Other'];
 const SearchMember = ({route}) => {
+  const dispatch = useDispatch();
+  const {colors} = useTheme();
   const profilePic = route?.params?.userPic;
   const [option,setOption] = useState(route.params?.option)
+  const [ isViewOnly,setIsViewOnly] = useState(false)
   const [state, setState] = useState({
     name: '',
     genderError: false,
-    gender: '',
+    selectedGender: "Gender",
+    isActionSheetShow: false,
+    loader:false,
   });
   const [animalState, setAnimalState] = useState({
     name: '',
@@ -29,6 +41,14 @@ const SearchMember = ({route}) => {
     race: '',
     genderError: false,
     gender: '',
+    petArtListData: [],
+    petRaceListData: [],
+    selectedPetArt: "Art",
+    selectedPetRace: "Race",
+    selectedGender: "Gender",
+    actionSheetPosition: 0,
+    isActionSheetShow: false,
+    loader:false,
   });
 
   const {userData} = useSelector(
@@ -37,6 +57,65 @@ const SearchMember = ({route}) => {
     }),
     shallowEqual,
   );
+
+  const petGenderListData = allGenderStaticData();
+
+  useEffect(() => {
+    callPetArtListFn();
+  }, []);
+  
+  const callPetArtListFn = () => {
+    setAnimalState(prev => ({...prev, loader: true}));
+
+    dispatch(
+      getPetArtList((res: any) => {
+        if(res) {
+          const { data } = res;
+          const newArrayOfObj = data.map(({name: title, values: id}: any) => ({title, id}));
+          setAnimalState(prev => ({...prev, loader: false, petArtListData:  newArrayOfObj}));
+        } else {
+          setAnimalState(prev => ({...prev, loader: false, petArtListData: []}));
+        }
+      }),
+    );
+  };
+
+
+
+  const dropDownPosition = (position: number) => {
+    setAnimalState(prev => ({...prev, actionSheetPosition: position}));
+    if(position == 0) {
+      setAnimalState(prev => ({...prev, actionSheetData: animalState.petArtListData, isActionSheetShow: true}));
+    }  else if(position == 2) {
+      setAnimalState(prev => ({...prev, actionSheetData: petGenderListData, isActionSheetShow: true}));
+    }
+  }
+
+  const clickOnActionSheetOption = async (index: number) => {
+    const {petArtListData, actionSheetPosition, petRaceListData, countryList} = animalState;
+    if(index!=petArtListData.length){
+      if(actionSheetPosition == 0) {
+        setAnimalState(prev => ({...prev, selectedPetArt: petArtListData[index].title, 
+          isActionSheetShow: false, selectedPetRace: "Race"}));
+      } else if(actionSheetPosition == 2) {
+        setAnimalState(prev => ({...prev, selectedGender: petGenderListData[index].title, isActionSheetShow: false}));
+      }
+    }
+  }
+
+  const dropDownUserPosition = (position: number) => {
+    setState(prev => ({...prev, actionSheetPosition: position}));
+    if(position == 0) {
+      setState(prev => ({...prev, actionSheetData: petGenderListData, isActionSheetShow: true}));
+    }
+  }
+
+  const clickOnActionSheetUserOption = async (index: number) => {
+    const {actionSheetPosition} = state;
+      if(actionSheetPosition == 0) {
+        setState(prev => ({...prev, selectedGender: petGenderListData[index].title, isActionSheetShow: false}));
+      }
+  }
 
   return (
     <SafeAreaView style={styles.main}>
@@ -87,38 +166,20 @@ const SearchMember = ({route}) => {
             placeholderTextColor={'gray'}
             autoCapitalize="none"
           />
-
-<SelectDropdown
-            data={genderType}
-            onSelect={selectedItem => {
-              setState(prev => ({
-                ...prev,
-                gender: selectedItem,
-                genderError: false,
-              }));
-            }}
-            buttonStyle={styles.dropDown}
-            renderDropdownIcon={isOpened => {
-              return (
-                <MaterialIcons
-                  name="arrow-drop-down"
-                  size={scale(30)}
-                  color={darkColors.darkGreen}
-                />
-              );
-            }}
-            renderCustomizedButtonChild={(selectedItem, index) => {
-              return (
-                <View style={styles.dropDownBtnWrapper}>
-                  <Text style={styles.dropDownPlaceHolder}>
-                    {selectedItem || 'Gender'}
-                  </Text>
+ <Pressable
+              onPress={() => !isViewOnly && dropDownUserPosition(0)}>
+              <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
+                <View style={styles.flexOne}>
+                  <Text style={[styles.dropdownLabelStyle, state.selectedGender != "Gender" &&
+                    {color: colors.black}]}>{state.selectedGender}</Text>
                 </View>
-              );
-            }}
-            rowStyle={styles.dropdown1RowStyle}
-            rowTextStyle={styles.dropdown1RowTxtStyle}
-          />
+                <View style={styles.flexZero}>
+                  <Image
+                    style={styles.dropDownIconStyle}
+                    source={AllImages.dropdownIcon}/>
+                </View>
+              </View>
+            </Pressable>
 
 <Pressable onPress={()=>{}} style={styles.loginBtn}>
             <Text style={styles.btnLabel}>Search now</Text>
@@ -144,101 +205,34 @@ const SearchMember = ({route}) => {
             autoCapitalize="none"
           />
 
-<SelectDropdown
-            data={genderType}
-            onSelect={selectedItem => {
-              setAnimalState(prev => ({
-                ...prev,
-                art: selectedItem,
-                artError: false,
-              }));
-            }}
-            buttonStyle={styles.dropDown}
-            renderDropdownIcon={isOpened => {
-              return (
-                <MaterialIcons
-                  name="arrow-drop-down"
-                  size={scale(30)}
-                  color={darkColors.darkGreen}
-                />
-              );
-            }}
-            renderCustomizedButtonChild={(selectedItem, index) => {
-              return (
-                <View style={styles.dropDownBtnWrapper}>
-                  <Text style={styles.dropDownPlaceHolder}>
-                    {selectedItem || 'Art'}
-                  </Text>
+<Pressable
+              onPress={() => !isViewOnly && dropDownPosition(0)}>
+              <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
+                <View style={styles.flexOne}>
+                  <Text style={[styles.dropdownLabelStyle, animalState.selectedPetArt!="Art" &&
+                    {color: colors.black}]}>{animalState.selectedPetArt}</Text>
                 </View>
-              );
-            }}
-            rowStyle={styles.dropdown1RowStyle}
-            rowTextStyle={styles.dropdown1RowTxtStyle}
-          />
-
-<SelectDropdown
-            data={genderType}
-            onSelect={selectedItem => {
-              setAnimalState(prev => ({
-                ...prev,
-                race: selectedItem,
-                raceError: false,
-              }));
-            }}
-            buttonStyle={styles.dropDown}
-            renderDropdownIcon={isOpened => {
-              return (
-                <MaterialIcons
-                  name="arrow-drop-down"
-                  size={scale(30)}
-                  color={darkColors.darkGreen}
-                />
-              );
-            }}
-            renderCustomizedButtonChild={(selectedItem, index) => {
-              return (
-                <View style={styles.dropDownBtnWrapper}>
-                  <Text style={styles.dropDownPlaceHolder}>
-                    {selectedItem || 'Race'}
-                  </Text>
+                <View style={styles.flexZero}>
+                  <Image
+                      style={styles.dropDownIconStyle}
+                      source={AllImages.dropdownIcon}/>
                 </View>
-              );
-            }}
-            rowStyle={styles.dropdown1RowStyle}
-            rowTextStyle={styles.dropdown1RowTxtStyle}
-          />
-
-<SelectDropdown
-            data={genderType}
-            onSelect={selectedItem => {
-              setAnimalState(prev => ({
-                ...prev,
-                gender: selectedItem,
-                genderError: false,
-              }));
-            }}
-            buttonStyle={styles.dropDown}
-            renderDropdownIcon={isOpened => {
-              return (
-                <MaterialIcons
-                  name="arrow-drop-down"
-                  size={scale(30)}
-                  color={darkColors.darkGreen}
-                />
-              );
-            }}
-            renderCustomizedButtonChild={(selectedItem, index) => {
-              return (
-                <View style={styles.dropDownBtnWrapper}>
-                  <Text style={styles.dropDownPlaceHolder}>
-                    {selectedItem || 'Gender'}
-                  </Text>
+              </View>
+            </Pressable>
+            <Pressable
+              onPress={() => !isViewOnly && dropDownPosition(2)}>
+              <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
+                <View style={styles.flexOne}>
+                  <Text style={[styles.dropdownLabelStyle, animalState.selectedGender != "Gender" &&
+                    {color: colors.black}]}>{animalState.selectedGender}</Text>
                 </View>
-              );
-            }}
-            rowStyle={styles.dropdown1RowStyle}
-            rowTextStyle={styles.dropdown1RowTxtStyle}
-          />
+                <View style={styles.flexZero}>
+                  <Image
+                    style={styles.dropDownIconStyle}
+                    source={AllImages.dropdownIcon}/>
+                </View>
+              </View>
+            </Pressable>
 
 <Pressable onPress={()=>{}} style={styles.loginBtn}>
             <Text style={styles.btnLabel}>Search now</Text>
@@ -248,6 +242,24 @@ const SearchMember = ({route}) => {
           
         </View>
       </View>
+      <ActionSheetModal
+        isVisible={animalState.isActionSheetShow}
+        style={styles.actionModalStyle}>
+        <ActionSheet
+          actionSheetItems={animalState.actionSheetData}
+          onCancelPress={() => setAnimalState(prev => ({...prev, isActionSheetShow: false}))}
+          onPressItem={clickOnActionSheetOption}
+        />
+      </ActionSheetModal>
+      <ActionSheetModal
+        isVisible={state.isActionSheetShow}
+        style={styles.actionModalStyle}>
+        <ActionSheet
+          actionSheetItems={state.actionSheetData}
+          onCancelPress={() => setState(prev => ({...prev, isActionSheetShow: false}))}
+          onPressItem={clickOnActionSheetUserOption}
+        />
+      </ActionSheetModal>
     </SafeAreaView>
   );
 };

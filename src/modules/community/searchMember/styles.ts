@@ -114,4 +114,36 @@ export default StyleSheet.create({
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratSemiBold,
   },
+  textInputCustomStyle: { 
+    marginTop: verticalScale(10), 
+    borderWidth: 1,
+    padding: scale(13),
+    borderRadius: scale(5),
+    backgroundColor: darkColors.white,
+    borderColor: darkColors.darkGreen,
+    fontFamily: fonts.MontserratBold,
+    width:'88%',
+    alignSelf:'center',
+  },
+  flexOne: {
+    flex: 1
+  },
+  flexZero: {
+    flex: 0
+  },
+  dropDownIconStyle: {
+    width: scale(15), 
+    height: scale(15),
+    tintColor: darkColors.listBackGradientThree,
+    alignSelf: 'center'
+  },
+  dropdownLabelStyle: {
+    fontSize: moderateScale(14), 
+    color: darkColors.dontHaveColor,
+    fontFamily: fonts.MontserratMedium
+  },
+  actionModalStyle: {
+    marginTop: verticalScale(80),
+    justifyContent: 'flex-end'
+  },
 });

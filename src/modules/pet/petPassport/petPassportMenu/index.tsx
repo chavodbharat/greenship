@@ -12,6 +12,8 @@ import { getPetVaccineMenuList } from '../../../../redux/actions/petAction';
 import PetPassportSubHeader from '../../../../components/petPassportSubHeader';
 import { navigate } from '../../../../routing/navigationRef';
 import { PET_VACCINATION_SCREEN } from '../petVaccination';
+import { useTheme } from '../../../../providers/ThemeProvider';
+import { ADD_PET_SCREEN } from '../../addPet';
 
 export const PET_PASSPORT_MENU_SCREEN = {
   name: 'PetPassportMenu',
@@ -21,6 +23,7 @@ const PetPassportMenu = ({route}: any) => {
   const dispatch = useDispatch();
   const { petObj } = route.params;
   
+  const {colors} = useTheme();
   const [state, setState] = useState({
     loader: false,
     petPassportOptionsData: []
@@ -39,7 +42,7 @@ const PetPassportMenu = ({route}: any) => {
       getPetVaccineMenuList(body,(res: any) => {
         if(res) {
           const { data } = res;
-          setState(prev => ({...prev, loader: false, petPassportOptionsData:  data}));
+          setState(prev => ({...prev, loader: false, petPassportOptionsData:  data.splice(0, 2)}));
         } else {
           setState(prev => ({...prev, loader: false, petPassportOptionsData: []}));
         }
@@ -48,7 +51,9 @@ const PetPassportMenu = ({route}: any) => {
   };
 
   const onPetPassportMenuItemPress = (data: MenuOptions) => {
-    navigate(PET_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
+   // navigate(PET_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
+    navigate(ADD_PET_SCREEN.name, {formId: petObj.form_id, petId: petObj.pet_id, 
+      isViewOnly: true, isEditMode: false})
   }
 
   const renderItem = ({item, index}: any) => {
@@ -74,7 +79,8 @@ const PetPassportMenu = ({route}: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state.loader} />
-      <Header/>
+      <Header
+        statusBarColor={colors.listBackGradientThree}/>
       <PetPassportSubHeader
         title={petObj.pet_name}
         petImage={petObj.pet_image}

@@ -92,6 +92,120 @@ const Home = () => {
     } catch (e) {}
   };
 
+  let arr = [
+    {
+      field_id: '123',
+      name: 'Profiltyp',
+      type: 'member_types',
+      value: 'Züchter',
+      is_required: 'true',
+    },
+    {
+      field_id: '1',
+      name: 'Benutzername',
+      type: 'textbox',
+      value: 'rahul',
+      is_required: 'true',
+    },
+    {
+      field_id: '90',
+      name: 'Vorname',
+      type: 'textbox',
+      value: 'rahultest',
+      is_required: 'true',
+    },
+    {
+      field_id: '65',
+      name: 'Nachname',
+      type: 'textbox',
+      value: 'prajapati',
+      is_required: 'true',
+    },
+    {
+      field_id: '47',
+      name: 'Geburtstag',
+      type: 'datebox',
+      value: '2023-04-28',
+      is_required: 'true',
+    },
+    {
+      field_id: '52',
+      name: 'PLZ',
+      type: 'number',
+      value: '456788',
+      is_required: 'true',
+    },
+    {
+      field_id: '49',
+      name: 'Wohnort',
+      type: 'textbox',
+      value: 'Ahmedabad1',
+      is_required: 'true',
+    },
+    {
+      field_id: '124',
+      name: 'Type of profile',
+      type: 'selectbox',
+      value: 'Teacher',
+      is_required: 'true',
+    },
+    {
+      field_id: '129',
+      name: 'Gender',
+      type: 'radio',
+      value: 'female',
+      is_required: 'true',
+    },
+    {
+      field_id: '132',
+      name: 'hobbies',
+      type: 'checkbox',
+      value: 'hockey',
+      is_required: 'true',
+    },
+    {
+      field_id: '135',
+      name: 'drop down select box demo',
+      type: 'selectbox',
+      value: 'test 3',
+      is_required: 'true',
+    },
+    {
+      field_id: '139',
+      name: 'multi select box demo',
+      type: 'multiselectbox',
+      value: 'test 3,test 2',
+      is_required: 'true',
+    },
+    {
+      field_id: '143',
+      name: 'Checkbox Acceptance demo',
+      type: 'checkbox_acceptance',
+      value: '',
+      is_required: 'true',
+    },
+    {
+      field_id: '144',
+      name: 'number field demo',
+      type: 'number',
+      value: '324',
+      is_required: 'fasle',
+    },
+    {
+      field_id: '146',
+      name: 'phone number demo',
+      type: 'telephone',
+      value: '07343443434',
+      is_required: 'false',
+    },
+    {
+      field_id: '147',
+      name: 'textarea demo (multi line)',
+      type: 'textarea',
+      value: 'https:google.com',
+      is_required: 'false',
+    },
+  ];
   return (
     <SafeAreaView style={styles.container}>
       <Pressable

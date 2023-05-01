@@ -1,48 +1,28 @@
-import * as ImagePicker from 'react-native-image-picker';
-
 export const TAG_TIMEOUT = 2000;
 export const TAG_DATE_FORMATE = 'YYYY-MM-DD';
 
-export const imageOptionsTitleData = () => {
+export const allGenderStaticData = () => {
     return [
         {
-            id: "capture", 
-            title: "Take Image"
+            id: "male", 
+            title: "Male"
         }, 
         {
-            id: "library", 
-            title: "Select Image"
+            id: "female", 
+            title: "Female"
         }
     ];
 }
 
-export const allImageOptionsArray = () => {
+export const yesNoData = () => {
     return [
-        { 
-            title: 'Take Image', 
-            type: 'capture',
-            options: {
-              saveToPhotos: true,
-              mediaType: 'photo',
-              includeBase64: false,
-              includeExtra: true,
-            },
+        {
+            id: "yes", 
+            title: "Yes"
         }, 
         {
-            title: 'Select Image',
-            type: 'library',
-            options: {
-              selectionLimit: 0,
-              mediaType: 'photo',
-              includeBase64: false,
-              includeExtra: true,
-            },
+            id: "no", 
+            title: "No"
         }
     ];
 }
-
-export const onImageOptionPress = async (type: string | undefined, options: any) => {
-    const data = (type === 'capture') ? await ImagePicker.launchCamera(options)
-        : await ImagePicker.launchImageLibrary(options);
-    return data;
-} 

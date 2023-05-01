@@ -18,6 +18,11 @@ import Share from 'react-native-share';
 import { PetListArrayInterface } from './types';
 import { PET_PASSPORT_MENU_SCREEN } from '../petPassport/petPassportMenu';
 import { scale } from '../../../theme/responsive';
+import { ADD_PET_SCREEN } from '../addPet';
+import { useIsFocused } from '@react-navigation/native';
+import DeleteModal from '../../../components/deleteModal';
+import { store } from '../../../store/configureStore';
+import { types } from '../../../redux/ActionTypes';
 
 export const MY_PET_LIST_SCREEN = {
   name: 'MyPetList',
@@ -26,16 +31,20 @@ export const MY_PET_LIST_SCREEN = {
 const MyPetList = ({route}) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
+  const isFocused = useIsFocused();
   const [state, setState] = useState({
     loader: false,
     isAdditionalMenuShow: false,
     menuOpenPosition: -1,
-    petListData: []
+    petListData: [],
+    formId: "",
+    isModalVisible: false,
+    currentPetId: "",
   });
   const profilePic = route?.params?.userPic;
   useEffect(() => {
     callPetListFn();
-  }, []);
+  }, [isFocused]);
   
   const callPetListFn = () => {
     setState(prev => ({...prev, loader: true}));
@@ -44,8 +53,12 @@ const MyPetList = ({route}) => {
       getPetListData((res: any) => {
         if(res) {
           const { data } = res;
-          let formId = data.new_form_id;
-          setState(prev => ({...prev, loader: false, petListData:  data.pets_list}));
+          store.dispatch({
+            type: types.UPDATE_NEW_FORM_ID,
+            payload: data.new_form_id,
+          });
+          setState(prev => ({...prev, loader: false, petListData:  data.pets_list.reverse(), 
+            formId: data.new_form_id}));
         } else {
           setState(prev => ({...prev, loader: false, petListData: []}));
         }
@@ -54,7 +67,7 @@ const MyPetList = ({route}) => {
   };
 
   const callDeletePetFn = (petId: string) => {
-    setState(prev => ({...prev, loader: true}));
+    setState(prev => ({...prev, loader: true, isModalVisible: false}));
 
     dispatch(
       deletePet({petId}, (res: any) => {
@@ -71,6 +84,8 @@ const MyPetList = ({route}) => {
     setState(prev => ({...prev, menuOpenPosition: -1, isAdditionalMenuShow: false}));  
     if(index == 0){
       //Edit
+      navigate(ADD_PET_SCREEN.name, {formId: data.form_id, petId: data.pet_id, 
+        isEditMode: true, isViewOnly: false})
     } else if(index == 1) {
       //Share
       const shareOptions = {
@@ -88,7 +103,8 @@ const MyPetList = ({route}) => {
       });
     } else {
       //Delete
-      callDeletePetFn(data.pet_id);
+      setState(prev => ({...prev, currentPetId: data.pet_id, isModalVisible: true, 
+        isAdditionalMenuShow: false}));
     }
   };
 
@@ -106,6 +122,10 @@ const MyPetList = ({route}) => {
     } else {
       setState(prev => ({...prev, menuOpenPosition: -1}));
     }
+  }
+
+  const onOpenCloseDeleteModal = (status: boolean) => {
+    setState(prev => ({...prev, isModalVisible: status, isAdditionalMenuShow: false}));
   }
 
   const renderItem = ({item, index}: any) => {
@@ -126,26 +146,26 @@ const MyPetList = ({route}) => {
                   <Text style={styles.petListItemTextValueStyle}>  {item.pet_name}</Text>
                 </Text>
                 <View style={styles.flexDirectionRowView}>
-                  <View style={styles.flexOne}>
+                  <View style={styles.flexZero}>
                     <Text style={styles.petListItemTextLabelStyle}>Gender
                       <Text style={styles.petListItemTextValueStyle}>  {item.pet_gender}</Text>
                     </Text>
                   </View>
-                  <View style={styles.flexOne}>
+                  <View style={[styles.flexOne,{marginLeft: scale(10)}]}>
                     <Text style={styles.petListItemTextLabelStyle}>Species
-                      <Text style={styles.petListItemTextValueStyle}>  {item.pet_name}</Text>
+                      <Text style={styles.petListItemTextValueStyle}>  {item.pet_art}</Text>
                     </Text>
                   </View>
                 </View>
                 <View style={styles.flexDirectionRowView}>
-                  <View style={styles.flexOne}>
+                  <View style={styles.flexZero}>
                     <Text style={styles.petListItemTextLabelStyle}>Age
                       <Text style={styles.petListItemTextValueStyle}>  {item.pet_age}</Text>
                     </Text>
                   </View>
-                  <View style={styles.flexOne}>
+                  <View style={[styles.flexOne,{marginLeft: scale(10)}]}>
                     <Text style={styles.petListItemTextLabelStyle}>Breed
-                      <Text style={styles.petListItemTextValueStyle}>  {item.pet_name}</Text>
+                      <Text style={styles.petListItemTextValueStyle}>  {item.pet_race}</Text>
                     </Text>
                   </View>
                 </View>
@@ -216,19 +236,23 @@ const MyPetList = ({route}) => {
       />
     )
   }
-
+ 
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} />
-      <Header onSearchPress={()=>navigate('SearchMember', {userPic: profilePic,option:false})}/>
+      <Header
+        statusBarColor={colors.listBackGradientThree}/>
       <View style={styles.container}>
         <FlatList
           data={state.petListData}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
         />
-      </View> 
-     
+      </View>
+      <DeleteModal
+        isModalVisible={state.isModalVisible}
+        onClose={() => onOpenCloseDeleteModal(false)}
+        onDelete={() => callDeletePetFn(state.currentPetId)}/> 
     </SafeAreaView>
   );
 };

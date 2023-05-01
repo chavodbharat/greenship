@@ -1,9 +1,6 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import styles from './styles';
-import {Text, View} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import {shallowEqual, useSelector} from 'react-redux';
-import {darkColors} from '../../theme/colors';
+import {View} from 'react-native';
 import Modal from "react-native-modal";
 import { CustomDateRangeModalTypePropsInterface } from './types';
 import DateRangePicker from 'rn-select-date-range';

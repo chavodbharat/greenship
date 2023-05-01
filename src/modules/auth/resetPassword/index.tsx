@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import styles from './styles';
-import {View, TextInput, Text, Pressable, Image} from 'react-native';
+import {View, Text, Pressable, Image} from 'react-native';
 import NavBar from '../../../components/navBar';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
 import {resetPasswordReq} from '../../../redux/actions/authAction';
-import {goBack} from '../../../routing/navigationRef';
+import {goBack, navigate} from '../../../routing/navigationRef';
 import Spinner from '../../../components/spinner';
+import { RESET_PASSWORD_OTP_VERIFICATION_SCREEN } from '../resetPasswordOtpVerification';
+import { TextInput } from 'react-native-paper';
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const ResetPassword = () => {
       resetPasswordReq(body, res => {
         setState(prev => ({...prev, loader: false}));
         if (res?.success) {
-          goBack();
+          navigate(RESET_PASSWORD_OTP_VERIFICATION_SCREEN.name, {email: state.userName})
         }
       }),
     );
@@ -55,22 +57,24 @@ const ResetPassword = () => {
           Please enter your email address or Username to
           <Text> reset your password</Text>
         </Text>
-        <View style={styles.txtInputWrapper}>
-          <TextInput
-            value={state.userName}
-            onChangeText={value => {
-              setState(prev => ({
-                ...prev,
-                userName: value,
-                userNameError: false,
-              }));
-            }}
-            style={styles.txtInput}
-            placeholder="Username or E-mail"
-            placeholderTextColor={darkColors.darkGrey}
-            autoCapitalize="none"
-          />
-        </View>
+        <TextInput
+          value={state.userName}
+          activeOutlineColor={darkColors.darkGreen}
+          outlineColor={darkColors.darkGreen}
+          mode="outlined"
+          onChangeText={value => {
+            setState(prev => ({
+              ...prev,
+              userName: value,
+              userNameError: false,
+            }));
+          }}
+          style={styles.txtInput}
+          placeholder="Username or E-mail"
+          label="Username or E-mail"
+          placeholderTextColor={darkColors.darkGrey}
+          autoCapitalize="none"
+        />
 
         {state.userNameError ? (
           <Text style={styles.error}>Please enter username/email</Text>
