@@ -7,7 +7,7 @@ import { useTheme } from '../../providers/ThemeProvider';
 import AllImages from '../../utils/Constants/AllImages';
 import { goBack } from '../../routing/navigationRef';
 
-const Header = ({isfilter}) => {
+const Header = ({isfilter,onSearchPress}) => {
 
   const onBackPress = () => {
     goBack();
@@ -32,12 +32,14 @@ const Header = ({isfilter}) => {
           style={styles.headerImageStyle}
           source={AllImages.filterIcon}/>
       </View>}
+      <Pressable onPress={onSearchPress}>
       <View style={styles.flexZeroView}>
         <Image
           resizeMode="contain"
           style={styles.headerImageStyle}
           source={AllImages.searchIcon}/>
       </View>
+      </Pressable>
     </View>
   );
 };

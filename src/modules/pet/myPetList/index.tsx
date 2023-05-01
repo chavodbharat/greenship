@@ -23,7 +23,7 @@ export const MY_PET_LIST_SCREEN = {
   name: 'MyPetList',
 };
 
-const MyPetList = () => {
+const MyPetList = ({route}) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const [state, setState] = useState({
@@ -32,7 +32,7 @@ const MyPetList = () => {
     menuOpenPosition: -1,
     petListData: []
   });
-
+  const profilePic = route?.params?.userPic;
   useEffect(() => {
     callPetListFn();
   }, []);
@@ -220,7 +220,7 @@ const MyPetList = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} />
-      <Header/>
+      <Header onSearchPress={()=>navigate('SearchMember', {userPic: profilePic,option:false})}/>
       <View style={styles.container}>
         <FlatList
           data={state.petListData}

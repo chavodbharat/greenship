@@ -101,7 +101,7 @@ const MyMemberList = ({route}) => {
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} />
-      <Header isfilter={true}/>
+      <Header isfilter={true} onSearchPress={()=>navigate('SearchMember', {userPic: profilePic,option:true})}/>
       
       <View style={styles.container}>
       <View style={styles.header}>
