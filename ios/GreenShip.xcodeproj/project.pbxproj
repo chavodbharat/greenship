@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		003F749DAADB4C9CA0D1609C /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01B7BFB812164956B5447280 /* Montserrat-SemiBold.ttf */; };
 		00E356F31AD99517003FC87E /* GreenShipTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GreenShipTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-GreenShip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-GreenShip.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -19,11 +18,12 @@
 		4BD207BE2EC54833B963F02E /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7E1B95B4A894172A2E17ACD /* Montserrat-Black.ttf */; };
 		4DC82EA28FCA418BA9DA259A /* Montserrat-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA5AFE818DB749EEAA36FE9A /* Montserrat-ExtraBoldItalic.ttf */; };
 		4F1FA326AF174407929D6CE5 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D17A0E867544F0A88234D4F /* Montserrat-ExtraBold.ttf */; };
-		7699B88040F8A987B510C191 /* libPods-GreenShip-GreenShipTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-GreenShip-GreenShipTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		826CED94CD8F4E0BA203BB2E /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6CBEDAC2E2A4F27A8D243AF /* Montserrat-BlackItalic.ttf */; };
+		877D9393AFAC857CC372CF96 /* libPods-GreenShip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71FB900AA6666EA8950B7E3 /* libPods-GreenShip.a */; };
 		8FD898A893E44E3CAD5C0FBC /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6DA7C5B880E34B60BC755D60 /* Montserrat-Medium.ttf */; };
 		8FEB7028849E4055A4279802 /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19AD1D68258E42C9B729FA1E /* Montserrat-BoldItalic.ttf */; };
+		906C062FF2FC80D237384D91 /* libPods-GreenShip-GreenShipTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 388DB119B3642B79CC24FAEE /* libPods-GreenShip-GreenShipTests.a */; };
 		972835C93AB94EB0A8D552CB /* Montserrat-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 335699BFD77A4E969ED1EF5B /* Montserrat-ExtraLight.ttf */; };
 		A3682D898B7848D0BB0E3FA7 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45B99FEDCCD84859B9CCF0F4 /* Montserrat-Bold.ttf */; };
 		B400CE76B5A84E58AD1123A1 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAFDD5C262DA4A6C88A9966A /* Montserrat-Regular.ttf */; };
@@ -64,6 +64,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* GreenShipTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GreenShipTests.m; sourceTree = "<group>"; };
 		01B7BFB812164956B5447280 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../src/assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
+		093306E0BCCC5E229EB8CDAD /* Pods-GreenShip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GreenShip.debug.xcconfig"; path = "Target Support Files/Pods-GreenShip/Pods-GreenShip.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* GreenShip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GreenShip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = GreenShip/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = GreenShip/AppDelegate.mm; sourceTree = "<group>"; };
@@ -71,21 +72,18 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = GreenShip/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = GreenShip/main.m; sourceTree = "<group>"; };
 		19AD1D68258E42C9B729FA1E /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../src/assets/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-GreenShip-GreenShipTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GreenShip-GreenShipTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2663B7671658456393F41F87 /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../src/assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		335699BFD77A4E969ED1EF5B /* Montserrat-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLight.ttf"; path = "../src/assets/fonts/Montserrat-ExtraLight.ttf"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-GreenShip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GreenShip.debug.xcconfig"; path = "Target Support Files/Pods-GreenShip/Pods-GreenShip.debug.xcconfig"; sourceTree = "<group>"; };
+		388DB119B3642B79CC24FAEE /* libPods-GreenShip-GreenShipTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GreenShip-GreenShipTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B99FEDCCD84859B9CCF0F4 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../src/assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		4C02F73B50EA4E17B7A82588 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Thin.ttf"; path = "../src/assets/fonts/Montserrat-Thin.ttf"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-GreenShip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GreenShip.release.xcconfig"; path = "Target Support Files/Pods-GreenShip/Pods-GreenShip.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-GreenShip-GreenShipTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GreenShip-GreenShipTests.debug.xcconfig"; path = "Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-GreenShip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GreenShip.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AE7DDCD593940F8BA309706 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Italic.ttf"; path = "../src/assets/fonts/Montserrat-Italic.ttf"; sourceTree = "<group>"; };
 		6DA7C5B880E34B60BC755D60 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../src/assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
 		7851EA8F6D2142FFBD18A405 /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ThinItalic.ttf"; path = "../src/assets/fonts/Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
+		7864E8C6C618C1D4AB0889A2 /* Pods-GreenShip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GreenShip.release.xcconfig"; path = "Target Support Files/Pods-GreenShip/Pods-GreenShip.release.xcconfig"; sourceTree = "<group>"; };
 		7D17A0E867544F0A88234D4F /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.ttf"; path = "../src/assets/fonts/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = GreenShip/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-GreenShip-GreenShipTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GreenShip-GreenShipTests.release.xcconfig"; path = "Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests.release.xcconfig"; sourceTree = "<group>"; };
+		A71FB900AA6666EA8950B7E3 /* libPods-GreenShip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GreenShip.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3652820018C4C9FB59CA263 /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		B3DD697F394B4BE0A0852FDD /* Montserrat-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-MediumItalic.ttf"; path = "../src/assets/fonts/Montserrat-MediumItalic.ttf"; sourceTree = "<group>"; };
 		B7E1B95B4A894172A2E17ACD /* Montserrat-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.ttf"; path = "../src/assets/fonts/Montserrat-Black.ttf"; sourceTree = "<group>"; };
@@ -109,7 +107,9 @@
 		DB779C1229EEFBC800C4D5FE /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		DB779C1329EEFBC800C4D5FE /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F43656F0C3B686FDC7D8C2B4 /* Pods-GreenShip-GreenShipTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GreenShip-GreenShipTests.release.xcconfig"; path = "Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests.release.xcconfig"; sourceTree = "<group>"; };
 		FAFDD5C262DA4A6C88A9966A /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		FB57B2628376D50CA429D438 /* Pods-GreenShip-GreenShipTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GreenShip-GreenShipTests.debug.xcconfig"; path = "Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-GreenShip-GreenShipTests.a in Frameworks */,
+				906C062FF2FC80D237384D91 /* libPods-GreenShip-GreenShipTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,7 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-GreenShip.a in Frameworks */,
+				877D9393AFAC857CC372CF96 /* libPods-GreenShip.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,8 +191,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-GreenShip.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-GreenShip-GreenShipTests.a */,
+				A71FB900AA6666EA8950B7E3 /* libPods-GreenShip.a */,
+				388DB119B3642B79CC24FAEE /* libPods-GreenShip-GreenShipTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -232,10 +232,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-GreenShip.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-GreenShip.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-GreenShip-GreenShipTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-GreenShip-GreenShipTests.release.xcconfig */,
+				093306E0BCCC5E229EB8CDAD /* Pods-GreenShip.debug.xcconfig */,
+				7864E8C6C618C1D4AB0889A2 /* Pods-GreenShip.release.xcconfig */,
+				FB57B2628376D50CA429D438 /* Pods-GreenShip-GreenShipTests.debug.xcconfig */,
+				F43656F0C3B686FDC7D8C2B4 /* Pods-GreenShip-GreenShipTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -271,12 +271,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "GreenShipTests" */;
 			buildPhases = (
-				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
+				361F86B765D566D66DB9908A /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
-				F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */,
+				C39B438466B7E9052760E3FB /* [CP] Embed Pods Frameworks */,
+				6FC4614A3DC935613067DAB9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -292,14 +292,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "GreenShip" */;
 			buildPhases = (
-				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				30AD12E856CDB628D8B77838 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
-				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				1E42ED0EB0BFD14E22C6B136 /* [CP] Embed Pods Frameworks */,
+				138751563F91BA052E713947 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -415,7 +415,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
+		138751563F91BA052E713947 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GreenShip/Pods-GreenShip-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GreenShip/Pods-GreenShip-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GreenShip/Pods-GreenShip-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1E42ED0EB0BFD14E22C6B136 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -432,29 +449,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GreenShip/Pods-GreenShip-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-GreenShip-GreenShipTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+		30AD12E856CDB628D8B77838 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -476,41 +471,29 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
+		361F86B765D566D66DB9908A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GreenShip-GreenShipTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GreenShip/Pods-GreenShip-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GreenShip/Pods-GreenShip-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GreenShip/Pods-GreenShip-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
+		6FC4614A3DC935613067DAB9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -525,6 +508,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C39B438466B7E9052760E3FB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GreenShip-GreenShipTests/Pods-GreenShip-GreenShipTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -579,7 +579,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-GreenShip-GreenShipTests.debug.xcconfig */;
+			baseConfigurationReference = FB57B2628376D50CA429D438 /* Pods-GreenShip-GreenShipTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -606,7 +606,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-GreenShip-GreenShipTests.release.xcconfig */;
+			baseConfigurationReference = F43656F0C3B686FDC7D8C2B4 /* Pods-GreenShip-GreenShipTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -630,7 +630,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-GreenShip.debug.xcconfig */;
+			baseConfigurationReference = 093306E0BCCC5E229EB8CDAD /* Pods-GreenShip.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -661,7 +661,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-GreenShip.release.xcconfig */;
+			baseConfigurationReference = 7864E8C6C618C1D4AB0889A2 /* Pods-GreenShip.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
