@@ -1,4 +1,5 @@
 export interface PetHealthFloatingButtonTypePropsInterface {
-    petObj: object;
+    petObj?: object;
+    isPetHealthViewShow?: boolean
 };
   

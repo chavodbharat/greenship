@@ -9,6 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Accordion from '../../../components/accordion';
 import {shallowEqual, useSelector} from 'react-redux';
 import {StatusBar} from 'react-native';
+import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 
 const accordionArray = [
   {
@@ -121,6 +122,7 @@ const Profile = ({route}) => {
           })}
         </View>
       </View>
+      <PetHealthFloatingButton />
     </SafeAreaView>
   );
 };

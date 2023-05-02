@@ -79,6 +79,7 @@ export default StyleSheet.create({
   allButonStyle: {
     marginTop: verticalScale(20), 
     marginBottom: verticalScale(10), 
+    borderRadius: scale(5),
     backgroundColor: darkColors.listBackGradientThree
   },
   gradientChildStyle: {

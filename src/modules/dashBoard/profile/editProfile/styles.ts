@@ -32,11 +32,11 @@ export default StyleSheet.create({
   },
   submitBtn: {
     backgroundColor: darkColors.darkGreen,
-    width: scale(150),
-    alignSelf: 'center',
-    borderRadius: scale(20),
+    borderRadius: scale(5),
     marginTop: scale(20),
     marginBottom: verticalScale(50),
+    marginLeft: scale(20),
+    marginRight: scale(20),
   },
   btnLabel: {
     color: 'white',

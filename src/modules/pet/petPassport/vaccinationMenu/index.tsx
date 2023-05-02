@@ -13,6 +13,7 @@ import PetPassportSubHeader from '../../../../components/petPassportSubHeader';
 import { navigate } from '../../../../routing/navigationRef';
 import { PET_VACCINATION_SCREEN } from '../petVaccination';
 import { useTheme } from '../../../../providers/ThemeProvider';
+import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
 
 export const VACCINATION_MENU_SCREEN = {
   name: 'VaccinationMenu',
@@ -77,7 +78,7 @@ const VaccinationMenu = ({route}: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner visible={state.loader} />
+      <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
         statusBarColor={colors.listBackGradientThree}/>
       <PetPassportSubHeader
@@ -94,7 +95,7 @@ const VaccinationMenu = ({route}: any) => {
           renderItem={renderItem}
         />
       </View> 
-     
+      <PetHealthFloatingButton />
     </SafeAreaView>
   );
 };

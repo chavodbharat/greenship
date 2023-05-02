@@ -23,12 +23,13 @@ import { useIsFocused } from '@react-navigation/native';
 import DeleteModal from '../../../components/deleteModal';
 import { store } from '../../../store/configureStore';
 import { types } from '../../../redux/ActionTypes';
+import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 
 export const MY_PET_LIST_SCREEN = {
   name: 'MyPetList',
 };
 
-const MyPetList = () => {
+const MyPetList = ({route}) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const isFocused = useIsFocused();
@@ -41,7 +42,7 @@ const MyPetList = () => {
     isModalVisible: false,
     currentPetId: "",
   });
-
+  const profilePic = route?.params?.userPic;
   useEffect(() => {
     callPetListFn();
   }, [isFocused]);
@@ -239,7 +240,7 @@ const MyPetList = () => {
  
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner visible={state?.loader} />
+      <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
         statusBarColor={colors.listBackGradientThree}/>
       <View style={styles.container}>
@@ -253,6 +254,7 @@ const MyPetList = () => {
         isModalVisible={state.isModalVisible}
         onClose={() => onOpenCloseDeleteModal(false)}
         onDelete={() => callDeletePetFn(state.currentPetId)}/> 
+      <PetHealthFloatingButton />
     </SafeAreaView>
   );
 };

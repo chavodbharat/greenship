@@ -267,7 +267,7 @@ const AddAdditionalPetDetails = ({route}: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner visible={state.loader} />
+      <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
         statusBarColor={colors.listBackGradientThree}/>
       <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
@@ -408,7 +408,7 @@ const AddAdditionalPetDetails = ({route}: any) => {
             </View>
             <Button
               labelStyle={styles.loginFontStyle} 
-              style={[styles.allButonStyle,{marginBottom: 50}]} mode="contained" 
+              style={[styles.allButonStyle,{marginBottom: verticalScale(50)}]} mode="contained" 
               onPress={onPublishPress}>
               Publish
             </Button>

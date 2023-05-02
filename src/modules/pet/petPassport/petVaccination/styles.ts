@@ -60,7 +60,7 @@ export default StyleSheet.create({
     marginLeft: scale(5),
     marginRight: scale(5), 
     padding: scale(10),
-    borderRadius: scale(50),
+    borderRadius: scale(5),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: darkColors.borderBlueColor

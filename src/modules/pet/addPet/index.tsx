@@ -25,7 +25,6 @@ import {
   TAG_DATE_FORMATE,
   allGenderStaticData,
 } from '../../../utils/Constants/AllConstance';
-// import DatePicker from 'react-native-date-picker'
 import moment from 'moment';
 import {TouchableWithoutFeedback} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
@@ -33,6 +32,7 @@ import {ADD_ADDITIONAL_PET_DETAILS_SCREEN} from './AddAdditionalPetDetails';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageSelection from '../../../components/imageSelection';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 export const ADD_PET_SCREEN = {
   name: 'AddPet',
@@ -58,10 +58,10 @@ const AddPet = ({route}: any) => {
     selectedCountry: 'Please Select Country',
     postCode: '',
     selectedDateOfBirth: 'Select Date Of Birth',
-    isDateModalOpen: false,
     imageType: '',
     imageModalVisible: false,
     petObj: {},
+    datePickerStatus: false,
   });
 
   //Static Data
@@ -335,7 +335,7 @@ const AddPet = ({route}: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner visible={state?.loader} />
+      <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
       <Header statusBarColor={colors.listBackGradientThree} />
       <View style={styles.flexZero}>
         <ScrollView
@@ -502,7 +502,7 @@ const AddPet = ({route}: any) => {
             <Pressable
               onPress={() =>
                 !isViewOnly &&
-                setState(prev => ({...prev, isDateModalOpen: true}))
+                setState(prev => ({...prev, datePickerStatus: true}))
               }>
               <View
                 style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
@@ -552,21 +552,20 @@ const AddPet = ({route}: any) => {
           onPressItem={clickOnActionSheetOption}
         />
       </ActionSheetModal>
-      {/* <DatePicker
-        modal
-        open={state.isDateModalOpen}
+      <DateTimePicker
         mode="date"
+        isVisible={state.datePickerStatus}
         date={new Date()}
         onConfirm={date => {
           const updatedDate = moment(date).format(TAG_DATE_FORMATE);
           setState(prev => ({
             ...prev,
-            isDateModalOpen: false,
             selectedDateOfBirth: updatedDate,
+            datePickerStatus: false,
           }));
         }}
-        onCancel={() => setState(prev => ({...prev, isDateModalOpen: false}))}
-      /> */}
+        onCancel={() => setState(prev => ({...prev, datePickerStatus: false}))}
+      />
       <ImageSelection
         modalVisible={state.imageModalVisible}
         setModalVisible={() =>
@@ -575,9 +574,10 @@ const AddPet = ({route}: any) => {
         onPressCamera={openCamera}
         onPressGallery={openGallery}
       />
-      {(isEditMode || isViewOnly) && (
-        <PetHealthFloatingButton petObj={state.petObj} />
-      )}
+      <PetHealthFloatingButton
+        petObj={state.petObj}
+        isPetHealthViewShow={isEditMode || isViewOnly ? true : false}
+      />
     </SafeAreaView>
   );
 };

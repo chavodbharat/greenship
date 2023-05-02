@@ -60,9 +60,18 @@ export const getProfileFieldsReq = (callback: Function) => {
     callback,
   };
 };
+
 export const updateProfileReq = (payload: object, callback: Function) => {
   return {
     type: types.UPDATE_PROFILE,
+    payload,
+    callback,
+  };
+};
+
+export const getNotificationList = (payload: object, callback: Function) => {
+  return {
+    type: types.GET_NOTIFICATION_LIST,
     payload,
     callback,
   };

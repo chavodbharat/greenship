@@ -19,6 +19,7 @@ import { showMessage } from 'react-native-flash-message';
 import { useTheme } from '../../../../providers/ThemeProvider';
 import ImageSelection from '../../../../components/imageSelection';
 import ImagePicker from 'react-native-image-crop-picker';
+import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
 
 export const PET_VACCINATION_SCREEN = {
   name: 'PetVaccination',
@@ -323,7 +324,7 @@ const PetVaccination = ({route}: any) => {
 
   return (
     <SafeAreaView style={styles.flexOne}>
-      <Spinner visible={state.loader} />
+      <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
         statusBarColor={colors.listBackGradientThree}/>
       <PetPassportSubHeader
@@ -377,6 +378,7 @@ const PetVaccination = ({route}: any) => {
         endDate={state.dateRange.endDate}
         onConfirm={onConfirm}
       />  */}
+      <PetHealthFloatingButton />
     </SafeAreaView>
   );
 };
