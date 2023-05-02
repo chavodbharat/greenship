@@ -31,12 +31,16 @@ const AddMissingPetModal: React.FC<addMissingPetModalProps> = ({
   });
 
   useEffect(() => {
+    getMyPetList();
+  }, []);
+
+  const getMyPetList = () => {
     dispatch(
       getMyPetListReq(res => {
         setState(prev => ({...prev, animals: res?.data}));
       }),
     );
-  }, []);
+  };
 
   const submit = () => {
     if (state.animal === '') {
@@ -46,11 +50,12 @@ const AddMissingPetModal: React.FC<addMissingPetModalProps> = ({
 
       let body = {
         pet_id: state.animal?.id,
-        pet_vermisst: state.animal?.pet_vermisst,
+        pet_vermisst: 'yes',
       };
       dispatch(
         updateMissingPetReq(body, res => {
           setState(prev => ({...prev, loading: false}));
+          getMyPetList();
           setModalVisible && setModalVisible();
         }),
       );
