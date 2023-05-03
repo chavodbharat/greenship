@@ -1,4 +1,4 @@
-package com.greenship;
+package com.greensheep;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

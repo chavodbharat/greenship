@@ -1,4 +1,4 @@
-package com.greenship;
+package com.greensheep;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

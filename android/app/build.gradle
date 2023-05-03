@@ -93,11 +93,11 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.greenship"
+    namespace "com.greensheep"
     defaultConfig {
                 vectorDrawables.useSupportLibrary = true
 
-        applicationId "com.greenship"
+        applicationId "com.greensheep"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

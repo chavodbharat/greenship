@@ -8,11 +8,12 @@ import { navigate } from '../../routing/navigationRef';
 import { VACCINATION_MENU_SCREEN } from '../../modules/pet/petPassport/vaccinationMenu';
 import { PetHealthFloatingButtonTypePropsInterface } from './types';
 import { MY_PET_LIST_SCREEN } from '../../modules/pet/myPetList';
+import { PET_PASSPORT_MENU_SCREEN } from '../../modules/pet/petPassport/petPassportMenu';
 
 const PetHealthFloatingButton = ({petObj, isPetHealthViewShow = false}: PetHealthFloatingButtonTypePropsInterface) => {
 
   const clickOnPetHealthIcon = () => {
-    navigate(VACCINATION_MENU_SCREEN.name, {petObj})
+    navigate(PET_PASSPORT_MENU_SCREEN.name, {petObj})
   }
 
   const clickOnPetIcon = () => {
