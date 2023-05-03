@@ -1,13 +1,50 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './styles';
 import {View, Text, Image, Pressable, Linking} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {navigate} from '../../routing/navigationRef';
-import Entypo from 'react-native-vector-icons/Entypo';
-import {scale} from '../../theme/responsive';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+
 const Welcome = () => {
+  useEffect(() => {
+    configureGmail();
+  }, []);
+
+  const configureGmail = () => {
+    GoogleSignin.configure({
+      webClientId:
+        '479686451206-b6g9qb2jqv990v4v2a7mcjhg5gtl1b0k.apps.googleusercontent.com',
+      offlineAccess: false,
+    });
+  };
+
+  const gmailSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+
+      await GoogleSignin.signOut();
+
+      const userInfo = await GoogleSignin.signIn();
+      console.log('log', userInfo);
+    } catch (error) {
+      console.log('log0', error);
+
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.main}>
@@ -46,7 +83,7 @@ const Welcome = () => {
             <Text style={styles.socialBtnLabel}>SignIn with facebook</Text>
           </View>
         </View>
-        <View style={styles.btn}>
+        <Pressable onPress={gmailSignIn} style={styles.btn}>
           <Image
             style={styles.icon}
             source={require('../../assets/images/logo_google.png')}
@@ -54,7 +91,7 @@ const Welcome = () => {
           <View style={styles.wrapper}>
             <Text style={styles.socialBtnLabel}>SignIn with gmail</Text>
           </View>
-        </View>
+        </Pressable>
 
         <View style={styles.end}>
           <Pressable

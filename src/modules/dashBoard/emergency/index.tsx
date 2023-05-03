@@ -133,7 +133,7 @@ const Emergency = () => {
       address: address || state.locationAddress,
       latitude: latitude || state.latitude,
       longitude: longitude || state.longitude,
-      distance: 'All',
+      distance: 5,
     };
     dispatch(
       getMissingPetListReq(body, res => {
@@ -191,7 +191,10 @@ const Emergency = () => {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <Spinner visible={state.loading} />
+      <Spinner
+        color={darkColors.dashboardEmergencyBG}
+        visible={state.loading}
+      />
       <>
         <View style={styles.header}>
           <Ionicons
