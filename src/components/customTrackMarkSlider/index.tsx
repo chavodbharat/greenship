@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styles from './styles';
 import {Text, View} from 'react-native';
 import { Slider } from '@miblanchard/react-native-slider';
+import { fonts } from '../../theme/fonts';
 
 const CustomTrackMarkSlider = () => {
   
@@ -32,7 +33,7 @@ const CustomTrackMarkSlider = () => {
           return (
             <>
               <View style={style} />
-              <Text style={styles.textIndicatorTitle}>{(index+1)*10}</Text>
+              <Text style={styles.textIndicatorTitle}>{(index+1)*5} km</Text>
             </>
             );
         };
@@ -58,8 +59,8 @@ const CustomTrackMarkSlider = () => {
     return (
       <View style={styles.sliderContainer}>
         <View style={styles.titleContainer}>
-          <Text>{caption}</Text>
-          <Text>{Array.isArray(value) ? value.join(' - ') : value}</Text>
+          <Text style={{fontFamily: fonts.MontserratBold}}>{caption}</Text>
+          {/* <Text>{Array.isArray(value) ? value.join(' - ') : value}</Text> */}
         </View>
         {renderChildren()}
       </View>
@@ -72,7 +73,9 @@ const CustomTrackMarkSlider = () => {
         caption="Radius"
         sliderValue={[0]}
         trackMarks={[5, 10, 15, 20]}>
-        <Slider thumbStyle={{width: 0, height: 0}} maximumValue={25} minimumValue={0} step={1} />
+        <Slider trackStyle={styles.trackSliderParentView} 
+          thumbStyle={{width: 0, height: 0}} maximumValue={25} 
+          minimumValue={0} step={5} />
       </SliderContainer>
     </>
   );

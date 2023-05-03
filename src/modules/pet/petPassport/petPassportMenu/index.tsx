@@ -43,7 +43,7 @@ const PetPassportMenu = ({route}: any) => {
       getPetVaccineMenuList(body,(res: any) => {
         if(res) {
           const { data } = res;
-          setState(prev => ({...prev, loader: false, petPassportOptionsData:  data.splice(0, 2)}));
+          setState(prev => ({...prev, loader: false, petPassportOptionsData:  data}));
         } else {
           setState(prev => ({...prev, loader: false, petPassportOptionsData: []}));
         }
@@ -51,10 +51,13 @@ const PetPassportMenu = ({route}: any) => {
     );
   };
 
-  const onPetPassportMenuItemPress = (data: MenuOptions) => {
-   // navigate(PET_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
-    navigate(ADD_PET_SCREEN.name, {formId: petObj.form_id, petId: petObj.pet_id, 
-      isViewOnly: true, isEditMode: false})
+  const onPetPassportMenuItemPress = (data: MenuOptions, position: number) => {
+    if(position == 0 || position == 1) {
+      navigate(ADD_PET_SCREEN.name, {formId: petObj.form_id, petId: petObj.pet_id, 
+        isViewOnly: true, isEditMode: false})
+    } else {
+      navigate(PET_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
+    }
   }
 
   const renderItem = ({item, index}: any) => {
@@ -64,7 +67,7 @@ const PetPassportMenu = ({route}: any) => {
         childStyle={styles.linearGradientCustomStyle}
         childrean={
           <Pressable
-            onPress={() => onPetPassportMenuItemPress(item)}>
+            onPress={() => onPetPassportMenuItemPress(item, index)}>
             <View style={styles.petPassportOptionView}>
               <Image
                 style={[styles.petPassportIconStyle]}
@@ -84,7 +87,7 @@ const PetPassportMenu = ({route}: any) => {
         statusBarColor={colors.listBackGradientThree}/>
       <PetPassportSubHeader
         title={petObj.pet_name}
-        petImage={petObj.pet_image}
+        petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}
       />  
       <View style={[styles.container, {marginLeft: scale(5), marginRight: scale(5),
         marginTop: verticalScale(3)}]}>

@@ -24,7 +24,14 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   textIndicatorTitle: {
+    width: scale(40),
+    marginLeft: scale(-5),
     marginTop: verticalScale(20), 
-    position: 'absolute'
+    position: 'absolute',
+    fontFamily: fonts.MontserratMedium
+  },
+  trackSliderParentView: {
+    marginLeft: scale(22), 
+    marginRight: scale(22)
   }
 });
