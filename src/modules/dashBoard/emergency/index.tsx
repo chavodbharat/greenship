@@ -29,6 +29,8 @@ import {scale} from '../../../theme/responsive';
 import {goBack} from '../../../routing/navigationRef';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {types} from '../../../redux/ActionTypes';
+import PetListView from '../../../components/petListView';
+import Header from '../../../components/header';
 
 const Emergency = () => {
   const dispatch = useDispatch();
@@ -193,39 +195,15 @@ const Emergency = () => {
     <SafeAreaView style={styles.safeAreaView}>
       <Spinner visible={state.loading} />
       <>
-        <View style={styles.header}>
-          <Ionicons
-            onPress={() => goBack()}
-            name="arrow-back"
-            color={darkColors.dashboardEmergencyBG}
-            size={scale(30)}
+        <Header
+          statusBarColor={darkColors.emergencyGradientOne}
+          isEmergency={true}
+          locationAddress={state.locationAddress}
+          onLocationSearch={(value) => {
+            setState(prev => ({...prev, locationAddress: value}));
+            handleSearch(value);
+          }}
           />
-
-          <View style={styles.searchBar}>
-            <TextInput
-              onChangeText={value => {
-                setState(prev => ({...prev, locationAddress: value}));
-                handleSearch(value);
-              }}
-              value={state.locationAddress}
-              placeholder="Type here to search..."
-              style={styles.address}></TextInput>
-          </View>
-          <Entypo
-            onPress={() =>
-              setState(prev => ({
-                ...prev,
-                locationAddress: '',
-                selectedAddress: '',
-              }))
-            }
-            name="circle-with-cross"
-            size={scale(25)}
-            style={styles.crossIcon}
-            color={darkColors.dashboardEmergencyBG}
-          />
-        </View>
-
         <View style={styles.mapBox}>
           <MapView
             zoomEnabled={true}
@@ -264,31 +242,9 @@ const Emergency = () => {
 
         <ScrollView style={styles.container}>
           <View style={styles.listWrapper}>
-            {state?.missingPetList?.map((item, index) => {
-              return (
-                <Pressable
-                  onPress={() => {
-                    zoomToMarker({
-                      latitude: item?.latitude,
-                      longitude: item.longitude,
-                    });
-                  }}
-                  key={index}
-                  style={styles.itemWrapper}>
-                  <Image
-                    source={{uri: item?.pet_image_url}}
-                    style={styles.img}></Image>
-
-                  <View style={styles.labelWrapper}>
-                    <Text style={styles.label}>
-                      {item?.pet_name} {item?.pet_age} {item?.pet_gender}{' '}
-                      {item?.pet_size} {item?.pet_color} {item?.pet_gender}{' '}
-                      {item?.pet_country}
-                    </Text>
-                  </View>
-                </Pressable>
-              );
-            })}
+            <PetListView
+              isEmergency={true}
+              petListData={state?.missingPetList}/>
           </View>
         </ScrollView>
         <View style={styles.list}>

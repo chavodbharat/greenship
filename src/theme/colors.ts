@@ -2,6 +2,7 @@ export const lightColors = {
   background: '#FFF',
   white: '#FFFFFF',
   black: '#000000',
+  communityGreenColor: "#158542",
   darkGreen: '#168541',
   lightGreen: '#449d68',
   fbBackColor: '#4565a2',
@@ -34,13 +35,18 @@ export const lightColors = {
   dashboardPetBG: '#3F8CA4',
   dashboardEmergencyBG: '#D44A54',
   lightEmergencyBG: '#e15763',
-  actionSheetCancelColor: '#fa1616'
+  actionSheetCancelColor: '#fa1616',
+  gradientGary: '#dedede',
+  gradientLightGray: '#f9f9fa',
+  emergencyGradientOne: "#B72C36",
+  emergencyGradientTwo: "#ED626C",
 };
 
 export const darkColors = {
   background: '#000',
   white: '#FFFFFF',
   black: '#000000',
+  communityGreenColor: "#158542",
   darkGreen: '#168541',
   lightGreen: '#449d68',
   fbBackColor: '#4565a2',
@@ -76,4 +82,7 @@ export const darkColors = {
   actionSheetCancelColor: '#fa1616',
   gradientGary: '#dedede',
   gradientLightGray: '#f9f9fa',
+  emergencyGradientOne: "#B72C36",
+  emergencyGradientTwo: "#ED626C",
+
 };

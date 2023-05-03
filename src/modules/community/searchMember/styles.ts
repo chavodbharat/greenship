@@ -17,13 +17,13 @@ export default StyleSheet.create({
   header: {
     flexDirection: 'row',
     backgroundColor: darkColors.darkGreen,
-    borderRadius: scale(8),
+    borderRadius: scale(5),
     marginVertical: verticalScale(8),
   },
   pic: {
     height: scale(50),
     width: scale(50),
-    borderRadius: scale(8),
+    borderRadius: scale(5),
     backgroundColor: 'red',
     marginVertical: scale(5),
     marginHorizontal: scale(5),
@@ -134,7 +134,7 @@ export default StyleSheet.create({
   dropDownIconStyle: {
     width: scale(15), 
     height: scale(15),
-    tintColor: darkColors.listBackGradientThree,
+    tintColor: darkColors.communityGreenColor,
     alignSelf: 'center'
   },
   dropdownLabelStyle: {

@@ -5,19 +5,19 @@ import { fonts } from '../../theme/fonts';
 
 export default StyleSheet.create({
   activeMark: {
-    backgroundColor: 'red',
+    backgroundColor: darkColors.darkGreen,
     borderRadius: scale(8),
     width: scale(16),
     height: scale(16)
   },
   inactiveMark: {
-    backgroundColor: 'grey',
+    backgroundColor: darkColors.petPassportTextColor,
     borderRadius: scale(8),
     width: scale(16),
     height: scale(16)
   },
   sliderContainer: {
-    paddingVertical: verticalScale(16),
+    paddingVertical: verticalScale(16)
   },
   titleContainer: {
     alignItems: 'center',
@@ -30,7 +30,12 @@ export default StyleSheet.create({
     position: 'absolute',
     fontFamily: fonts.MontserratMedium
   },
+  titleTextColor: {
+    fontFamily: fonts.MontserratMedium,
+    color: darkColors.petPassportTextColor
+  },
   trackSliderParentView: {
+    backgroundColor: darkColors.petPassportTextColor,
     marginLeft: scale(22), 
     marginRight: scale(22)
   }
