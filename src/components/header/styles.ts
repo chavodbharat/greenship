@@ -1,12 +1,15 @@
-import {StyleSheet} from 'react-native';
-import {scale, verticalScale} from '../../theme/responsive';
+import {Platform, StyleSheet} from 'react-native';
+import {moderateScale, scale, verticalScale} from '../../theme/responsive';
 import {darkColors} from '../../theme/colors';
 import { useTheme } from '../../providers/ThemeProvider';
+import { fonts } from '../../theme/fonts';
 
 const styles =  StyleSheet.create({
   headerParentView: {
     flexDirection: 'row',
     padding: scale(10),
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   flexOneView: {
     flex: 1
@@ -37,6 +40,22 @@ const styles =  StyleSheet.create({
     height: scale(52),
     width: scale(52),
     top: -verticalScale(30),
+  },
+  searchBar: {
+    borderColor: darkColors.dashboardEmergencyBG,
+    borderWidth: scale(1),
+    flexDirection: 'row',
+    marginHorizontal: scale(8),
+    alignItems: 'center',
+    paddingLeft: scale(8),
+    borderRadius: scale(5)
+  },
+  address: {
+    color: 'gray',
+    fontSize: moderateScale(13),
+    fontFamily: fonts.MontserratRegular,
+    flex: 1,
+    padding: Platform.OS === 'android' ? 0 : 0,
   },
 });
 

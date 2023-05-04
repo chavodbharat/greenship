@@ -3,8 +3,9 @@ import styles from './styles';
 import {Text, View} from 'react-native';
 import { Slider } from '@miblanchard/react-native-slider';
 import { fonts } from '../../theme/fonts';
+import { CustomTrackMarkPropsInterface } from './types';
 
-const CustomTrackMarkSlider = () => {
+const CustomTrackMarkSlider = ({selectedColorCode}: CustomTrackMarkPropsInterface) => {
   
   const DEFAULT_VALUE = 0.2;
 
@@ -28,12 +29,12 @@ const CustomTrackMarkSlider = () => {
               value || (Array.isArray(value) && value[0]) || 0;
           const style =
               currentMarkValue > Math.max(currentSliderValue)
-                  ? styles.activeMark
-                  : styles.inactiveMark;
+                  ? styles.inactiveMark
+                  : [styles.activeMark, selectedColorCode && {backgroundColor: selectedColorCode}];
           return (
             <>
               <View style={style} />
-              <Text style={styles.textIndicatorTitle}>{(index+1)*5} km</Text>
+              <Text style={styles.textIndicatorTitle}>{(index+1)*25} km</Text>
             </>
             );
         };
@@ -59,7 +60,7 @@ const CustomTrackMarkSlider = () => {
     return (
       <View style={styles.sliderContainer}>
         <View style={styles.titleContainer}>
-          <Text style={{fontFamily: fonts.MontserratBold}}>{caption}</Text>
+          <Text style={styles.titleTextColor}>{caption}</Text>
           {/* <Text>{Array.isArray(value) ? value.join(' - ') : value}</Text> */}
         </View>
         {renderChildren()}
@@ -72,10 +73,10 @@ const CustomTrackMarkSlider = () => {
       <SliderContainer
         caption="Radius"
         sliderValue={[0]}
-        trackMarks={[5, 10, 15, 20]}>
+        trackMarks={[25, 50, 100, 200]}>
         <Slider trackStyle={styles.trackSliderParentView} 
-          thumbStyle={{width: 0, height: 0}} maximumValue={25} 
-          minimumValue={0} step={5} />
+          thumbStyle={{width: 0, height: 0}} maximumValue={250} 
+          minimumValue={0} step={25} />
       </SliderContainer>
     </>
   );

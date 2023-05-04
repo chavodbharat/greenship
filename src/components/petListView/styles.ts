@@ -1,18 +1,11 @@
 import {StyleSheet} from 'react-native';
-import {moderateScale, scale, verticalScale} from '../../../theme/responsive';
-import {darkColors} from '../../../theme/colors';
-import {fonts} from '../../../theme/fonts';
+import {moderateScale, scale, verticalScale} from '../../theme/responsive';
+import {darkColors} from '../../theme/colors';
+import { fonts } from '../../theme/fonts';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-  },
-  parentView: {
-    backgroundColor: darkColors.background,
-    flex: 1,
-  },
-  flexDirectionRowView: {
-    flexDirection: 'row'
   },
   flexOne: {
     flex: 1
@@ -23,48 +16,19 @@ export default StyleSheet.create({
   flexZero: {
     flex: 0
   },
+  flexDirectionRowView: {
+    flexDirection: 'row'
+  },
   petViewParentView: {
     flex: 1,
     flexDirection: 'row',
     marginTop: verticalScale(8), 
     marginBottom: verticalScale(8)
   },
-  petAddParentView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    margin: scale(10), 
-    borderRadius: 5,
-    padding: scale(10),
-    borderWidth: 1,
-    borderColor: darkColors.darkGreen 
-  },
   petImageStyle: {
     width: scale(90), 
     height: scale(100), 
     borderRadius: scale(5), 
-  },
-  petAddImageStyle: {
-    width: scale(80), 
-    height: scale(80), 
-    marginRight: verticalScale(20),
-    tintColor: darkColors.darkGreen,
-  },
-  petNameTextStyle: {
-    fontSize: moderateScale(16),
-    color: darkColors.black, 
-    fontFamily: fonts.MontserratBold
-  },
-  petListItemTextLabelStyle: {
-    fontSize: moderateScale(14),
-    color: darkColors.white, 
-    fontFamily: fonts.MontserratRegular
-  },
-  petListItemTextValueStyle: {
-    fontSize: moderateScale(14),
-    color: darkColors.white, 
-    fontFamily: fonts.MontserratRegular
   },
   missingStatusTextStyle: {
     fontSize: moderateScale(12),
@@ -75,6 +39,16 @@ export default StyleSheet.create({
     bottom: verticalScale(8),
     color: darkColors.toastBorderErrorColor, 
     fontFamily: fonts.MontserratSemiBold
+  },
+  petListItemTextLabelStyle: {
+    fontSize: moderateScale(14),
+    color: darkColors.white, 
+    fontFamily: fonts.MontserratRegular
+  },
+  petListItemTextValueStyle: {
+    fontSize: moderateScale(14),
+    color: darkColors.white, 
+    fontFamily: fonts.MontserratRegular
   },
   editDeleteParentView: {
     position: 'absolute', 

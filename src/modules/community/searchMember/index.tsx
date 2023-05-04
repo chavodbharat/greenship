@@ -9,7 +9,7 @@ import {scale} from '../../../theme/responsive';
 import {shallowEqual, useSelector,useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-paper';
 import { allGenderStaticData } from '../../../utils/Constants/AllConstance';
-import { getPetArtList } from '../../../redux/actions/petAction';
+import { getPetArtList, getPetRaceList } from '../../../redux/actions/petAction';
 import AllImages from '../../../utils/Constants/AllImages';
 import ActionSheet from '../../../components/actionSheet';
 import ActionSheetModal from 'react-native-modal';
@@ -77,21 +77,46 @@ const SearchMember = ({route}: any) => {
     );
   };
 
+  const callPetRaceListFn = (artName: string) => {
+    setAnimalState(prev => ({...prev, loader: true}));
+    const body = {
+      petArt: artName
+    } 
+
+    dispatch(
+      getPetRaceList(body, (res: any) => {
+        if(res) {
+          const { data } = res;
+          const newArrayOfObj = data.map(({name: title, values: id}: any) => ({title, id}));
+          setAnimalState(prev => ({...prev, loader: false, petRaceListData:  newArrayOfObj}));
+        } else {
+          setAnimalState(prev => ({...prev, loader: false, petRaceListData: []}));
+        }
+      }),
+    );
+  };
+
   const dropDownPosition = (position: number) => {
     setAnimalState(prev => ({...prev, actionSheetPosition: position}));
     if(position == 0) {
       setAnimalState(prev => ({...prev, actionSheetData: animalState.petArtListData, isActionSheetShow: true}));
-    }  else if(position == 2) {
+    } else if(position == 1) {
+      setAnimalState(prev => ({...prev, actionSheetData: animalState.petRaceListData, isActionSheetShow: true}));
+    } else if(position == 2) {
       setAnimalState(prev => ({...prev, actionSheetData: petGenderListData, isActionSheetShow: true}));
     }
   }
 
   const clickOnActionSheetOption = async (index: number) => {
     const {petArtListData, actionSheetPosition, petRaceListData, countryList} = animalState;
+    console.log("Actionsheet data", actionSheetPosition)
     if(index!=petArtListData.length){
       if(actionSheetPosition == 0) {
         setAnimalState(prev => ({...prev, selectedPetArt: petArtListData[index].title, 
           isActionSheetShow: false, selectedPetRace: "Race"}));
+          callPetRaceListFn(petArtListData[index].title);
+      } else if(actionSheetPosition == 1) {
+        setAnimalState(prev => ({...prev, selectedPetRace: petRaceListData[index].title, isActionSheetShow: false}));
       } else if(actionSheetPosition == 2) {
         setAnimalState(prev => ({...prev, selectedGender: petGenderListData[index].title, isActionSheetShow: false}));
       }
@@ -161,7 +186,7 @@ const SearchMember = ({route}: any) => {
             placeholderTextColor={'gray'}
             autoCapitalize="none"
           />
- <Pressable
+            <Pressable
               onPress={() => !isViewOnly && dropDownUserPosition(0)}>
               <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
                 <View style={styles.flexOne}>
@@ -175,10 +200,10 @@ const SearchMember = ({route}: any) => {
                 </View>
               </View>
             </Pressable>
-
-<Pressable onPress={()=>{}} style={styles.loginBtn}>
-            <Text style={styles.btnLabel}>Search now</Text>
-          </Pressable>
+            <CustomTrackMarkSlider/>
+            <Pressable onPress={()=>{}} style={styles.loginBtn}>
+              <Text style={styles.btnLabel}>Search now</Text>
+            </Pressable>
           </View>
           :
           <View style={{width:'100%',paddingVertical:scale(10)}}>
@@ -200,7 +225,7 @@ const SearchMember = ({route}: any) => {
             autoCapitalize="none"
           />
 
-<Pressable
+            <Pressable
               onPress={() => !isViewOnly && dropDownPosition(0)}>
               <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
                 <View style={styles.flexOne}>
@@ -211,6 +236,20 @@ const SearchMember = ({route}: any) => {
                   <Image
                       style={styles.dropDownIconStyle}
                       source={AllImages.dropdownIcon}/>
+                </View>
+              </View>
+            </Pressable>
+            <Pressable
+              onPress={() => dropDownPosition(1)}>
+              <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
+                <View style={styles.flexOne}>
+                  <Text style={[styles.dropdownLabelStyle, animalState.selectedPetRace!="Race" &&
+                    {color: colors.black}]}>{animalState.selectedPetRace}</Text>
+                </View>
+                <View style={styles.flexZero}>
+                  <Image
+                    style={styles.dropDownIconStyle}
+                    source={AllImages.dropdownIcon}/>
                 </View>
               </View>
             </Pressable>
@@ -229,6 +268,7 @@ const SearchMember = ({route}: any) => {
               </View>
             </Pressable>
 
+            <CustomTrackMarkSlider/>
             <CustomTrackMarkSlider/>
 
           <Pressable onPress={()=>{}} style={styles.loginBtn}>

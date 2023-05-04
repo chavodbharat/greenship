@@ -12,7 +12,7 @@ const LinearGradientView = ({childrean, isHorizontal = true, childStyle, allColo
       <LinearGradient 
         start={{x: 0, y: 0}} 
         end={{x: 1, y: 0}} 
-        colors={[colors.listBackGradientOne, colors.listBackGradientTwo, colors.listBackGradientThree]} 
+        colors={allColorsArray ? allColorsArray : [colors.listBackGradientOne, colors.listBackGradientTwo, colors.listBackGradientThree]} 
         style={Styles.linearGradientBack}>
         {childrean}
       </LinearGradient>

@@ -6,7 +6,6 @@ import {fonts} from '../../../theme/fonts';
 export default StyleSheet.create({
   safeAreaView: {
     flex: 1,
-    backgroundColor: darkColors.dashboardEmergencyBG,
   },
   container: {
     flex: 1,
