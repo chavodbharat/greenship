@@ -8,7 +8,6 @@ import {
   Platform,
   Image,
   Pressable,
-  TextInput,
 } from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker, Callout} from 'react-native-maps';
@@ -23,14 +22,12 @@ import {
 } from '../../../utils/Utility';
 import {getMissingPetListReq} from '../../../redux/actions/homeAction';
 import Spinner from '../../../components/spinner';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {darkColors} from '../../../theme/colors';
-import {scale} from '../../../theme/responsive';
-import {goBack} from '../../../routing/navigationRef';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {types} from '../../../redux/ActionTypes';
 import PetListView from '../../../components/petListView';
 import Header from '../../../components/header';
+import ChooseRadiusModal from '../../../components/chooseRadiusModal';
+import Geocoder from 'react-native-geocoding';
 
 const Emergency = () => {
   const dispatch = useDispatch();
@@ -53,6 +50,11 @@ const Emergency = () => {
     missingPetList: [],
     locations: [],
     selectedAddress: '',
+    radiusModal: false,
+    radius: '25',
+    // searchAddress: '',
+    // searchLatitude: 0,
+    // searchLatitude: 0,
   });
 
   useEffect(() => {
@@ -70,11 +72,13 @@ const Emergency = () => {
   }, [isFocused]);
 
   useEffect(() => {
+    Geocoder.init('AIzaSyCIqkzX9pTLBDe3KKTnDITtVBa-gLqbIEY');
+
     if (state.selectedAddress !== '' || missingPetSuccess === true) {
       setState(prev => ({...prev, loading: true}));
       callGetMissingPetList();
     }
-  }, [state.locationAddress, state.selectedAddress, missingPetSuccess]);
+  }, [missingPetSuccess]);
 
   const requestLocationPermission = async () => {
     const granted = await getLocationPermissions();
@@ -130,12 +134,13 @@ const Emergency = () => {
     latitude?: any,
     longitude?: any,
     address?: any,
+    radius?: any,
   ) => {
     let body = {
       address: address || state.locationAddress,
       latitude: latitude || state.latitude,
       longitude: longitude || state.longitude,
-      distance: 'All',
+      distance: radius || state.radius,
     };
     dispatch(
       getMissingPetListReq(body, res => {
@@ -191,6 +196,38 @@ const Emergency = () => {
     setState(prev => ({...prev, locations: results}));
   };
 
+  const getLatLongFromAddress = address => {
+    setState(prev => ({
+      ...prev,
+      loading: true,
+    }));
+    Geocoder.from(address)
+      .then(json => {
+        var location = json.results[0].geometry.location;
+        setState(prev => ({
+          ...prev,
+          latitude: location?.lat,
+          longitude: location?.lng,
+        }));
+        callGetMissingPetList(location?.lat, location?.lng, address);
+      })
+      .catch(error => console.warn(error));
+  };
+
+  const onFilterRadius = radius => {
+    setState(prev => ({...prev, radius}));
+    setState(prev => ({
+      ...prev,
+      loading: true,
+    }));
+    callGetMissingPetList(
+      state.latitude,
+      state.longitude,
+      state.locationAddress,
+      radius,
+    );
+  };
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <Spinner
@@ -202,11 +239,21 @@ const Emergency = () => {
           statusBarColor={darkColors.emergencyGradientOne}
           isEmergency={true}
           locationAddress={state.locationAddress}
-          onLocationSearch={(value) => {
+          onLocationSearch={value => {
             setState(prev => ({...prev, locationAddress: value}));
             handleSearch(value);
           }}
-          />
+          onFilterPress={() => {
+            setState(prev => ({...prev, radiusModal: true}));
+          }}
+        />
+        <ChooseRadiusModal
+          modalVisible={state.radiusModal}
+          setModalVisible={() => {
+            setState(prev => ({...prev, radiusModal: false}));
+          }}
+          onSubmit={onFilterRadius}
+        />
         <View style={styles.mapBox}>
           <MapView
             zoomEnabled={true}
@@ -247,7 +294,8 @@ const Emergency = () => {
           <View style={styles.listWrapper}>
             <PetListView
               isEmergency={true}
-              petListData={state?.missingPetList}/>
+              petListData={state?.missingPetList}
+            />
           </View>
         </ScrollView>
         <View style={styles.list}>
@@ -261,6 +309,8 @@ const Emergency = () => {
                     selectedAddress: item?.name,
                     locations: [],
                   }));
+
+                  getLatLongFromAddress(item?.name);
                 }}
                 style={styles.item}>
                 <Text style={styles.name}>{item?.name}</Text>

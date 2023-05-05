@@ -15,7 +15,7 @@ import appleAuth, {
   AppleAuthError,
 } from '@invertase/react-native-apple-authentication';
 import DeviceInfo from 'react-native-device-info';
-import {scale} from '../../theme/responsive';
+import {scale, verticalScale} from '../../theme/responsive';
 const version = parseFloat(DeviceInfo.getSystemVersion());
 
 const Welcome = () => {
@@ -97,13 +97,17 @@ const Welcome = () => {
         {Platform.OS === 'ios' && version >= 13 && (
           <View style={{alignSelf: 'center'}}>
             <AppleButton
-              buttonStyle={AppleButton.Style.BLACK}
+              onPress={onAppleButtonPress}
+              buttonStyle={AppleButton.Style.WHITE}
+              cornerRadius={5}
               buttonType={AppleButton.Type.SIGN_IN}
               style={{
-                width: scale(85),
-                height: scale(6.2),
+                width: scale(320), // You must specify a width
+                height: scale(35), // You must specify a height
+                borderWidth: scale(1),
+                borderRadius: scale(4),
+                marginBottom: verticalScale(8),
               }}
-              onPress={onAppleButtonPress}
             />
           </View>
         )}

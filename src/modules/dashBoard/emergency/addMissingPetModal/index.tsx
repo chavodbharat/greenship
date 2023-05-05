@@ -123,7 +123,7 @@ const AddMissingPetModal: React.FC<addMissingPetModalProps> = ({
           ) : null}
 
           <Pressable onPress={submit} style={styles.submitBtn}>
-            <Text style={styles.btnLabel}>Submit</Text>
+            <Text style={styles.btnLabel}>submit</Text>
           </Pressable>
         </View>
       </View>

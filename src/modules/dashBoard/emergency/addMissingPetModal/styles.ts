@@ -23,9 +23,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#e1e1e1',
-    borderWidth: scale(1.5),
+    borderWidth: scale(1),
     borderColor: darkColors.dashboardEmergencyBG,
-    width: '80%',
+    width: '90%',
   },
 
   title: {
@@ -78,6 +78,7 @@ export default StyleSheet.create({
     backgroundColor: darkColors.dashboardEmergencyBG,
     marginVertical: verticalScale(12),
     borderRadius: scale(2),
+    fontFamily: fonts.MontserratRegular,
   },
   btnLabel: {
     color: 'white',

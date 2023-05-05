@@ -1,37 +1,37 @@
 import {Platform, StyleSheet} from 'react-native';
 import {moderateScale, scale, verticalScale} from '../../theme/responsive';
 import {darkColors} from '../../theme/colors';
-import { useTheme } from '../../providers/ThemeProvider';
-import { fonts } from '../../theme/fonts';
+import {useTheme} from '../../providers/ThemeProvider';
+import {fonts} from '../../theme/fonts';
 
-const styles =  StyleSheet.create({
+const styles = StyleSheet.create({
   headerParentView: {
     flexDirection: 'row',
     padding: scale(10),
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   flexOneView: {
-    flex: 1
+    flex: 1,
   },
   flexZeroView: {
-    flex: 0
+    flex: 0,
   },
   flexDirectionRowView: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   headerImageStyle: {
-    width: scale(20), 
+    width: scale(20),
     height: scale(20),
     marginLeft: scale(10),
     marginRight: scale(5),
-    tintColor: darkColors.listBackGradientOne
+    tintColor: darkColors.listBackGradientOne,
   },
   leftImageStyle: {
-    width: scale(25), 
+    width: scale(25),
     height: scale(25),
     marginTop: -scale(3),
-    tintColor: darkColors.listBackGradientOne
+    tintColor: darkColors.listBackGradientOne,
   },
   btn: {
     justifyContent: 'center',
@@ -48,14 +48,14 @@ const styles =  StyleSheet.create({
     marginHorizontal: scale(8),
     alignItems: 'center',
     paddingLeft: scale(8),
-    borderRadius: scale(5)
+    borderRadius: scale(5),
   },
   address: {
     color: 'gray',
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratRegular,
     flex: 1,
-    padding: Platform.OS === 'android' ? 0 : 0,
+    paddingVertical: Platform.OS === 'android' ? 0 : verticalScale(8),
   },
 });
 

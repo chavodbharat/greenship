@@ -36,7 +36,7 @@ export default StyleSheet.create({
     flex: 0.5,
   },
   loginBtn: {
-    backgroundColor: darkColors.lightGreen,
+    backgroundColor: darkColors.darkGreen,
     paddingVertical: scale(12),
     borderRadius: scale(5),
     flex: 0.5,
@@ -85,5 +85,9 @@ export default StyleSheet.create({
   },
   wrapper: {
     flex: 0.525,
+  },
+  appleButton: {
+    borderWidth: scale(1),
+    borderColor: 'black',
   },
 });

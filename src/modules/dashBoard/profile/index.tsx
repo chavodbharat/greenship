@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from './styles';
 import {View, Text, SafeAreaView, Image, Pressable} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,7 +8,6 @@ import {scale, verticalScale} from '../../../theme/responsive';
 import LinearGradient from 'react-native-linear-gradient';
 import Accordion from '../../../components/accordion';
 import {shallowEqual, useSelector} from 'react-redux';
-import {StatusBar} from 'react-native';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 
 const accordionArray = [
