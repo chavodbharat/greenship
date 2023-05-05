@@ -14,6 +14,7 @@ import AllImages from '../../../utils/Constants/AllImages';
 import ActionSheet from '../../../components/actionSheet';
 import ActionSheetModal from 'react-native-modal';
 import CustomTrackMarkSlider from '../../../components/customTrackMarkSlider';
+import Header from '../../../components/header';
 
 const genderType = ['Men', 'Women', 'Other'];
 
@@ -139,13 +140,15 @@ const SearchMember = ({route}: any) => {
 
   return (
     <SafeAreaView style={styles.main}>
+      <Header
+        statusBarColor={darkColors.communityGreenColor}/>
       <View style={styles.container}>
-        <Ionicons
+        {/* <Ionicons
           onPress={() => goBack()}
           name="arrow-back"
           color={darkColors.darkGreen}
           size={scale(30)}
-        />
+        /> */}
         <View style={styles.header}>
           <Image
             source={{uri: profilePic?.[0]?.full}}

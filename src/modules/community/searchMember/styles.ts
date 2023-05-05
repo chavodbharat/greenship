@@ -103,7 +103,7 @@ export default StyleSheet.create({
     backgroundColor: darkColors.darkGreen,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: scale(15),
+    paddingVertical: scale(10),
     borderRadius: scale(5),
     marginTop: verticalScale(22),
     marginHorizontal: scale(20),

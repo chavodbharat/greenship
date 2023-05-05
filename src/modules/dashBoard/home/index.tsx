@@ -5,7 +5,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {navigate} from '../../../routing/navigationRef';
 import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
-import {setTabBgColor} from '../../../redux/actions/authAction';
+import {setActiveSubModule, setTabBgColor} from '../../../redux/actions/authAction';
 import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
 import {MY_MEMBER_LIST_SCREEN} from '../../community/memberList';
 import {useSelector, shallowEqual} from 'react-redux';
@@ -33,6 +33,7 @@ const Home = () => {
   });
 
   useEffect(() => {
+    dispatch(setActiveSubModule(null));
     if (isFocused && userData?.id) {
       let body = {
         context: 'view',

@@ -15,6 +15,8 @@ import { PET_VACCINATION_SCREEN } from '../petVaccination';
 import { useTheme } from '../../../../providers/ThemeProvider';
 import { ADD_PET_SCREEN } from '../../addPet';
 import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
+import { IDENTIFICATION_OF_ANIMAL_SCREEN } from '../identificationOfAnimal';
+import { ISSUE_OF_IDENTITY_CARD_SCREEN } from '../issueOfIdentityCard';
 
 export const PET_PASSPORT_MENU_SCREEN = {
   name: 'PetPassportMenu',
@@ -52,9 +54,10 @@ const PetPassportMenu = ({route}: any) => {
   };
 
   const onPetPassportMenuItemPress = (data: MenuOptions, position: number) => {
-    if(position == 0 || position == 1) {
-      navigate(ADD_PET_SCREEN.name, {formId: petObj.form_id, petId: petObj.pet_id, 
-        isViewOnly: true, isEditMode: false})
+    if(position == 0) {
+      navigate(IDENTIFICATION_OF_ANIMAL_SCREEN.name, {formId: petObj.form_id});
+    } else if(position == 1) {
+      navigate(ISSUE_OF_IDENTITY_CARD_SCREEN.name, {formId: petObj.form_id});
     } else {
       navigate(PET_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
     }

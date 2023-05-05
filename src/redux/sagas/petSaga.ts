@@ -283,6 +283,82 @@ function* updatePetDetails(data: object) {
     });
 }
 
+//Identification Of Animal
+function* submitIdentificationOfAnimal(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/fields/Identification`, payload, 'POST', false)
+    .then(response => {
+      showMessage({
+        message: "Data Submitted Successfully",
+        type: 'success',
+      });
+      callback(response);
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Get Identification Of Animal
+function* getIdentificationOfAnimal(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/fields/Identification?form_id=${payload.form_id}`, null, 'GET', false)
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Issue Of Identity Card
+function* submitIssueOfIdentityCard(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/fields/issue`, payload, 'POST', false)
+    .then(response => {
+      showMessage({
+        message: "Data Submitted Successfully",
+        type: 'success',
+      });
+      callback(response);
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Get Issue Of Identitycard
+function* getIssueOfIdentityCard(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet/fields/issue?form_id=${payload.form_id}`, null, 'GET', false)
+    .then(response => {
+      if (response.success && response.statusCode == 200) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
 export default function* watchPetSaga() {
   yield takeLatest(types.GET_PET_LIST, getPetListData);
   yield takeLatest(types.DELETE_PET, deletePet);
@@ -296,4 +372,8 @@ export default function* watchPetSaga() {
   yield takeLatest(types.GET_COUNTRY_LIST, getAllCountryList);
   yield takeLatest(types.GET_PET_DETAILS, getPetDetails);
   yield takeLatest(types.UPDATE_PET_DETAILS, updatePetDetails);
+  yield takeLatest(types.PET_IDENTIFICATION_OF_ANIMAL, submitIdentificationOfAnimal);
+  yield takeLatest(types.GET_IDENTIFICATION_OF_ANIMAL, getIdentificationOfAnimal);
+  yield takeLatest(types.PET_ISSUE_OF_IDENTITY_CARD, submitIssueOfIdentityCard);
+  yield takeLatest(types.GET_ISSUE_OF_IDENTITY_CARD, getIssueOfIdentityCard);
 }

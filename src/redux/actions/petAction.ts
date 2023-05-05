@@ -92,3 +92,42 @@ export const updatePetDetails = (payload: object, callback: Function) => {
     callback,
   };
 };
+
+export const submitIdentificationOfAnimal = (payload: object, callback: Function) => {
+  return {
+    type: types.PET_IDENTIFICATION_OF_ANIMAL,
+    payload,
+    callback,
+  };
+};
+
+export const getIdentificationOfAnimal = (payload: object, callback: Function) => {
+  return {
+    type: types.GET_IDENTIFICATION_OF_ANIMAL,
+    payload,
+    callback,
+  };
+};
+
+export const submitIssueOfIdentityCard = (payload: object, callback: Function) => {
+  return {
+    type: types.PET_ISSUE_OF_IDENTITY_CARD,
+    payload,
+    callback,
+  };
+};
+
+export const getIssueOfIdentityCard = (payload: object, callback: Function) => {
+  return {
+    type: types.GET_ISSUE_OF_IDENTITY_CARD,
+    payload,
+    callback,
+  };
+};
+
+export const updateVaccinationObj = (payload: any) => {
+  return {
+    type: types.UPDATE_VACCINATION_OBJECT,
+    payload,
+  };
+};

@@ -11,6 +11,7 @@ import { store } from '../../../store/configureStore';
 import { types } from '../../../redux/ActionTypes';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 import PetListView from '../../../components/petListView';
+import { setActiveSubModule } from '../../../redux/actions/authAction';
 
 export const MY_PET_LIST_SCREEN = {
   name: 'MyPetList',
@@ -35,6 +36,9 @@ const MyPetList = ({route}) => {
   
   const callPetListFn = () => {
     setState(prev => ({...prev, loader: true}));
+
+    //Manage Floating button
+    dispatch(setActiveSubModule(null))
 
     dispatch(
       getPetListData((res: any) => {
