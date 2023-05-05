@@ -55,9 +55,9 @@ const PetPassportMenu = ({route}: any) => {
 
   const onPetPassportMenuItemPress = (data: MenuOptions, position: number) => {
     if(position == 0) {
-      navigate(IDENTIFICATION_OF_ANIMAL_SCREEN.name, {formId: petObj.form_id});
+      navigate(IDENTIFICATION_OF_ANIMAL_SCREEN.name, {vaccineObj: data, petObj});
     } else if(position == 1) {
-      navigate(ISSUE_OF_IDENTITY_CARD_SCREEN.name, {formId: petObj.form_id});
+      navigate(ISSUE_OF_IDENTITY_CARD_SCREEN.name, {vaccineObj: data, petObj});
     } else {
       navigate(PET_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
     }

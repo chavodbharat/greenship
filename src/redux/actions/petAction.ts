@@ -131,3 +131,10 @@ export const updateVaccinationObj = (payload: any) => {
     payload,
   };
 };
+
+export const updatePetObj = (payload: any) => {
+  return {
+    type: types.UPDATE_PET_OBJECT,
+    payload,
+  };
+};

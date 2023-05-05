@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { darkColors } from "../../../../theme/colors";
 import Header from "../../../../components/header";
-import { scale } from "../../../../theme/responsive";
+import { scale, verticalScale } from "../../../../theme/responsive";
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Spinner from "../../../../components/spinner";
@@ -13,6 +13,7 @@ import moment from "moment";
 import { TAG_DATE_FORMATE } from "../../../../utils/Constants/AllConstance";
 import { getIssueOfIdentityCard, submitIssueOfIdentityCard } from "../../../../redux/actions/petAction";
 import { goBack } from "../../../../routing/navigationRef";
+import PetPassportSubHeader from "../../../../components/petPassportSubHeader";
 
 export const ISSUE_OF_IDENTITY_CARD_SCREEN = {
     name: 'IssueOfIdentityCard',
@@ -20,7 +21,7 @@ export const ISSUE_OF_IDENTITY_CARD_SCREEN = {
   
 const IssueOfIdentityCard = ({route}: any) => {
     const dispatch = useDispatch();
-    const { formId } = route.params;
+    const { vaccineObj, petObj } = route.params;
     const staticDateOfIssue = "Select Date of Issue";
 
     const [state, setState] = useState({
@@ -54,7 +55,7 @@ const IssueOfIdentityCard = ({route}: any) => {
         setState(prev => ({...prev, loader: true}));
     
         dispatch(
-          getIssueOfIdentityCard({form_id: formId}, (res: any) => {
+          getIssueOfIdentityCard({form_id: petObj.form_id}, (res: any) => {
             if(res) {
                 const { data } = res;
                 setState(prev => ({...prev, loader: false, 
@@ -112,7 +113,7 @@ const IssueOfIdentityCard = ({route}: any) => {
             'data-e-mail-adresse': state?.emailAddress,
             'data-ausstellungsdatum': state?.dateOfIssue,
             'data-ausweisnummer': state?.idNumber,
-            'form_id': formId,
+            'form_id': petObj.form_id,
         };
         dispatch(
             submitIssueOfIdentityCard(body, (res: any) => {
@@ -127,8 +128,12 @@ const IssueOfIdentityCard = ({route}: any) => {
             <Spinner visible={state?.loader} color={darkColors.listBackGradientThree}/>
             <Header
                 statusBarColor={darkColors.listBackGradientThree}/>
+            <PetPassportSubHeader
+                title={vaccineObj.label}
+                petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}
+            />      
             <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
-                <View style={[styles.flexOne]}>    
+                <View style={[styles.flexOne,{marginTop: verticalScale(15)}]}>    
                     <TextInput
                         value={state.nameOfAuthorizedVeterinarian}
                         mode="outlined"

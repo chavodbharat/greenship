@@ -7,7 +7,7 @@ import Header from '../../../../components/header';
 import LinearGradient from '../../../../components/linearGradient';
 import Spinner from '../.././../../components/spinner';
 import { scale, verticalScale } from '../../../../theme/responsive';
-import { addPetVaccine, getPetVaccinationList, updateVaccinationObj } from '../../../../redux/actions/petAction';
+import { addPetVaccine, getPetVaccinationList, updatePetObj, updateVaccinationObj } from '../../../../redux/actions/petAction';
 import PetPassportSubHeader from '../../../../components/petPassportSubHeader';
 import { TAG_DATE_FORMATE } from '../../../../utils/Constants/AllConstance';
 import Icon from 'react-native-vector-icons/Feather';
@@ -54,6 +54,7 @@ const PetVaccination = ({route}: any) => {
 
   useEffect(() => {
     dispatch(updateVaccinationObj(vaccineObj));
+    dispatch(updatePetObj(petObj));
     dispatch(setActiveSubModule(PET_VACCINATION_SCREEN.name));
     callPetPassportVaccineListFn();
   }, [isFocused]);
@@ -371,7 +372,7 @@ const PetVaccination = ({route}: any) => {
         onSubmit={(range) => onDateSelected(range)} />
       <ImageSelection
         modalVisible={state.imageModalVisible}
-        setModalVisible={() =>  setState(prev => ({...prev, visible: !prev.imageModalVisible}))}
+        setModalVisible={() =>  setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}))}
         onPressCamera={openCamera}
         onPressGallery={openGallery}
       />  

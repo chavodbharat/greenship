@@ -569,7 +569,7 @@ const AddPet = ({route}: any) => {
       <ImageSelection
         modalVisible={state.imageModalVisible}
         setModalVisible={() =>
-          setState(prev => ({...prev, visible: !prev.imageModalVisible}))
+          setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}))
         }
         onPressCamera={openCamera}
         onPressGallery={openGallery}

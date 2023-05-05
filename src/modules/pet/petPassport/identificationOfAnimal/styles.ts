@@ -14,7 +14,7 @@ export default StyleSheet.create({
     flex: 0
   },
   txtInput: {
-    marginHorizontal: scale(20),
+    marginHorizontal: scale(12),
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratRegular,
     color: darkColors.darkGrey,
@@ -23,7 +23,7 @@ export default StyleSheet.create({
   },
   error: {
     color: darkColors.emergencyGradientOne,
-    marginHorizontal: scale(20),
+    marginHorizontal: scale(15),
     fontSize: moderateScale(11),
     fontFamily: fonts.MontserratRegular,
     paddingTop: scale(4),
@@ -46,7 +46,7 @@ export default StyleSheet.create({
   textInputCustomStyle: {
     marginTop: verticalScale(15),
     borderWidth: 1,
-    marginHorizontal: scale(20),
+    marginHorizontal: scale(12),
     padding: scale(13),
     borderRadius: scale(5),
     backgroundColor: darkColors.white,

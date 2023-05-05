@@ -29,7 +29,7 @@ export const ADD_PET_VACCINATION_SCREEN = {
 
 const AddPetVaccination = ({route}: any) => {
   const dispatch = useDispatch();
-  const { vaccineObj } = route.params;
+  const { vaccineObj, petObj } = route.params;
   
   const {colors} = useTheme();
   const [state, setState] = useState({
@@ -272,10 +272,10 @@ const AddPetVaccination = ({route}: any) => {
       <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
         statusBarColor={colors.listBackGradientThree}/>
-      {/* <PetPassportSubHeader
+      <PetPassportSubHeader
         title={vaccineObj.label}
         petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}
-      />   */}
+      />  
       <View style={[styles.flexOne, {marginLeft: scale(5), marginRight: scale(5),
         marginTop: verticalScale(3)}]}>
         <FlatList
@@ -293,7 +293,7 @@ const AddPetVaccination = ({route}: any) => {
         onSubmit={(range) => onDateSelected(range)} />
       <ImageSelection
         modalVisible={state.imageModalVisible}
-        setModalVisible={() =>  setState(prev => ({...prev, visible: !prev.imageModalVisible}))}
+        setModalVisible={() =>  setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}))}
         onPressCamera={openCamera}
         onPressGallery={openGallery}
       />  

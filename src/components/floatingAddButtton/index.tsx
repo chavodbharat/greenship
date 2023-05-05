@@ -43,7 +43,8 @@ const FloatingAddButton = () => {
   const updateModalStatus = () => {
     if(auth.activeModule === 0){
       if(auth.activeSubModule === PET_VACCINATION_SCREEN.name){
-        navigate(ADD_PET_VACCINATION_SCREEN.name,{vaccineObj: pet.vaccinationObj});   
+        navigate(ADD_PET_VACCINATION_SCREEN.name,{vaccineObj: pet.vaccinationObj,
+          petObj: pet.petObj});   
       } else {
         if(pet.newFormId){
           navigate(ADD_PET_SCREEN.name,{formId: pet.newFormId, isEditMode: false, isViewOnly: false});

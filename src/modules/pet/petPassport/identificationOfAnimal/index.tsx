@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { darkColors } from "../../../../theme/colors";
 import Header from "../../../../components/header";
-import { scale } from "../../../../theme/responsive";
+import { scale, verticalScale } from "../../../../theme/responsive";
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Spinner from "../../../../components/spinner";
@@ -13,6 +13,7 @@ import moment from "moment";
 import { TAG_DATE_FORMATE } from "../../../../utils/Constants/AllConstance";
 import { getIdentificationOfAnimal, submitIdentificationOfAnimal } from "../../../../redux/actions/petAction";
 import { goBack } from "../../../../routing/navigationRef";
+import PetPassportSubHeader from "../../../../components/petPassportSubHeader";
 
 export const IDENTIFICATION_OF_ANIMAL_SCREEN = {
     name: 'IdentificationOfAnimal',
@@ -20,7 +21,7 @@ export const IDENTIFICATION_OF_ANIMAL_SCREEN = {
   
 const IdentificationOfAnimal = ({route}: any) => {
     const dispatch = useDispatch();
-    const { formId } = route.params;
+    const { vaccineObj, petObj } = route.params;
     const staticDateOfImplantation = "Select Date of Implantation";
     const staticDateOfTatto = "Select Date of Tattoo";
 
@@ -50,7 +51,7 @@ const IdentificationOfAnimal = ({route}: any) => {
         setState(prev => ({...prev, loader: true}));
     
         dispatch(
-          getIdentificationOfAnimal({form_id: formId}, (res: any) => {
+          getIdentificationOfAnimal({form_id: petObj.form_id}, (res: any) => {
             if(res) {
                 const { data } = res;
                 setState(prev => ({...prev, loader: false, alphanumerischerCode:  data['data-alphanumerischer'],
@@ -92,7 +93,7 @@ const IdentificationOfAnimal = ({route}: any) => {
             'data-alphanumerischer-t': state?.alphanumericTattooCode,
             'data-datum-der-ta': state?.dateOfTattoo,
             'data-tätowierungsstelle': state?.tattooSpot,
-            'form_id': formId,
+            'form_id': petObj.form_id,
         };
         dispatch(
             submitIdentificationOfAnimal(body, (res: any) => {
@@ -107,8 +108,12 @@ const IdentificationOfAnimal = ({route}: any) => {
             <Spinner visible={state?.loader} color={darkColors.listBackGradientThree}/>
             <Header
                 statusBarColor={darkColors.listBackGradientThree}/>
+            <PetPassportSubHeader
+                title={vaccineObj.label}
+                petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}
+            />  
             <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
-                <View style={[styles.flexOne]}>    
+                <View style={[styles.flexOne,{marginTop: verticalScale(15)}]}>    
                     <TextInput
                         value={state.alphanumerischerCode}
                         mode="outlined"

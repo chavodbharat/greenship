@@ -425,7 +425,7 @@ const AddAdditionalPetDetails = ({route}: any) => {
         </ActionSheetModal>
         <ImageSelection
           modalVisible={state.imageModalVisible}
-          setModalVisible={() =>  setState(prev => ({...prev, visible: !prev.imageModalVisible}))}
+          setModalVisible={() =>  setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}))}
           onPressCamera={openCamera}
           onPressGallery={openGallery}
         /> 

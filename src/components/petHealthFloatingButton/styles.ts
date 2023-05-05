@@ -39,7 +39,7 @@ export default StyleSheet.create({
     height: scale(42)
   },
   healthIconStyle: {
-    width: scale(42), 
-    height: scale(42)
+    width: scale(37), 
+    height: scale(46)
   }
 });
