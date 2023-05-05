@@ -12,6 +12,7 @@ import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
 import {useIsFocused} from '@react-navigation/native';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
+import SeekBar from '../../../components/chooseRadiusModal/radiusSeekBar';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',

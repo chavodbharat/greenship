@@ -1,9 +1,8 @@
 export interface HeaderTypePropsInterface {
-    statusBarColor?: string;
-    isfilter?: boolean;
-    onSearchPress?: () => void;
-    isEmergency?: boolean; 
-    locationAddress?: string;
-    onLocationSearch?: (value: string) => void;
-};
-  
+  statusBarColor?: string;
+  onSearchPress?: () => void;
+  isEmergency?: boolean;
+  locationAddress?: string;
+  onLocationSearch?: (value: string) => void;
+  onFilterPress?: any;
+}

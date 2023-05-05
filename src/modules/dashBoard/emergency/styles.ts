@@ -112,9 +112,9 @@ export default StyleSheet.create({
   list: {
     position: 'absolute',
     zIndex: 100,
-    width: '75%',
-    marginTop: verticalScale(80),
-    marginLeft: scale(50),
+    width: '63%',
+    marginTop: verticalScale(90),
+    marginLeft: scale(45),
   },
   item: {
     backgroundColor: 'white',

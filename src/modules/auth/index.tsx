@@ -1,13 +1,79 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './styles';
-import {View, Text, Image, Pressable, Linking} from 'react-native';
+import {View, Text, Image, Pressable, Linking, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {navigate} from '../../routing/navigationRef';
-import Entypo from 'react-native-vector-icons/Entypo';
-import {scale} from '../../theme/responsive';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import appleAuth, {
+  AppleButton,
+  AppleAuthRequestOperation,
+  AppleAuthRequestScope,
+  AppleAuthCredentialState,
+  AppleAuthError,
+} from '@invertase/react-native-apple-authentication';
+import DeviceInfo from 'react-native-device-info';
+import {scale, verticalScale} from '../../theme/responsive';
+const version = parseFloat(DeviceInfo.getSystemVersion());
+
 const Welcome = () => {
+  useEffect(() => {
+    configureGmail();
+  }, []);
+
+  const configureGmail = () => {
+    GoogleSignin.configure({
+      webClientId:
+        '1050826608828-8hjbfv4ocrq1f3fs92smnd1airjejkdc.apps.googleusercontent.com',
+      offlineAccess: false,
+    });
+  };
+
+  const gmailSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      await GoogleSignin.signOut();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('log', userInfo);
+    } catch (error) {
+      console.log('log0', error);
+
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
+
+  const onAppleButtonPress = async () => {
+    // performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      // Note: it appears putting FULL_NAME first is important, see issue #293
+      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    });
+
+    console.log('fff', appleAuthRequestResponse);
+
+    // get current authentication state for user
+    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    const credentialState = await appleAuth.getCredentialStateForUser(
+      appleAuthRequestResponse.user,
+    );
+
+    // use credentialState response to ensure the user is authenticated
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+      // user is authenticated
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.main}>
@@ -28,6 +94,24 @@ const Welcome = () => {
           </Pressable>
         </View>
 
+        {Platform.OS === 'ios' && version >= 13 && (
+          <View style={{alignSelf: 'center'}}>
+            <AppleButton
+              onPress={onAppleButtonPress}
+              buttonStyle={AppleButton.Style.WHITE}
+              cornerRadius={5}
+              buttonType={AppleButton.Type.SIGN_IN}
+              style={{
+                width: scale(320), // You must specify a width
+                height: scale(35), // You must specify a height
+                borderWidth: scale(1),
+                borderRadius: scale(4),
+                marginBottom: verticalScale(8),
+              }}
+            />
+          </View>
+        )}
+
         <View style={styles.btn}>
           <Image
             style={styles.icon}
@@ -37,16 +121,7 @@ const Welcome = () => {
             <Text style={styles.socialBtnLabel}>SignIn with facebook</Text>
           </View>
         </View>
-        {/* <View style={styles.btn}>
-          <Image
-            style={styles.icon}
-            source={require('../../assets/images/facebook_logo.png')}
-          />
-          <View style={styles.wrapper}>
-            <Text style={styles.socialBtnLabel}>SignIn with facebook</Text>
-          </View>
-        </View> */}
-        <View style={styles.btn}>
+        <Pressable onPress={gmailSignIn} style={styles.btn}>
           <Image
             style={styles.icon}
             source={require('../../assets/images/logo_google.png')}
@@ -54,7 +129,7 @@ const Welcome = () => {
           <View style={styles.wrapper}>
             <Text style={styles.socialBtnLabel}>SignIn with gmail</Text>
           </View>
-        </View>
+        </Pressable>
 
         <View style={styles.end}>
           <Pressable

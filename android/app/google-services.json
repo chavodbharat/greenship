@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1050826608828",
+    "project_id": "greensheep-fa897",
+    "storage_bucket": "greensheep-fa897.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050826608828:android:886a5f2256395e259440b9",
+        "android_client_info": {
+          "package_name": "com.greensheep"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050826608828-4cavl09gr0to1m3tckpau6d5fabhvga7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.greensheep",
+            "certificate_hash": "d904d7512efda03dcd2a5af06d62cd9e9b503221"
+          }
+        },
+        {
+          "client_id": "1050826608828-tskhqtvo1sjivfdmgejmh04ka6qbvpd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.greensheep",
+            "certificate_hash": "3b0fb8bc36202a1093cbda5914a247bec9f44cb6"
+          }
+        },
+        {
+          "client_id": "1050826608828-8hjbfv4ocrq1f3fs92smnd1airjejkdc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDX9KzweKJ2rmcNYYDLpr7srno789-27Lk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050826608828-8hjbfv4ocrq1f3fs92smnd1airjejkdc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
