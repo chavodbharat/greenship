@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Pressable, Text, View} from 'react-native';
+import {Image, Platform, Pressable, Text, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {navigate} from '../../../routing/navigationRef';
@@ -7,12 +7,16 @@ import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
 import {setActiveSubModule, setTabBgColor} from '../../../redux/actions/authAction';
 import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
-import {MY_MEMBER_LIST_SCREEN} from '../../community/memberList';
+import {MY_MEMBER_LIST_SCREEN} from '../../community/searchPetUserList';
 import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
 import {useIsFocused} from '@react-navigation/native';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 import SeekBar from '../../../components/chooseRadiusModal/radiusSeekBar';
+import Geolocation from 'react-native-geolocation-service';
+import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import { getReverseGeocodingData } from '../../../utils/Utility';
+import { types } from '../../../redux/ActionTypes';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -35,6 +39,10 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(setActiveSubModule(null));
+    if (isFocused) {
+      requestLocationPermission();
+    }
+
     if (isFocused && userData?.id) {
       let body = {
         context: 'view',
@@ -93,6 +101,63 @@ const Home = () => {
           return null;
       }
     } catch (e) {}
+  };
+
+  //Location 
+  const requestLocationPermission = async () => {
+    const granted = await getLocationPermissions();
+
+    if (granted) {
+      setState(prev => ({...prev, loading: true}));
+
+      getCurrentPosition();
+    }
+  };
+
+  const getLocationPermissions = async () => {
+    const granted = await request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
+        ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+      }),
+      {
+        title: 'GreenShip',
+        message: 'GreenShip would like access to your location ',
+      },
+    );
+
+    return granted === RESULTS.GRANTED;
+  };
+
+  const setPosition = (lat: any, long: any) => {
+    console.log("Lat", lat);
+    console.log("Long", long);
+    setState(prev => ({...prev, latitude: lat, longitude: long}));
+  };
+
+  const getCurrentPosition = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const crd = position.coords;
+        getAddress(crd.latitude, crd.longitude);
+        setPosition(crd.latitude, crd.longitude);
+      },
+      error => {
+        console.log('error', error.code, error.message);
+      },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    );
+  };
+
+  const getAddress = (latitude?: any, longitude?: any) => {
+    getReverseGeocodingData(latitude, longitude).then(response => {
+      console.log("Address", response);
+      dispatch({
+        type: types.UPDATE_CURRENT_LOCATION,
+        payload: {latitude, longitude, address: response},
+      });
+      setState(prev => ({...prev, locationAddress: response}));
+    });
   };
 
   let arr = [
@@ -242,7 +307,6 @@ const Home = () => {
           );
         })}
       </View>
-      <PetHealthFloatingButton />
     </SafeAreaView>
   );
 };

@@ -40,6 +40,8 @@ export const lightColors = {
   gradientLightGray: '#f9f9fa',
   emergencyGradientOne: "#B72C36",
   emergencyGradientTwo: "#ED626C",
+  filterListOne: '#c9c9c9',
+  filterListTwo: '#f4f4f4',
 };
 
 export const darkColors = {
@@ -84,5 +86,6 @@ export const darkColors = {
   gradientLightGray: '#f9f9fa',
   emergencyGradientOne: "#B72C36",
   emergencyGradientTwo: "#ED626C",
-
+  filterListOne: '#c9c9c9',
+  filterListTwo: '#f4f4f4',
 };

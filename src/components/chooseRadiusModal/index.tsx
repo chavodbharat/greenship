@@ -47,7 +47,7 @@ const ChooseRadiusModal: React.FC<chooseRadiusModalProps> = ({
           />
           <Text style={styles.title}>please choose a radius</Text>
 
-          <RadiusSeekBar dots={4} onRadiusChange={onRadiusChange} />
+          <RadiusSeekBar dataArray={["25 km", "50 km", "100 km", "200 km"]} dots={4} onRadiusChange={onRadiusChange} />
 
           <Pressable onPress={submit} style={styles.submitBtn}>
             <Text style={styles.btnLabel}>submit</Text>

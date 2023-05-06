@@ -23,8 +23,8 @@ export default StyleSheet.create({
   memberViewParentView: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: verticalScale(8), 
-    marginBottom: verticalScale(8)
+    marginTop: verticalScale(5), 
+    marginBottom: verticalScale(5)
   },
   memberAddParentView: {
     flex: 1,
@@ -32,29 +32,23 @@ export default StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center', 
     margin: scale(10), 
-    borderRadius: 5,
+    borderRadius: scale(5),
     padding: scale(10),
-    borderWidth: 1,
-    borderColor: darkColors.darkGreen 
   },
   memberImageStyle: {
-    width: scale(120), 
-    height: scale(120), 
-    borderRadius: 8, 
-    borderWidth: 1, 
-    borderColor: darkColors.darkGreen,
+    width: scale(100), 
+    height: scale(100), 
+    borderRadius: scale(5),
   },
   mainView: {
     flex: 1,
-    paddingLeft: scale(8),
-    paddingRight: scale(8),
+    paddingLeft: scale(5),
+    paddingRight: scale(5),
     marginLeft: scale(10),
     marginRight: scale(10),
     marginTop: verticalScale(5),
     marginBottom: verticalScale(5),
     borderRadius: scale(5),
-    borderWidth:1,
-    borderColor:darkColors.darkGreen,
   },
   memberAddImageStyle: {
     width: scale(80), 
@@ -73,7 +67,7 @@ export default StyleSheet.create({
     fontFamily: fonts.MontserratRegular
   },
   memberListItemTextValueStyle: {
-    fontSize: moderateScale(14),
+    fontSize: moderateScale(16),
     color: darkColors.white, 
     fontFamily: fonts.MontserratBold
   },
@@ -81,7 +75,7 @@ export default StyleSheet.create({
     fontSize: moderateScale(14),
     color: darkColors.white, 
     fontFamily: fonts.MontserratRegular,
-    // marginTop:scale(5)
+    marginTop:scale(5)
   },
   missingStatusTextStyle: {
     fontSize: moderateScale(12),
@@ -121,14 +115,14 @@ export default StyleSheet.create({
   header: {
     flexDirection: 'row',
     backgroundColor: darkColors.darkGreen,
-    borderRadius: scale(8),
+    borderRadius: scale(5),
     marginVertical: verticalScale(8),
     marginHorizontal: scale(10)
   },
   pic: {
-    height: scale(50),
-    width: scale(50),
-    borderRadius: scale(8),
+    height: scale(40),
+    width: scale(40),
+    borderRadius: scale(5),
     backgroundColor: 'red',
     marginVertical: scale(5),
     marginHorizontal: scale(5),
@@ -142,12 +136,12 @@ export default StyleSheet.create({
     fontSize: moderateScale(14),
   },
   listTitle:{
-    marginTop:scale(20),
+    marginTop:scale(10),
     marginBottom:scale(5)
   },
   listTitleText:{
     color: darkColors.black,
-    paddingLeft: scale(8),
+    paddingLeft: scale(10),
     fontFamily: fonts.MontserratSemiBold,
     fontSize: moderateScale(18),
   }

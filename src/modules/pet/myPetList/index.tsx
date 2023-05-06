@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import Header from '../../../components/header';
 import { useTheme } from '../../../providers/ThemeProvider';
 import { deletePet, getPetListData } from '../../../redux/actions/petAction';
@@ -12,6 +12,7 @@ import { types } from '../../../redux/ActionTypes';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 import PetListView from '../../../components/petListView';
 import { setActiveSubModule } from '../../../redux/actions/authAction';
+import { navigate } from '../../../routing/navigationRef';
 
 export const MY_PET_LIST_SCREEN = {
   name: 'MyPetList',
@@ -29,13 +30,19 @@ const MyPetList = ({route}) => {
     formId: "",
     isModalVisible: false,
   });
+
   const profilePic = route?.params?.userPic;
+
   useEffect(() => {
     callPetListFn();
   }, [isFocused]);
   
   const callPetListFn = () => {
     setState(prev => ({...prev, loader: true}));
+
+    // console.log("currentLatitude", currentLatitude);
+    // console.log("currentLongitude", currentLongitude);
+    // console.log("currentAddress", currentAddress);
 
     //Manage Floating button
     dispatch(setActiveSubModule(null))
@@ -70,17 +77,21 @@ const MyPetList = ({route}) => {
     );
   };
 
+  const onFilterPress = () => {
+    navigate("SearchFilter", {userPic: profilePic})
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
-        statusBarColor={colors.listBackGradientThree}/>
+        statusBarColor={colors.listBackGradientThree}
+        onFilterPress={onFilterPress}/>
       <PetListView 
         petListData={state.petListData}
         onDeletePress={(currentPetId) => callDeletePetFn(currentPetId)}
         isModalVisible={state.isModalVisible}
         onDeleteModalShowOrHide={(status) => setState(prev => ({...prev, isModalVisible: status}))}/>
-      <PetHealthFloatingButton />
     </SafeAreaView>
   );
 };

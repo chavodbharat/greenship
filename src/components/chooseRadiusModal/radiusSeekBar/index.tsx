@@ -3,14 +3,19 @@ import {View, Animated, StyleSheet, Pressable, Text} from 'react-native';
 import styles from './styles';
 import {darkColors} from '../../../theme/colors';
 import {scale} from '../../../theme/responsive';
+
 interface radiusSeekBarProps {
   dots?: any;
   onRadiusChange?: any;
+  dotsColor?: any;
+  dataArray: any
 }
 
 const RadiusSeekBar: React.FC<radiusSeekBarProps> = ({
   dots,
   onRadiusChange,
+  dotsColor,
+  dataArray
 }) => {
   const [selectedIndex, setIndex] = useState(0);
   let animation = useRef(new Animated.Value(10));
@@ -18,7 +23,7 @@ const RadiusSeekBar: React.FC<radiusSeekBarProps> = ({
   const update = index => {
     setIndex(index);
     onRadiusChange(
-      index === 0 ? '25' : index === 1 ? '50' : index === 2 ? '100' : '200',
+      index === 0 ? dataArray[0] : index === 1 ? dataArray[1] : index === 2 ? dataArray[2] : dataArray[3],
     );
     let to = index === 0 ? 10 : index === 1 ? 36 : index === 2 ? 60 : 111.5;
     Animated.timing(animation.current, {
@@ -38,7 +43,7 @@ const RadiusSeekBar: React.FC<radiusSeekBarProps> = ({
         style={[
           StyleSheet.absoluteFill,
           {
-            backgroundColor: darkColors.dashboardEmergencyBG,
+            backgroundColor: dotsColor ? dotsColor : darkColors.dashboardEmergencyBG,
             width,
             borderRadius: 8,
           },
@@ -59,18 +64,17 @@ const RadiusSeekBar: React.FC<radiusSeekBarProps> = ({
                   ...styles.dot,
                   backgroundColor:
                     selectedIndex >= index
-                      ? darkColors.dashboardEmergencyBG
-                      : 'black',
+                      ? dotsColor ? dotsColor : darkColors.dashboardEmergencyBG
+                      : darkColors.petPassportTextColor,
                 }}></Pressable>
               <Text style={styles.radiusLabel}>
                 {index === 0
-                  ? '25'
+                  ? dataArray[0]
                   : index === 1
-                  ? '50'
+                  ? dataArray[1]
                   : index === 2
-                  ? '100'
-                  : '200'}{' '}
-                km
+                  ? dataArray[2]
+                  : dataArray[3]}{' '}
               </Text>
             </View>
           );

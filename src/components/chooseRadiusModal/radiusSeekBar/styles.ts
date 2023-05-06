@@ -6,14 +6,14 @@ import {fonts} from '../../../theme/fonts';
 export default StyleSheet.create({
   seekBar: {
     height: scale(6),
-    backgroundColor: 'black',
+    backgroundColor: darkColors.petPassportTextColor,
     borderRadius: scale(8),
   },
   wrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: scale(20),
-    marginTop: verticalScale(-5),
+    marginTop: verticalScale(-6),
   },
   dot: {
     height: scale(18),

@@ -3,4 +3,5 @@ export interface LinearGradientTypePropsInterface {
   isHorizontal?: boolean;
   childStyle?: object; 
   allColorsArray?: any
+  isBorderWidthApply?: boolean;
 };

@@ -19,10 +19,11 @@ export default StyleSheet.create({
     backgroundColor: darkColors.darkGreen,
     borderRadius: scale(5),
     marginVertical: verticalScale(8),
+    marginBottom: verticalScale(10)
   },
   pic: {
-    height: scale(50),
-    width: scale(50),
+    height: scale(40),
+    width: scale(40),
     borderRadius: scale(5),
     backgroundColor: 'red',
     marginVertical: scale(5),
@@ -37,7 +38,7 @@ export default StyleSheet.create({
     fontSize: moderateScale(14),
   },
   boxView: {
-    width: '98%',
+    width: '100%',
     alignSelf: 'center',
     alignItems: 'center',
     borderWidth: 1,
@@ -99,14 +100,21 @@ export default StyleSheet.create({
     fontFamily: fonts.MontserratRegular,
     fontSize: moderateScale(13),
   },
-  loginBtn: {
+  radiusTxtStyle: {
+    color: darkColors.darkGrey,
+    fontFamily: fonts.MontserratMedium,
+    fontSize: moderateScale(14),
+    textAlign: 'center', 
+    marginBottom: verticalScale(20)
+  },
+  searchBtnStyle: {
     backgroundColor: darkColors.darkGreen,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: scale(10),
     borderRadius: scale(5),
-    marginTop: verticalScale(22),
     marginHorizontal: scale(20),
+    marginTop: verticalScale(40),
   },
 
   btnLabel: {
@@ -145,5 +153,12 @@ export default StyleSheet.create({
   actionModalStyle: {
     marginTop: verticalScale(80),
     justifyContent: 'flex-end'
+  },
+  error: {
+    color: darkColors.emergencyGradientOne,
+    marginHorizontal: scale(20),
+    fontSize: moderateScale(11),
+    fontFamily: fonts.MontserratRegular,
+    paddingTop: scale(4),
   },
 });
