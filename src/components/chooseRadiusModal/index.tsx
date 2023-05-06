@@ -11,20 +11,22 @@ interface chooseRadiusModalProps {
   modalVisible?: boolean;
   setModalVisible?: Function;
   onSubmit?: any;
+  radius?: any;
 }
 const ChooseRadiusModal: React.FC<chooseRadiusModalProps> = ({
   modalVisible = false,
   setModalVisible,
   onSubmit,
+  radius,
 }) => {
-  const [radius, selectedRadius] = useState(0);
+  const [changedRadius, setRadius] = useState(0);
 
   const onRadiusChange = value => {
-    selectedRadius(value);
+    setRadius(value);
   };
 
   const submit = () => {
-    onSubmit(radius);
+    onSubmit(changedRadius);
     setModalVisible && setModalVisible();
   };
 
@@ -47,7 +49,11 @@ const ChooseRadiusModal: React.FC<chooseRadiusModalProps> = ({
           />
           <Text style={styles.title}>please choose a radius</Text>
 
-          <RadiusSeekBar dots={4} onRadiusChange={onRadiusChange} />
+          <RadiusSeekBar
+            radius={radius}
+            dots={4}
+            onRadiusChange={onRadiusChange}
+          />
 
           <Pressable onPress={submit} style={styles.submitBtn}>
             <Text style={styles.btnLabel}>submit</Text>

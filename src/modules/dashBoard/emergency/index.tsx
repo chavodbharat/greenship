@@ -51,10 +51,7 @@ const Emergency = () => {
     locations: [],
     selectedAddress: '',
     radiusModal: false,
-    radius: '25',
-    // searchAddress: '',
-    // searchLatitude: 0,
-    // searchLatitude: 0,
+    radius: 0,
   });
 
   useEffect(() => {
@@ -130,6 +127,10 @@ const Emergency = () => {
     });
   };
 
+  const getRadius = index => {
+    return index === 0 ? '25' : index === 1 ? '50' : index === 2 ? '100' : 200;
+  };
+
   const callGetMissingPetList = (
     latitude?: any,
     longitude?: any,
@@ -140,7 +141,8 @@ const Emergency = () => {
       address: address || state.locationAddress,
       latitude: latitude || state.latitude,
       longitude: longitude || state.longitude,
-      distance: radius || state.radius,
+      distance:
+        radius || radius === 0 ? getRadius(radius) : getRadius(state.radius),
     };
     dispatch(
       getMissingPetListReq(body, res => {
@@ -252,6 +254,7 @@ const Emergency = () => {
           setModalVisible={() => {
             setState(prev => ({...prev, radiusModal: false}));
           }}
+          radius={state.radius}
           onSubmit={onFilterRadius}
         />
         <View style={styles.mapBox}>
