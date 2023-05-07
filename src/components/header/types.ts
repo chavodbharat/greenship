@@ -5,4 +5,5 @@ export interface HeaderTypePropsInterface {
   locationAddress?: string;
   onLocationSearch?: (value: string) => void;
   onFilterPress?: any;
+  isFilterShow?: boolean;
 }

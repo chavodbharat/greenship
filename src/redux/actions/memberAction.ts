@@ -1,8 +1,8 @@
 import {types} from '../ActionTypes';
 
-export const getMemberListData = (callback: Function) => {
+export const getCommunityUserList = (callback: Function) => {
   return {
-    type: types.GET_MEMBER_LIST,
+    type: types.GET_COMMUNITY_MEMBER_LIST,
     callback,
   };
 };

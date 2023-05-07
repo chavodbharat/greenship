@@ -7,7 +7,6 @@ import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
 import {setActiveSubModule, setTabBgColor} from '../../../redux/actions/authAction';
 import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
-import {MY_MEMBER_LIST_SCREEN} from '../../community/searchPetUserList';
 import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
 import {useIsFocused} from '@react-navigation/native';
@@ -17,6 +16,7 @@ import Geolocation from 'react-native-geolocation-service';
 import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import { getReverseGeocodingData } from '../../../utils/Utility';
 import { types } from '../../../redux/ActionTypes';
+import { COMMUNITY_USER_LIST_SCREEN } from '../../community/communityUserList';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -61,7 +61,7 @@ const Home = () => {
     if (index === 0) {
       navigate(MY_PET_LIST_SCREEN.name, {userPic: state.userProfilePic});
     } else if (index === 1) {
-      navigate(MY_MEMBER_LIST_SCREEN.name, {userPic: state.userProfilePic});
+      navigate(COMMUNITY_USER_LIST_SCREEN.name, {userPic: state.userProfilePic});
     } else if (index === 3) {
       navigate('Emergency');
     } else {

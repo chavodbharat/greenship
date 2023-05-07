@@ -23,7 +23,8 @@ export const SEARCH_FILTER_SCREEN = {
 const SearchFilter = ({route}: any) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
-  const profilePic = route?.params?.userPic;
+  
+  const { userPic, isPetTabShow = false } = route.params;
   //const [option,setOption] = useState(route.params?.option)
   const [state, setState] = useState({
     name: '',
@@ -43,6 +44,8 @@ const SearchFilter = ({route}: any) => {
     selectedGender: "Gender",
     actionSheetPosition: 0,
     isActionSheetShow: false,
+    selectedRadius: 25,
+    selectedAge: 0-5,
     loader: false
   });
 
@@ -61,7 +64,8 @@ const SearchFilter = ({route}: any) => {
   
   const callPetArtListFn = () => {
     setAnimalState(prev => ({...prev, loader: true}));
-
+    setState(prev => ({...prev, activeTab: isPetTabShow ? 1 : 0}));
+    
     dispatch(
       getPetArtList((res: any) => {
         if(res) {
@@ -135,21 +139,30 @@ const SearchFilter = ({route}: any) => {
   }
 
   const onRadiusChange = (data: any) => {
-    setState(prev => ({...prev, selectedRadius: data}));
+    if(state.activeTab == 0){
+      setState(prev => ({...prev, selectedRadius: data}));
+    } else {
+      setAnimalState(prev => ({...prev, selectedRadius: data}));
+    }
+  }
+
+  const onAgeChange = (data: any) => {      
+    setAnimalState(prev => ({...prev, selectedAge: data}));
   }
 
   const onSearchPress = () => {
     if(state.activeTab == 0) {
       //For User
       const {name, selectedGender, selectedRadius} = state;
-      navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: true, userName: name, userGender: 
+      navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: true, name, gender: 
         selectedGender === "Gender" ? "" : selectedGender, radius: selectedRadius,
-        profilePic});
+        profilePic: userPic});
     } else {
       //For Animal
-      const {name, selectedGender, selectedRadius} = animalState;
-      navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: false, userName: name, 
-        userGender: selectedGender, radius: selectedRadius});
+      const {name, selectedGender, selectedRadius, selectedPetArt, selectedPetRace, selectedAge} = animalState;
+      navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: false, name, 
+        gender: selectedGender === "Gender" ? "" : selectedGender, radius: selectedRadius,
+        profilePic: userPic, petArt: selectedPetArt, petRace: selectedPetRace, petAge: selectedAge});
     }
   }
 
@@ -161,7 +174,7 @@ const SearchFilter = ({route}: any) => {
         <View style={styles.container}>
           <View style={styles.header}>
             <Image
-              source={{uri: profilePic?.[0]?.full}}
+              source={{uri: userPic?.[0]?.full}}
               resizeMode="contain"
               style={styles.pic}
             />
@@ -217,7 +230,11 @@ const SearchFilter = ({route}: any) => {
 
                 <View style={{margin: scale(20)}}>
                   <Text style={styles.radiusTxtStyle}>Radius</Text>
-                  <RadiusSeekBar dataArray={["25 km", "50 km", "100 km", "200 km"]} dotsColor={darkColors.lightGreen} dots={4} onRadiusChange={onRadiusChange} />
+                  <RadiusSeekBar 
+                    dataArray={["25 km", "50 km", "100 km", "200 km"]} 
+                    dotsColor={darkColors.lightGreen} 
+                    dots={4} 
+                    onRadiusChange={onRadiusChange} />
                 </View>
               
                 <Pressable onPress={onSearchPress} style={styles.searchBtnStyle}>
@@ -291,12 +308,20 @@ const SearchFilter = ({route}: any) => {
 
                 <View style={{margin: scale(20)}}>
                   <Text style={styles.radiusTxtStyle}>Age (in years)</Text>
-                  <RadiusSeekBar dataArray={["0-5", "6-10", "11-16", "17-30"]} dotsColor={darkColors.lightGreen} dots={4} onRadiusChange={onRadiusChange} />
+                  <RadiusSeekBar 
+                    dataArray={["0-5", "6-10", "11-16", "17-30"]} 
+                    dotsColor={darkColors.lightGreen} 
+                    dots={4} 
+                    onRadiusChange={onAgeChange} />
                 </View>
 
                 <View style={{margin: scale(20)}}>
                   <Text style={[styles.radiusTxtStyle,{marginTop: scale(20)}]}>Radius</Text>
-                  <RadiusSeekBar dataArray={["25 km", "50 km", "100 km", "200 km"]} dotsColor={darkColors.lightGreen} dots={4} onRadiusChange={onRadiusChange} />
+                  <RadiusSeekBar 
+                    dataArray={["25 km", "50 km", "100 km", "200 km"]} 
+                    dotsColor={darkColors.lightGreen} 
+                    dots={4} 
+                    onRadiusChange={onRadiusChange} />
                 </View>
 
                 <Pressable onPress={onSearchPress} style={styles.searchBtnStyle}>

@@ -13,6 +13,7 @@ import PetHealthFloatingButton from '../../../components/petHealthFloatingButton
 import PetListView from '../../../components/petListView';
 import { setActiveSubModule } from '../../../redux/actions/authAction';
 import { navigate } from '../../../routing/navigationRef';
+import { SEARCH_FILTER_SCREEN } from '../../searchFilters/searchFilter';
 
 export const MY_PET_LIST_SCREEN = {
   name: 'MyPetList',
@@ -78,7 +79,7 @@ const MyPetList = ({route}) => {
   };
 
   const onFilterPress = () => {
-    navigate("SearchFilter", {userPic: profilePic})
+    navigate(SEARCH_FILTER_SCREEN.name, {userPic: profilePic, isPetTabShow: true});
   }
 
   return (

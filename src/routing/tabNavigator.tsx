@@ -26,11 +26,12 @@ import EditProfile from '../modules/dashBoard/profile/editProfile';
 import AddPet, { ADD_PET_SCREEN } from '../modules/pet/addPet';
 import AddAdditionalPetDetails, { ADD_ADDITIONAL_PET_DETAILS_SCREEN } from '../modules/pet/addPet/AddAdditionalPetDetails';
 import VaccinationMenu, { VACCINATION_MENU_SCREEN } from '../modules/pet/petPassport/vaccinationMenu';
-import SearchPetUserList, { SEARCH_PET_USER_LIST_SCREEN } from '../modules/community/searchPetUserList';
 import IdentificationOfAnimal, { IDENTIFICATION_OF_ANIMAL_SCREEN } from '../modules/pet/petPassport/identificationOfAnimal';
 import IssueOfIdentityCard, { ISSUE_OF_IDENTITY_CARD_SCREEN } from '../modules/pet/petPassport/issueOfIdentityCard';
 import AddPetVaccination, { ADD_PET_VACCINATION_SCREEN } from '../modules/pet/petPassport/addPetVaccination';
-import SearchFilter, { SEARCH_FILTER_SCREEN } from '../modules/community/searchFilter';
+import SearchFilter, { SEARCH_FILTER_SCREEN } from '../modules/searchFilters/searchFilter';
+import SearchPetUserList, { SEARCH_PET_USER_LIST_SCREEN } from '../modules/searchFilters/searchPetUserList';
+import CommunityUserList, { COMMUNITY_USER_LIST_SCREEN } from '../modules/community/communityUserList';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,6 +50,7 @@ function HomeStackScreen() {
       <HomeStack.Screen name={MY_PET_LIST_SCREEN.name} component={MyPetList} />
       <HomeStack.Screen name={SEARCH_PET_USER_LIST_SCREEN.name} component={SearchPetUserList} />
       <HomeStack.Screen name={SEARCH_FILTER_SCREEN.name} component={SearchFilter} />
+      <HomeStack.Screen name={COMMUNITY_USER_LIST_SCREEN.name} component={CommunityUserList}/>
       <HomeStack.Screen name={PET_PASSPORT_MENU_SCREEN.name} component={PetPassportMenu} />
       <HomeStack.Screen name={PET_VACCINATION_SCREEN.name} component={PetVaccination} />
       <HomeStack.Screen name={ADD_PET_VACCINATION_SCREEN.name} component={AddPetVaccination} />

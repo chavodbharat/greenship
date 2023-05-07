@@ -12,7 +12,9 @@ const Header = ({
   locationAddress,
   onLocationSearch,
   onFilterPress,
+  isFilterShow = true
 }: HeaderTypePropsInterface) => {
+
   const onBackPress = () => {
     goBack();
   };
@@ -43,13 +45,15 @@ const Header = ({
         ) : null}
       </View>
 
-      <Pressable onPress={onFilterPress} style={styles.flexZeroView}>
-        <Image
-          resizeMode="contain"
-          style={[styles.headerImageStyle, {tintColor: statusBarColor}]}
-          source={AllImages.filterIcon}
-        />
-      </Pressable>
+      {isFilterShow &&
+        <Pressable onPress={onFilterPress} style={styles.flexZeroView}>
+          <Image
+            resizeMode="contain"
+            style={[styles.headerImageStyle, {tintColor: statusBarColor}]}
+            source={AllImages.filterIcon}
+          />
+        </Pressable>
+      }
       <Pressable onPress={onSearchPress}>
         <View style={styles.flexZeroView}>
           <Image

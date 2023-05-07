@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {FlatList, Image, Pressable, Text, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {navigate} from '../../../routing/navigationRef';
-import {darkColors} from '../../../theme/colors';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import Header from '../../../components/header';
 import { useTheme } from '../../../providers/ThemeProvider';
@@ -20,7 +18,7 @@ const SearchPetUserList = ({route}: any) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
   
-  const { userName, userGender, radius, profilePic, isUser } = route.params;
+  const { name, gender, radius, profilePic, isUser, petArt, petRace, petAge } = route.params;
 
   const [state, setState] = useState({
     loader: false,
@@ -28,7 +26,7 @@ const SearchPetUserList = ({route}: any) => {
     totalResults: 0
   });
 
-   const {currentLatitude, currentLongitude, currentAddress} = useSelector(
+  const {currentLatitude, currentLongitude, currentAddress} = useSelector(
     state => ({
       currentLatitude: state.home?.currentLatitude,
       currentLongitude: state.home?.currentLongitude,
@@ -53,14 +51,14 @@ const SearchPetUserList = ({route}: any) => {
     if(isUser){
       //For User Search
       const body = {
-        name: userName,
-        gender: userGender,
+        name: name,
+        gender: gender,
         //radius: radius
         radius: 1000,
         latitude: currentLatitude,
         longitude: currentLongitude,
         page:  1,
-        per_page: 10
+        per_page: -1
       }
       dispatch(
         getSearchUserList(body, (res: any) => {
@@ -76,17 +74,17 @@ const SearchPetUserList = ({route}: any) => {
     } else {
       //For Pet Search
       const body = {
-        petName: "",
-        petArt: "",
-        petRace: "",
-        petGender: "",
-        petAge: "",
+        petName: name,
+        petArt: petArt,
+        petRace: petRace,
+        petGender: gender,
+        petAge: petAge,
         //petRadius: radius
         petRadius: 1000,
-        latitude: "",
-        longitude: "",
+        latitude: currentLatitude,
+        longitude: currentLongitude,
         page:  1,
-        per_page: 10
+        per_page: -1
       }
       dispatch(
         getSearchPetList(body, (res: any) => {
@@ -110,8 +108,8 @@ const SearchPetUserList = ({route}: any) => {
           start={{x: 0, y: 0}} 
           end={{x: 1, y: 0}} 
           colors={index%2==0 ? [colors.communityGreenColor, colors.lightGreen]
-            : [ darkColors.filterListOne, darkColors.filterListTwo]} 
-          style={[styles.mainView, index%2!=0 && {borderWidth: 1, borderColor: darkColors.lightGreen}]}>
+            : [ colors.filterListOne, colors.filterListTwo]} 
+          style={[styles.mainView, index%2!=0 && {borderWidth: 1, borderColor: colors.lightGreen}]}>
           <Pressable
             onPress={() =>{}}>
             <View style={styles.memberViewParentView}>
@@ -122,13 +120,13 @@ const SearchPetUserList = ({route}: any) => {
               </View>
               <View style={[styles.flexOne,{marginLeft:scale(15), alignSelf: 'center'}]}> 
                 <Text style={[styles.memberListItemTextValueStyle, {color: index%2==0 ? 
-                  darkColors.white : darkColors.black}]}>{item.display_name}</Text>
+                  colors.white : colors.black}]}>{item.display_name}</Text>
                 <Text style={[styles.memberListItemDesTextValueStyle,{color: index%2==0 ? 
-                  darkColors.white : darkColors.black}]}>test f{item.user_login}</Text>
+                  colors.white : colors.black}]}>{item.age}</Text>
                 <Text style={[styles.memberListItemDesTextValueStyle,{color: index%2==0 ?
-                  darkColors.white : darkColors.black}]}>test{item.friendship_status_slug}</Text>
+                  colors.white : colors.black}]}>{item.city}</Text>
                 <Text style={[styles.memberListItemDesTextValueStyle,{color: index%2==0 ? 
-                    darkColors.white : darkColors.black}]}>owns 3 animals</Text>
+                    colors.white : colors.black}]}>{item.user_pets}</Text>
               </View>
             </View>
           </Pressable>
@@ -137,9 +135,9 @@ const SearchPetUserList = ({route}: any) => {
         <LinearGradient 
           start={{x: 0, y: 0}} 
           end={{x: 1, y: 0}} 
-          colors={index%2==0 ? [colors.communityGreenColor, colors.lightGreen]
-            : [ darkColors.filterListOne, darkColors.filterListTwo]} 
-          style={[styles.mainView, index%2!=0 && {borderWidth: 1, borderColor: darkColors.lightGreen}]}>
+          colors={index%2==0 ? [colors.filterSearchPetGradientOne, colors.listBackGradientThree]
+            : [ colors.filterListOne, colors.filterListTwo]} 
+          style={[styles.mainView, index%2!=0 && {borderWidth: 1, borderColor: colors.filterSearchPetBorderColor}]}>
           <Pressable
             onPress={() =>{}}>
             <View style={styles.memberViewParentView}>
@@ -150,13 +148,13 @@ const SearchPetUserList = ({route}: any) => {
               </View>
               <View style={[styles.flexOne,{marginLeft:scale(15), alignSelf: 'center'}]}> 
                 <Text style={[styles.memberListItemTextValueStyle, {color: index%2==0 ? 
-                  darkColors.white : darkColors.black}]}>{item.pet_name}</Text>
+                  colors.white : colors.black}]}>{item.pet_name}</Text>
                 <Text style={[styles.memberListItemDesTextValueStyle,{color: index%2==0 ? 
-                  darkColors.white : darkColors.black}]}>{item.pet_age} Years</Text>
+                  colors.white : colors.black}]}>{item.pet_age} Years</Text>
                 <Text style={[styles.memberListItemDesTextValueStyle,{color: index%2==0 ?
-                  darkColors.white : darkColors.black}]}>{item.pet_art}</Text>
+                  colors.white : colors.black}]}>{item.pet_art}</Text>
                 <Text style={[styles.memberListItemDesTextValueStyle,{color: index%2==0 ? 
-                    darkColors.white : darkColors.black}]}>{item.pet_race}</Text>
+                    colors.white : colors.black}]}>{item.pet_race}</Text>
               </View>
             </View>
           </Pressable>
@@ -168,7 +166,7 @@ const SearchPetUserList = ({route}: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} />
-      <Header statusBarColor={darkColors.communityGreenColor}/>
+      <Header statusBarColor={colors.communityGreenColor}/>
       <View style={styles.container}>
         <View style={styles.header}>
           <Image

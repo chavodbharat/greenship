@@ -5,7 +5,7 @@ import {types} from '../ActionTypes';
 import {showMessage} from 'react-native-flash-message';
 
 //Get Pet List
-function* getMemberListData(data: object) {
+function* getCommunityUserList(data: object) {
   const {callback} = data;
   utilActions
     .apiCall(`${serviceUrl.apiUrl}buddypress/v1/members`, null, 'GET')
@@ -75,7 +75,7 @@ function* getSearchPetList(data: object) {
 }
 
 export default function* watchMemberSaga() {
-    yield takeLatest(types.GET_MEMBER_LIST, getMemberListData);
+    yield takeLatest(types.GET_COMMUNITY_MEMBER_LIST, getCommunityUserList);
     yield takeLatest(types.GET_SEARCH_USER_LIST, getSearchUserList);
     yield takeLatest(types.GET_SEARCH_PET_LIST, getSearchPetList);
 }

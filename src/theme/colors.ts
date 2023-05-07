@@ -42,6 +42,8 @@ export const lightColors = {
   emergencyGradientTwo: "#ED626C",
   filterListOne: '#c9c9c9',
   filterListTwo: '#f4f4f4',
+  filterSearchPetBorderColor: '#288BA8',
+  filterSearchPetGradientOne: '#206E84'
 };
 
 export const darkColors = {
@@ -88,4 +90,6 @@ export const darkColors = {
   emergencyGradientTwo: "#ED626C",
   filterListOne: '#c9c9c9',
   filterListTwo: '#f4f4f4',
+  filterSearchPetBorderColor: '#288BA8',
+  filterSearchPetGradientOne: '#206E84'
 };
