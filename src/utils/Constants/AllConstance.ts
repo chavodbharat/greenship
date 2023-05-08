@@ -1,5 +1,6 @@
 export const TAG_TIMEOUT = 2000;
 export const TAG_DATE_FORMATE = 'YYYY-MM-DD';
+export const TAG_LOCATION_API_KEY = 'AIzaSyCIqkzX9pTLBDe3KKTnDITtVBa-gLqbIEY'; 
 
 export const allGenderStaticData = () => {
     return [

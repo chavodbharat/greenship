@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {FlatList, Image, Platform, Pressable, ScrollView, Text, TouchableWithoutFeedback, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import Spinner from '../../../components/spinner';
 import Header from '../../../components/header';
 import { scale, verticalScale } from '../../../theme/responsive';
@@ -46,6 +46,15 @@ const AddAdditionalPetDetails = ({route}: any) => {
     imageModalVisible: false,
     imageType: '',
   });
+
+  const {currentLatitude, currentLongitude, currentAddress} = useSelector(
+    state => ({
+      currentLatitude: state.home?.currentLatitude,
+      currentLongitude: state.home?.currentLongitude,
+      currentAddress: state.home?.currentAddress,
+    }),
+    shallowEqual,
+  );
 
   //Static Data
   const yesNoOptions = yesNoData();
@@ -136,12 +145,14 @@ const AddAdditionalPetDetails = ({route}: any) => {
       pet_color: petColors,
       pet_stammbaum: selectedFamilyTree,
       pet_vermisst: selectedPetMissing,
-      form_id: formId.toString()
+      form_id: formId.toString(),
+      latitude: currentLatitude,
+      longitude: currentLongitude,
     } 
     if(isEdit){
       body.pet_id = petObj.id;
     }
-    console.log("Pet", body);
+    console.log("Pet=====================================>", body);
     if(isEdit) {
       dispatch(
         updatePetDetails(body, (res: any) => {
@@ -334,8 +345,8 @@ const AddAdditionalPetDetails = ({route}: any) => {
               mode="outlined"
               value={state.petColors}
               label={"Color (separate by comma)"}
-              activeOutlineColor={colors.darkGreen}
-              outlineColor={colors.darkGreen}
+              activeOutlineColor={colors.listBackGradientThree}
+              outlineColor={colors.listBackGradientThree}
               style={styles.textInputStyle}
               onChangeText={(color) => setState(prev => ({...prev, petColors: color}))}
               placeholder={"Enter Color"}
@@ -425,7 +436,7 @@ const AddAdditionalPetDetails = ({route}: any) => {
         </ActionSheetModal>
         <ImageSelection
           modalVisible={state.imageModalVisible}
-          setModalVisible={() =>  setState(prev => ({...prev, visible: !prev.imageModalVisible}))}
+          setModalVisible={() =>  setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}))}
           onPressCamera={openCamera}
           onPressGallery={openGallery}
         /> 

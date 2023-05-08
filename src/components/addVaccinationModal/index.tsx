@@ -161,7 +161,7 @@ const AddVaccination = ({isModalVisible, dateRange, onClose, onDelete}: AddVacci
         onSubmit={(range) => onDateSelected(range)} />
       <ImageSelection
         modalVisible={state.imageModalVisible}
-        setModalVisible={() =>  setState(prev => ({...prev, visible: !prev.imageModalVisible}))}
+        setModalVisible={() =>  setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}))}
         onPressCamera={openCamera}
         onPressGallery={openGallery}
       />    

@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {FlatList, Image, Pressable, Text, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import Header from '../../../../components/header';
 import LinearGradient from '../../../../components/linearGradient';
-import Spinner from '../.././../../components/spinner';
+import Spinner from '../../../../components/spinner';
 import { scale, verticalScale } from '../../../../theme/responsive';
-import { addPetVaccine, getPetVaccinationList, updatePetObj, updateVaccinationObj } from '../../../../redux/actions/petAction';
+import { addPetVaccine, getPetVaccinationList } from '../../../../redux/actions/petAction';
 import PetPassportSubHeader from '../../../../components/petPassportSubHeader';
 import { TAG_DATE_FORMATE } from '../../../../utils/Constants/AllConstance';
 import Icon from 'react-native-vector-icons/Feather';
@@ -21,17 +21,16 @@ import ImageSelection from '../../../../components/imageSelection';
 import ImagePicker from 'react-native-image-crop-picker';
 import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
 import { setActiveSubModule } from '../../../../redux/actions/authAction';
-import { useIsFocused } from '@react-navigation/native';
+import { goBack } from '../../../../routing/navigationRef';
 
-export const PET_VACCINATION_SCREEN = {
-  name: 'PetVaccination',
+export const ADD_PET_VACCINATION_SCREEN = {
+  name: 'AddPetVaccination',
 };
 
-const PetVaccination = ({route}: any) => {
+const AddPetVaccination = ({route}: any) => {
   const dispatch = useDispatch();
-  const { petObj, vaccineObj } = route.params;
+  const { vaccineObj, petObj } = route.params;
   
-  const isFocused = useIsFocused();
   const {colors} = useTheme();
   const [state, setState] = useState({
     loader: false,
@@ -44,50 +43,6 @@ const PetVaccination = ({route}: any) => {
     imageType: '',
     imageModalVisible: false,
   });
-
-  const {auth} = useSelector(
-    state => ({
-      auth: state?.auth,
-    }),
-    shallowEqual,
-  );
-
-  useEffect(() => {
-    dispatch(updateVaccinationObj(vaccineObj));
-    dispatch(updatePetObj(petObj));
-    dispatch(setActiveSubModule(PET_VACCINATION_SCREEN.name));
-    callPetPassportVaccineListFn();
-  }, [isFocused]);
-
-  useMemo(() => {
-    console.log("call 111111111111111111111111111111111111",)
-    // switch (auth?.activeSubModule) {
-    //   case 0:
-    //     return darkColors.dashboardPetBG;
-    //   case 3:
-    //     return darkColors.dashboardEmergencyBG;
-    //   default:
-    //     return darkColors.darkGreen;
-    // }
-  }, [auth?.activeSubModule]);
-  
-  const callPetPassportVaccineListFn = () => {
-    setState(prev => ({...prev, loader: true}));
-    const body = {
-      form_id: vaccineObj.form_id,
-      vaccine_type: vaccineObj.vaccine_type
-    }
-    dispatch(
-      getPetVaccinationList(body,(res: any) => {
-        if(res) {
-          const { data } = res;
-          setState(prev => ({...prev, loader: false, petVaccineListData:  data.reverse()}));
-        } else {
-          setState(prev => ({...prev, loader: false, petVaccineListData: []}));
-        }
-      }),
-    );
-  };
 
   const onSubmit = () => {
     const {dateRange, manufactureImageResponse, authorisedImageResponse} = state;
@@ -110,7 +65,7 @@ const PetVaccination = ({route}: any) => {
             showMessage({ message: "Vaccine added successfully", type: 'success'});
             setState(prev => ({...prev, loader: false, manufactureImageResponse:  null,
               authorisedImageResponse: null, dateRange: { startDate: undefined, endDate: undefined}}));
-            callPetPassportVaccineListFn();
+            goBack();
           } else {
             setState(prev => ({...prev, loader: false}));
             showMessage({ message: res.message, type: 'danger'});
@@ -221,42 +176,7 @@ const PetVaccination = ({route}: any) => {
   const renderItem = ({item, index}: any) => {
     return (
       <>
-        <LinearGradient
-          isHorizontal={false}
-          childStyle={[styles.linearGradientCustomStyle, {marginTop: verticalScale(10)}]}
-          childrean={
-            <View style={[styles.dateSelectView,{marginTop: verticalScale(12), marginBottom: verticalScale(12)}]}>
-              <View style={styles.flexOne}>
-                <Text style={[styles.petListItemTextValueStyle]}>{item.start_date 
-                +' to '+ item.end_date}</Text>
-              </View>
-            </View>
-          }
-        />
-        <View style={[styles.flexDirectionRowView,{marginBottom: verticalScale(10)}]}>  
-          <LinearGradient
-            isHorizontal={false}
-            childStyle={[styles.linearGradientCustomStyle, { paddingLeft: 0, paddingRight: 0}]}
-            childrean={
-              <View style={[styles.petPassportOptionView,{ marginTop: 0, marginBottom: 0}]}>
-                <Image
-                  style={styles.vaccinationImageStyle}
-                  source={{uri: item.manufature_images}}/>
-              </View>
-            }
-          />
-          <LinearGradient
-            isHorizontal={false}
-            childStyle={[styles.linearGradientCustomStyle, { paddingLeft: 0, paddingRight: 0}]}
-            childrean={ 
-              <View style={[styles.petPassportOptionView,{ marginTop: 0, marginBottom: 0}]}>
-                <Image
-                  style={styles.vaccinationImageStyle}
-                  source={{uri: item.authoried_images}}/>
-              </View>
-            }
-          />
-        </View>
+        
       </>
     )
   }
@@ -363,6 +283,7 @@ const PetVaccination = ({route}: any) => {
           horizontal={false}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
+          ListHeaderComponent={renderHeaderItemView}
           renderItem={renderItem}
         />
       </View> 
@@ -407,4 +328,4 @@ const PetVaccination = ({route}: any) => {
   );
 };
 
-export default PetVaccination;
+export default AddPetVaccination;

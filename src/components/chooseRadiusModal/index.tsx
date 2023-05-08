@@ -54,7 +54,6 @@ const ChooseRadiusModal: React.FC<chooseRadiusModalProps> = ({
             dots={4}
             onRadiusChange={onRadiusChange}
           />
-
           <Pressable onPress={submit} style={styles.submitBtn}>
             <Text style={styles.btnLabel}>submit</Text>
           </Pressable>

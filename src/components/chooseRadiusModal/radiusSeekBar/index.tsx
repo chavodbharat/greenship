@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Animated, StyleSheet, Pressable, Text} from 'react-native';
 import styles from './styles';
 import {darkColors} from '../../../theme/colors';

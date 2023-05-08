@@ -46,3 +46,10 @@ export const setNewPassword = (payload: object, callback: Function) => {
     callback,
   };
 };
+
+export const setActiveSubModule = (payload: any) => {
+  return {
+    type: types.ACTIVE_SUB_MODULE,
+    payload,
+  };
+};

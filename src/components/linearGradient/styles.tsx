@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { scale, verticalScale } from '../../theme/responsive';
+import { darkColors } from '../../theme/colors';
 
 export const Styles = StyleSheet.create({
   linearGradientBack: {
