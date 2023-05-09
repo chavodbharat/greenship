@@ -3,7 +3,7 @@ import {FlatList, Image, ImageBackground, Pressable, ScrollView, Text, View} fro
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {darkColors} from '../../../../theme/colors';
-import {useDispatch} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import Header from '../../../../components/header';
 import {useTheme} from '../../../../providers/ThemeProvider';
 import AllImages from '../../../../utils/Constants/AllImages';
@@ -13,7 +13,7 @@ import {
   allGenderStaticData,
 } from '../../../../utils/Constants/AllConstance';
 import {TouchableWithoutFeedback} from 'react-native';
-import { getMemberFriendList, getMemberGroupeList, getMemberProfileDetails } from '../../../../redux/actions/memberAction';
+import { getMemberFriendList, getMemberGroupeList, getMemberProfileDetails, sendFriendRequest } from '../../../../redux/actions/memberAction';
 import LinearGradient from 'react-native-linear-gradient';
 import LinearGradient1 from '../../../..//components/linearGradient';
 import { fonts } from '../../../../theme/fonts';
@@ -37,6 +37,13 @@ const VisitorProfile = ({route}: any) => {
     memberFriendListData: [],
     memberGroupListData: []
   });
+
+  const {userData} = useSelector(
+    state => ({
+      userData: state.auth?.loginData,
+    }),
+    shallowEqual,
+  );
 
   useEffect(() => {
     callMemberDetailsFn();
@@ -80,6 +87,28 @@ const VisitorProfile = ({route}: any) => {
         }
       }),
     );
+  };
+
+  //Send friend request
+  const callFriendRequestFn = () => {
+    if(state.memberObj?.friendship_status_slug === "not_friends") {
+      setState(prev => ({...prev, loader: true}));
+      const body = {
+        context: 'edit',
+        initiator_id: userData.id,
+        friend_id: userId
+      }
+      dispatch(
+        sendFriendRequest(body, (res: any) => {
+          if (res) {
+            setState(prev => ({...prev, loader: false}));
+            callMemberDetailsFn();
+          } else {
+            setState(prev => ({...prev, loader: false}));
+          }
+        }),
+      );
+    }
   };
 
   //Get Member Group List
@@ -133,8 +162,8 @@ const VisitorProfile = ({route}: any) => {
         }
       });
   
-      const newData = await Promise.all(promises); 
-     // setState(prev => ({...prev, memberFriendListData: newData, loading: false}));     
+     // const newData = await Promise.all(promises); 
+     setState(prev => ({...prev, memberFriendListData: [], loading: false}));     
     } catch (error) {
       console.log("error 11===================================>", error)
     }
@@ -262,13 +291,17 @@ const VisitorProfile = ({route}: any) => {
               />
             </View>
             <View style={styles.flexDirectionRowView}>
-              <View style={[styles.btnStyle,{marginLeft: scale(10)}]}>
+              
+              <Pressable style={[styles.btnStyle,{marginLeft: scale(10)}]}
+                onPress={() => callFriendRequestFn()}>
                 <Text style={styles.btnFontStyle}>
                   {state.memberObj?.friendship_status_slug === "not_friends"
                     ? "Add Friend" : state.memberObj?.friendship_status_slug === "pending" ?
                     "Pending" : "Friendship"}</Text>
-              </View>
-              <View style={[styles.btnStyle,{marginRight: scale(10), backgroundColor: colors.lightGreen}]}>
+              </Pressable>
+              <View style={[styles.btnStyle,{marginRight: scale(10), backgroundColor: 
+                state.memberObj?.friendship_status_slug === "is_friend" ? colors.communityGreenColor
+                  : colors.lightGreen}]}>
                 <Text style={styles.btnFontStyle}>Message</Text>
               </View>
             </View>

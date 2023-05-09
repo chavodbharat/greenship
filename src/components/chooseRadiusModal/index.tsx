@@ -22,7 +22,23 @@ const ChooseRadiusModal: React.FC<chooseRadiusModalProps> = ({
   const [changedRadius, setRadius] = useState(0);
 
   const onRadiusChange = value => {
-    setRadius(value);
+    switch (value) {
+      case 0:
+        setRadius(1);
+        break;
+      case 1:
+        setRadius(5);
+        break;  
+      case 2:
+        setRadius(10);
+        break;  
+      case 3:
+        setRadius(20);
+        break;  
+      default:
+        break;
+    }
+   
   };
 
   const submit = () => {

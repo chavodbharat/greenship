@@ -46,3 +46,11 @@ export const getMemberFriendList = (payload: object, callback: Function) => {
     callback,
   };
 };
+
+export const sendFriendRequest = (payload: object, callback: Function) => {
+  return {
+    type: types.SEND_FRIEND_REQUEST,
+    payload,
+    callback,
+  };
+};

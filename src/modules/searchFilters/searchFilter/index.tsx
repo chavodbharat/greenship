@@ -15,6 +15,7 @@ import ActionSheetModal from 'react-native-modal';
 import Header from '../../../components/header';
 import RadiusSeekBar from '../../../components/chooseRadiusModal/radiusSeekBar';
 import { SEARCH_PET_USER_LIST_SCREEN } from '../searchPetUserList';
+import CustomRadiusSeekbar from '../../../components/customRadiusSeekbar';
 
 export const SEARCH_FILTER_SCREEN = {
   name: 'SearchFilter',
@@ -139,6 +140,7 @@ const SearchFilter = ({route}: any) => {
   }
 
   const onRadiusChange = (data: any) => {
+    data = data.replace(" km", "");
     if(state.activeTab == 0){
       setState(prev => ({...prev, selectedRadius: data}));
     } else {
@@ -146,7 +148,7 @@ const SearchFilter = ({route}: any) => {
     }
   }
 
-  const onAgeChange = (data: any) => {      
+  const onAgeChange = (data: any) => { 
     setAnimalState(prev => ({...prev, selectedAge: data}));
   }
 
@@ -230,9 +232,9 @@ const SearchFilter = ({route}: any) => {
 
                 <View style={{margin: scale(20)}}>
                   <Text style={styles.radiusTxtStyle}>Radius</Text>
-                  <RadiusSeekBar 
+                  <CustomRadiusSeekbar 
                     dataArray={["25 km", "50 km", "100 km", "200 km"]} 
-                    dotsColor={darkColors.lightGreen} 
+                    dotsColor={darkColors.communityGreenColor} 
                     dots={4} 
                     onRadiusChange={onRadiusChange} />
                 </View>
@@ -308,18 +310,18 @@ const SearchFilter = ({route}: any) => {
 
                 <View style={{margin: scale(20)}}>
                   <Text style={styles.radiusTxtStyle}>Age (in years)</Text>
-                  <RadiusSeekBar 
+                  <CustomRadiusSeekbar 
                     dataArray={["0-5", "6-10", "11-16", "17-30"]} 
-                    dotsColor={darkColors.lightGreen} 
+                    dotsColor={darkColors.communityGreenColor} 
                     dots={4} 
                     onRadiusChange={onAgeChange} />
                 </View>
 
                 <View style={{margin: scale(20)}}>
                   <Text style={[styles.radiusTxtStyle,{marginTop: scale(20)}]}>Radius</Text>
-                  <RadiusSeekBar 
+                  <CustomRadiusSeekbar 
                     dataArray={["25 km", "50 km", "100 km", "200 km"]} 
-                    dotsColor={darkColors.lightGreen} 
+                    dotsColor={darkColors.communityGreenColor} 
                     dots={4} 
                     onRadiusChange={onRadiusChange} />
                 </View>

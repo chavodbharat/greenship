@@ -6,4 +6,5 @@ export interface HeaderTypePropsInterface {
   onLocationSearch?: (value: string) => void;
   onFilterPress?: any;
   isFilterShow?: boolean;
+  onCrossIconPress?: () => void;
 }

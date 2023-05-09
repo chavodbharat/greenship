@@ -16,7 +16,7 @@ import Share from 'react-native-share';
 import DeleteModal from '../deleteModal';
 
 const PetListView = ({petListData, isEmergency=false, onDeletePress, isModalVisible=false,
-  onDeleteModalShowOrHide}: PetListViewTypePropsInterface) => {
+  onDeleteModalShowOrHide, onItemPress}: PetListViewTypePropsInterface) => {
   
   const [state, setState] = useState({
     isAdditionalMenuShow: false,
@@ -79,7 +79,7 @@ const PetListView = ({petListData, isEmergency=false, onDeletePress, isModalVisi
         allColorsArray={ isEmergency ? ['#B72C36', '#ED626C'] : null}
         childrean={
           <Pressable
-            onPress={() => !isEmergency && onPetListItemPress(item)}>
+            onPress={() => isEmergency ? onItemPress(item) : onPetListItemPress(item)}>
             <View style={styles.petViewParentView}>
               <View style={styles.flexZero}>
                 <Image
