@@ -25,6 +25,27 @@ function* getCommunityUserList(data: object) {
     });
 }
 
+//Get Visitor's Profile
+function* getMemberProfileDetails(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/members/${payload.memberId}`, null, 'GET')
+    .then(response => {
+      if (!response?.message) {
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
+
 //Get Search User List
 function* getSearchUserList(data: object) {
   const {payload, callback} = data;
@@ -74,8 +95,38 @@ function* getSearchPetList(data: object) {
     });
 }
 
+//Get member groupe list
+function* getMemberGroupeList(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/groups?user_id=${payload.userId}`, null, 'GET')
+    .then(response => {
+      callback(response);
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
+
+//Get member friend list
+function* getMemberFriendList(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/friends?context=view&user_id=
+      ${payload.userId}&is_confirmed=1`, null, 'GET')
+    .then(response => {
+      callback(response);
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
+
 export default function* watchMemberSaga() {
     yield takeLatest(types.GET_COMMUNITY_MEMBER_LIST, getCommunityUserList);
     yield takeLatest(types.GET_SEARCH_USER_LIST, getSearchUserList);
     yield takeLatest(types.GET_SEARCH_PET_LIST, getSearchPetList);
+    yield takeLatest(types.GET_MEMBER_PROFILE_DETAILS, getMemberProfileDetails);
+    yield takeLatest(types.GET_MEMBER_GROUP_LIST, getMemberGroupeList);
+    yield takeLatest(types.GET_MEMBER_FRIEND_LIST, getMemberFriendList);
 }

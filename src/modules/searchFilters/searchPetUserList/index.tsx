@@ -9,6 +9,8 @@ import { getSearchPetList, getSearchUserList } from '../../../redux/actions/memb
 import Spinner from '../../../components/spinner';
 import { scale } from '../../../theme/responsive';
 import LinearGradient from 'react-native-linear-gradient';
+import { VISITOR_PROFILE_SCREEN } from '../../dashBoard/profile/visitorProfile';
+import { navigate } from '../../../routing/navigationRef';
 
 export const SEARCH_PET_USER_LIST_SCREEN = {
   name: 'SearchPetUserList',
@@ -53,7 +55,6 @@ const SearchPetUserList = ({route}: any) => {
       const body = {
         name: name,
         gender: gender,
-        //radius: radius
         radius: 1000,
         latitude: currentLatitude,
         longitude: currentLongitude,
@@ -79,8 +80,7 @@ const SearchPetUserList = ({route}: any) => {
         petRace: petRace,
         petGender: gender,
         petAge: petAge,
-        //petRadius: radius
-        petRadius: 1000,
+        petRadius: radius,
         latitude: currentLatitude,
         longitude: currentLongitude,
         page:  1,
@@ -101,7 +101,12 @@ const SearchPetUserList = ({route}: any) => {
     }
   };
   
+  const onUserPress = (userId: string) => {
+    navigate(VISITOR_PROFILE_SCREEN.name, {userId});
+  }
+
   const renderItem = ({item, index}: any) => {
+    console.log("item", item)
     return (
       (isUser ?
         <LinearGradient 
@@ -111,7 +116,7 @@ const SearchPetUserList = ({route}: any) => {
             : [ colors.filterListOne, colors.filterListTwo]} 
           style={[styles.mainView, index%2!=0 && {borderWidth: 1, borderColor: colors.lightGreen}]}>
           <Pressable
-            onPress={() =>{}}>
+            onPress={() => onUserPress(item.ID)}>
             <View style={styles.memberViewParentView}>
               <View style={styles.flexZero}>
                 <Image
@@ -150,7 +155,7 @@ const SearchPetUserList = ({route}: any) => {
                 <Text style={[styles.memberListItemTextValueStyle, {color: index%2==0 ? 
                   colors.white : colors.black}]}>{item.pet_name}</Text>
                 <Text style={[styles.memberListItemDesTextValueStyle,{color: index%2==0 ? 
-                  colors.white : colors.black}]}>{item.pet_age} Years</Text>
+                  colors.white : colors.black}]}>{item.pet_age}</Text>
                 <Text style={[styles.memberListItemDesTextValueStyle,{color: index%2==0 ?
                   colors.white : colors.black}]}>{item.pet_art}</Text>
                 <Text style={[styles.memberListItemDesTextValueStyle,{color: index%2==0 ? 
