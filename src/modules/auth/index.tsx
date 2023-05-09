@@ -17,7 +17,7 @@ import appleAuth, {
 import DeviceInfo from 'react-native-device-info';
 import {scale, verticalScale} from '../../theme/responsive';
 import {fonts} from '../../theme/fonts';
-import {LoginManager} from 'react-native-fbsdk-next';
+// import {LoginManager} from 'react-native-fbsdk-next';
 
 const version = parseFloat(DeviceInfo.getSystemVersion());
 
@@ -56,22 +56,22 @@ const Welcome = () => {
   };
 
   const facebookLogin = () => {
-    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
-      function (result) {
-        if (result.isCancelled) {
-          alert('Login Cancelled ' + JSON.stringify(result));
-        } else {
-          alert(
-            'Login success with  permisssions: ' +
-              result.grantedPermissions.toString(),
-          );
-          alert('Login Success ' + result.toString());
-        }
-      },
-      function (error) {
-        alert('Login failed with error: ' + error);
-      },
-    );
+    // LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+    //   function (result) {
+    //     if (result.isCancelled) {
+    //       alert('Login Cancelled ' + JSON.stringify(result));
+    //     } else {
+    //       alert(
+    //         'Login success with  permisssions: ' +
+    //           result.grantedPermissions.toString(),
+    //       );
+    //       alert('Login Success ' + result.toString());
+    //     }
+    //   },
+    //   function (error) {
+    //     alert('Login failed with error: ' + error);
+    //   },
+    // );
   };
 
   const onAppleButtonPress = async () => {

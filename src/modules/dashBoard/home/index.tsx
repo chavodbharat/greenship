@@ -5,18 +5,19 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {navigate} from '../../../routing/navigationRef';
 import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
-import {setActiveSubModule, setTabBgColor} from '../../../redux/actions/authAction';
+import {
+  setActiveSubModule,
+  setTabBgColor,
+} from '../../../redux/actions/authAction';
 import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
 import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
 import {useIsFocused} from '@react-navigation/native';
-import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
-import SeekBar from '../../../components/chooseRadiusModal/radiusSeekBar';
 import Geolocation from 'react-native-geolocation-service';
 import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import { getReverseGeocodingData } from '../../../utils/Utility';
-import { types } from '../../../redux/ActionTypes';
-import { COMMUNITY_USER_LIST_SCREEN } from '../../community/communityUserList';
+import {getReverseGeocodingData} from '../../../utils/Utility';
+import {types} from '../../../redux/ActionTypes';
+import {COMMUNITY_USER_LIST_SCREEN} from '../../community/communityUserList';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -38,7 +39,8 @@ const Home = () => {
   });
 
   useEffect(() => {
-    dispatch(setActiveSubModule(null));
+    // dispatch(setActiveSubModule(null));
+
     if (isFocused) {
       requestLocationPermission();
     }
@@ -61,7 +63,9 @@ const Home = () => {
     if (index === 0) {
       navigate(MY_PET_LIST_SCREEN.name, {userPic: state.userProfilePic});
     } else if (index === 1) {
-      navigate(COMMUNITY_USER_LIST_SCREEN.name, {userPic: state.userProfilePic});
+      navigate(COMMUNITY_USER_LIST_SCREEN.name, {
+        userPic: state.userProfilePic,
+      });
     } else if (index === 3) {
       navigate('Emergency');
     } else {
@@ -103,7 +107,7 @@ const Home = () => {
     } catch (e) {}
   };
 
-  //Location 
+  //Location
   const requestLocationPermission = async () => {
     const granted = await getLocationPermissions();
 
@@ -130,8 +134,8 @@ const Home = () => {
   };
 
   const setPosition = (lat: any, long: any) => {
-    console.log("Lat", lat);
-    console.log("Long", long);
+    console.log('Lat', lat);
+    console.log('Long', long);
     setState(prev => ({...prev, latitude: lat, longitude: long}));
   };
 
@@ -151,7 +155,7 @@ const Home = () => {
 
   const getAddress = (latitude?: any, longitude?: any) => {
     getReverseGeocodingData(latitude, longitude).then(response => {
-      console.log("Address", response);
+      console.log('Address', response);
       dispatch({
         type: types.UPDATE_CURRENT_LOCATION,
         payload: {latitude, longitude, address: response},
@@ -160,120 +164,6 @@ const Home = () => {
     });
   };
 
-  let arr = [
-    {
-      field_id: '123',
-      name: 'Profiltyp',
-      type: 'member_types',
-      value: 'Züchter',
-      is_required: 'true',
-    },
-    {
-      field_id: '1',
-      name: 'Benutzername',
-      type: 'textbox',
-      value: 'rahul',
-      is_required: 'true',
-    },
-    {
-      field_id: '90',
-      name: 'Vorname',
-      type: 'textbox',
-      value: 'rahultest',
-      is_required: 'true',
-    },
-    {
-      field_id: '65',
-      name: 'Nachname',
-      type: 'textbox',
-      value: 'prajapati',
-      is_required: 'true',
-    },
-    {
-      field_id: '47',
-      name: 'Geburtstag',
-      type: 'datebox',
-      value: '2023-04-28',
-      is_required: 'true',
-    },
-    {
-      field_id: '52',
-      name: 'PLZ',
-      type: 'number',
-      value: '456788',
-      is_required: 'true',
-    },
-    {
-      field_id: '49',
-      name: 'Wohnort',
-      type: 'textbox',
-      value: 'Ahmedabad1',
-      is_required: 'true',
-    },
-    {
-      field_id: '124',
-      name: 'Type of profile',
-      type: 'selectbox',
-      value: 'Teacher',
-      is_required: 'true',
-    },
-    {
-      field_id: '129',
-      name: 'Gender',
-      type: 'radio',
-      value: 'female',
-      is_required: 'true',
-    },
-    {
-      field_id: '132',
-      name: 'hobbies',
-      type: 'checkbox',
-      value: 'hockey',
-      is_required: 'true',
-    },
-    {
-      field_id: '135',
-      name: 'drop down select box demo',
-      type: 'selectbox',
-      value: 'test 3',
-      is_required: 'true',
-    },
-    {
-      field_id: '139',
-      name: 'multi select box demo',
-      type: 'multiselectbox',
-      value: 'test 3,test 2',
-      is_required: 'true',
-    },
-    {
-      field_id: '143',
-      name: 'Checkbox Acceptance demo',
-      type: 'checkbox_acceptance',
-      value: '',
-      is_required: 'true',
-    },
-    {
-      field_id: '144',
-      name: 'number field demo',
-      type: 'number',
-      value: '324',
-      is_required: 'fasle',
-    },
-    {
-      field_id: '146',
-      name: 'phone number demo',
-      type: 'telephone',
-      value: '07343443434',
-      is_required: 'false',
-    },
-    {
-      field_id: '147',
-      name: 'textarea demo (multi line)',
-      type: 'textarea',
-      value: 'https:google.com',
-      is_required: 'false',
-    },
-  ];
   return (
     <SafeAreaView style={styles.container}>
       <Pressable

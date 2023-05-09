@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Accordion from '../../../components/accordion';
 import {shallowEqual, useSelector} from 'react-redux';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
-import { MY_PET_LIST_SCREEN } from '../../pet/myPetList';
+import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
 
 const accordionArray = [
   {
@@ -67,7 +67,7 @@ const Profile = ({route}) => {
       case 0:
         return navigate('EditProfile');
       case 3:
-        return navigate(MY_PET_LIST_SCREEN.name);  
+        return navigate(MY_PET_LIST_SCREEN.name);
       default:
         return null;
     }
