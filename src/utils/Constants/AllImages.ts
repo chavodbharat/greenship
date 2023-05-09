@@ -9,6 +9,7 @@ const AllImages = {
     addIcon: require("../../assets/images/ic_add.png"),
     petHealthIcon: require("../../assets/images/ic_pet_health.png"),
     myPetIcon: require("../../assets/images/myPets.png"),
+    myGroupGray: require("../../assets/images/myGroupGray.png"),
     
 };
 

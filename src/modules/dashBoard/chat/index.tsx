@@ -30,45 +30,58 @@ const Chat = () => {
           avatar: 'https://placeimg.com/140/140/any',
         },
       },
+      {
+        _id: 2,
+        text: 'Hello developer I am Keyur Patel which is very important in your list',
+        createdAt: new Date(),
+        user: {
+          _id: 3,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
     ];
 
     setState(prev => ({...prev, messages: strObj}));
   }, [])
 
   const renderBubble = (props: any) => {
-      return  <Bubble
-      {...props}/>
+    return  <Bubble
+    {...props}
+    // renderTime={() => <Text>Time</Text>}
+    // renderTicks={() => <Text>Ticks</Text>}
+    // containerStyle={{
+    //   left: styles.leftSideViewContainer,
+    //   right: {},
+    // }}
+    wrapperStyle={{
+      left: styles.leftSideViewContainer,
+      right: styles.rightSideViewContainer,
+    }}
+    textStyle={{
+      left: styles.leftSideTextStyle,
+      right: styles.rightSideTextStyle,
+    }}
+    // bottomContainerStyle={{
+    //   left: { borderColor: 'purple', borderWidth: 4 },
+    //   right: {},
+    // }}
+    // tickStyle={{}}
+    // usernameStyle={{ color: 'tomato', fontWeight: '100' }}
+    bottomContainerStyle={{
+      left: { justifyContent: 'flex-end',},
+      right: {},
+    }}
+    // containerToNextStyle={{
+    //   left: { borderColor: 'navy', borderWidth: 4 },
+    //   right: {},
+    // }}
+    // containerToPreviousStyle={{
+    //   left: { borderColor: 'mediumorchid', borderWidth: 4 },
+    //   right: {},
+    // }}
+  />
   }
-
-  // const renderBubble = (props: any) => {
-  //   return  <Bubble
-  //   {...props}
-  //   // renderTime={() => <Text>Time</Text>}
-  //   // renderTicks={() => <Text>Ticks</Text>}
-  //   containerStyle={{
-  //     left: { borderColor: 'teal', borderWidth: 8 },
-  //     right: {},
-  //   }}
-  //   wrapperStyle={{
-  //     left: { borderColor: 'tomato', borderWidth: 4 },
-  //     right: {},
-  //   }}
-  //   bottomContainerStyle={{
-  //     left: { borderColor: 'purple', borderWidth: 4 },
-  //     right: {},
-  //   }}
-  //   tickStyle={{}}
-  //   usernameStyle={{ color: 'tomato', fontWeight: '100' }}
-  //   containerToNextStyle={{
-  //     left: { borderColor: 'navy', borderWidth: 4 },
-  //     right: {},
-  //   }}
-  //   containerToPreviousStyle={{
-  //     left: { borderColor: 'mediumorchid', borderWidth: 4 },
-  //     right: {},
-  //   }}
-  // />
-  // }
 
   const renderChatFooter = () => {
     return (
@@ -83,7 +96,7 @@ const Chat = () => {
     console.log("Messages", messages);
     const step = state.step + 1
     setState((previousState: any) => {
-      const sentMessages = [{ ...messages[0], sent: true,  }]
+      const sentMessages = [{ ...messages[0], sent: true,  receiived: true}]
       return {
         messages: GiftedChat.append(
           previousState.messages,

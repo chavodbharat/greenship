@@ -22,3 +22,27 @@ export const getSearchPetList = (payload: object, callback: Function) => {
     callback,
   };
 };
+
+export const getMemberProfileDetails = (payload: object, callback: Function) => {
+  return {
+    type: types.GET_MEMBER_PROFILE_DETAILS,
+    payload,
+    callback,
+  };
+};
+
+export const getMemberGroupeList = (payload: object, callback: Function) => {
+  return {
+    type: types.GET_MEMBER_GROUP_LIST,
+    payload,
+    callback,
+  };
+};
+
+export const getMemberFriendList = (payload: object, callback: Function) => {
+  return {
+    type: types.GET_MEMBER_FRIEND_LIST,
+    payload,
+    callback,
+  };
+};
