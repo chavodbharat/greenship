@@ -17,6 +17,8 @@ import appleAuth, {
 import DeviceInfo from 'react-native-device-info';
 import {scale, verticalScale} from '../../theme/responsive';
 import { fonts } from '../../theme/fonts';
+import {LoginManager} from 'react-native-fbsdk-next';
+
 const version = parseFloat(DeviceInfo.getSystemVersion());
 
 const Welcome = () => {
@@ -51,6 +53,25 @@ const Welcome = () => {
         // some other error happened
       }
     }
+  };
+
+  const facebookLogin = () => {
+    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+      function (result) {
+        if (result.isCancelled) {
+          alert('Login Cancelled ' + JSON.stringify(result));
+        } else {
+          alert(
+            'Login success with  permisssions: ' +
+              result.grantedPermissions.toString(),
+          );
+          alert('Login Success ' + result.toString());
+        }
+      },
+      function (error) {
+        alert('Login failed with error: ' + error);
+      },
+    );
   };
 
   const onAppleButtonPress = async () => {
@@ -116,7 +137,7 @@ const Welcome = () => {
                 />
               </View>
             )}
-            <View style={styles.btn}>
+            <Pressable onPress={facebookLogin} style={styles.btn}>
               <Image
                 style={styles.icon}
                 source={require('../../assets/images/facebook_logo.png')}
@@ -124,7 +145,7 @@ const Welcome = () => {
               <View style={styles.wrapper}>
                 <Text style={styles.socialBtnLabel}>SignIn with facebook</Text>
               </View>
-            </View>
+            </Pressable>
             <Pressable onPress={gmailSignIn} style={styles.btn}>
               <Image
                 style={styles.icon}
@@ -150,3 +171,6 @@ const Welcome = () => {
 };
 
 export default Welcome;
+function alert(arg0: string) {
+  throw new Error('Function not implemented.');
+}

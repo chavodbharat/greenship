@@ -1,36 +1,40 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Animated, StyleSheet, Pressable, Text} from 'react-native';
 import styles from './styles';
 import {darkColors} from '../../../theme/colors';
 import {scale} from '../../../theme/responsive';
-
 interface radiusSeekBarProps {
   dots?: any;
   onRadiusChange?: any;
-  dotsColor?: any;
-  dataArray: any
+  radius?: any;
 }
 
 const RadiusSeekBar: React.FC<radiusSeekBarProps> = ({
   dots,
   onRadiusChange,
-  dotsColor,
-  dataArray
+  radius,
 }) => {
   const [selectedIndex, setIndex] = useState(0);
   let animation = useRef(new Animated.Value(10));
 
-  const update = index => {
-    setIndex(index);
-    onRadiusChange(
-      index === 0 ? dataArray[0] : index === 1 ? dataArray[1] : index === 2 ? dataArray[2] : dataArray[3],
-    );
-    let to = index === 0 ? 10 : index === 1 ? 36 : index === 2 ? 60 : 111.5;
+  useEffect(() => {
+    setIndex(radius);
+  }, [radius]);
+
+  useEffect(() => {
+    let to =
+      selectedIndex === 0
+        ? 10
+        : selectedIndex === 1
+        ? 36
+        : selectedIndex === 2
+        ? 60
+        : 111.5;
     Animated.timing(animation.current, {
       toValue: to,
       duration: 20,
     }).start();
-  };
+  }, [selectedIndex]);
 
   const width = animation.current.interpolate({
     inputRange: [0, 100],
@@ -43,7 +47,7 @@ const RadiusSeekBar: React.FC<radiusSeekBarProps> = ({
         style={[
           StyleSheet.absoluteFill,
           {
-            backgroundColor: dotsColor ? dotsColor : darkColors.dashboardEmergencyBG,
+            backgroundColor: darkColors.dashboardEmergencyBG,
             width,
             borderRadius: 8,
           },
@@ -59,22 +63,26 @@ const RadiusSeekBar: React.FC<radiusSeekBarProps> = ({
                   index === 0 ? -scale(20) : index === 1 ? -scale(5) : 0,
               }}>
               <Pressable
-                onPress={() => update(index)}
+                onPress={() => {
+                  setIndex(index);
+                  onRadiusChange(index);
+                }}
                 style={{
                   ...styles.dot,
                   backgroundColor:
                     selectedIndex >= index
-                      ? dotsColor ? dotsColor : darkColors.dashboardEmergencyBG
-                      : darkColors.petPassportTextColor,
+                      ? darkColors.dashboardEmergencyBG
+                      : 'black',
                 }}></Pressable>
               <Text style={styles.radiusLabel}>
                 {index === 0
-                  ? dataArray[0]
+                  ? '25'
                   : index === 1
-                  ? dataArray[1]
+                  ? '50'
                   : index === 2
-                  ? dataArray[2]
-                  : dataArray[3]}{' '}
+                  ? '100'
+                  : '200'}{' '}
+                km
               </Text>
             </View>
           );

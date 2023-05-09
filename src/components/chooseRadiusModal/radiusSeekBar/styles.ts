@@ -1,19 +1,18 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale, scale, verticalScale} from '../../../theme/responsive';
-import {darkColors} from '../../../theme/colors';
 import {fonts} from '../../../theme/fonts';
 
 export default StyleSheet.create({
   seekBar: {
     height: scale(6),
-    backgroundColor: darkColors.petPassportTextColor,
+    backgroundColor: 'black',
     borderRadius: scale(8),
   },
   wrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: scale(20),
-    marginTop: verticalScale(-6),
+    marginTop: verticalScale(-5),
   },
   dot: {
     height: scale(18),

@@ -111,27 +111,30 @@ const VisitorProfile = ({route}: any) => {
   const fetchData = async (fields: any) => {
     // Map array to an array of Promises for API requests
     try {
-      let allData: any = [];
-      fields.forEach(async obj => {
-        await fetch(
-          `${serviceUrl.apiUrl}buddypress/v1/members/${obj.initiator_id}`,
-        )
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          if(data){
-            obj.name = data.name;
-            allData.push(obj);
-          }
-        })
-        .catch(error => {
-          return error;
-        });
+      const promises = fields.map(obj => {
+        if(Object.keys(obj).length > 0) {
+          return fetch(
+            `${serviceUrl.apiUrl}buddypress/v1/members/${obj.initiator_id}`,
+          )
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then(data => {
+            if(data){
+              obj.name = data.name;
+              return obj;
+            }
+          })
+          .catch(error => {
+            return error;
+          });
+        }
       });
-      console.log("allData", allData)
-     // const newData = await Promise.all(promises); 
-      //setState(prev => ({...prev, memberFriendListData: newData, loading: false}));     
+  
+      const newData = await Promise.all(promises); 
+     // setState(prev => ({...prev, memberFriendListData: newData, loading: false}));     
     } catch (error) {
       console.log("error 11===================================>", error)
     }
