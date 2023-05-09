@@ -61,4 +61,30 @@ export default StyleSheet.create({
     color: darkColors.white,
     fontFamily: fonts.MontserratSemiBold
   },
+  leftSideViewContainer: {
+    flex: 0,
+    backgroundColor: darkColors.white, 
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: scale(10), 
+    borderBottomLeftRadius: scale(10), 
+    borderBottomRightRadius: scale(10), 
+  },
+  rightSideViewContainer: {
+    flex: 0,
+    backgroundColor: darkColors.communityGreenColor, 
+    borderTopLeftRadius: scale(10),
+    borderTopRightRadius: 0,  
+    borderBottomLeftRadius: scale(10), 
+    borderBottomRightRadius: scale(10), 
+  },
+  leftSideTextStyle: {
+    color: darkColors.subTitleColor, 
+    fontSize: moderateScale(14),
+    fontFamily: fonts.MontserratMedium
+  },
+  rightSideTextStyle: {
+    color: darkColors.white, 
+    fontSize: moderateScale(14),
+    fontFamily: fonts.MontserratMedium
+  }
 });

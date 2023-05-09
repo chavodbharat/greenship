@@ -12,10 +12,12 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-
+  flexOneView: {
+    flex: 1
+  },
   img: {
-    height: scale(150),
-    width: scale(150),
+    height: scale(180),
+    width: scale(180),
     alignSelf: 'center',
     marginVertical: verticalScale(50),
   },
@@ -46,6 +48,7 @@ export default StyleSheet.create({
   icon: {
     height: scale(20),
     width: scale(20),
+    tintColor: darkColors.black
   },
   btnLabel: {
     color: 'white',
@@ -53,7 +56,7 @@ export default StyleSheet.create({
     fontSize: moderateScale(12),
   },
   end: {
-    flex: 1,
+    flex: 0,
     justifyContent: 'flex-end',
   },
   accordion: {
@@ -69,16 +72,17 @@ export default StyleSheet.create({
   },
   btn: {
     flexDirection: 'row',
-    backgroundColor: darkColors.darkGreen,
     marginHorizontal: scale(20),
     marginBottom: verticalScale(8),
-    borderRadius: scale(5),
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: verticalScale(6),
+    borderWidth: scale(1),
+    borderRadius: scale(4),
+    borderColor: darkColors.black
   },
   socialBtnLabel: {
-    color: 'white',
+    color: darkColors.black,
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratSemiBold,
     paddingLeft: scale(12),

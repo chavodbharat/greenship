@@ -16,6 +16,7 @@ import appleAuth, {
 } from '@invertase/react-native-apple-authentication';
 import DeviceInfo from 'react-native-device-info';
 import {scale, verticalScale} from '../../theme/responsive';
+import { fonts } from '../../theme/fonts';
 const version = parseFloat(DeviceInfo.getSystemVersion());
 
 const Welcome = () => {
@@ -77,66 +78,71 @@ const Welcome = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.main}>
-        <Image
-          resizeMode="contain"
-          style={styles.img}
-          source={require('../../assets/images/logo_name.png')}
-        />
-
-        <View style={styles.btnView}>
-          <Pressable
-            onPress={() => navigate('SignUp')}
-            style={styles.signUpBtn}>
-            <Text style={styles.btnLabel}>SIGN UP</Text>
-          </Pressable>
-          <Pressable onPress={() => navigate('Login')} style={styles.loginBtn}>
-            <Text style={styles.btnLabel}>LOGIN</Text>
-          </Pressable>
-        </View>
-
-        {Platform.OS === 'ios' && version >= 13 && (
-          <View style={{alignSelf: 'center'}}>
-            <AppleButton
-              onPress={onAppleButtonPress}
-              buttonStyle={AppleButton.Style.WHITE}
-              cornerRadius={5}
-              buttonType={AppleButton.Type.SIGN_IN}
-              style={{
-                width: scale(320), // You must specify a width
-                height: scale(35), // You must specify a height
-                borderWidth: scale(1),
-                borderRadius: scale(4),
-                marginBottom: verticalScale(8),
-              }}
-            />
-          </View>
-        )}
-
-        <View style={styles.btn}>
+        <View style={styles.flexOneView}>
           <Image
-            style={styles.icon}
-            source={require('../../assets/images/facebook_logo.png')}
+            resizeMode="contain"
+            style={styles.img}
+            source={require('../../assets/images/logo_name.png')}
           />
-          <View style={styles.wrapper}>
-            <Text style={styles.socialBtnLabel}>SignIn with facebook</Text>
+
+          <View style={styles.btnView}>
+            <Pressable
+              onPress={() => navigate('SignUp')}
+              style={styles.signUpBtn}>
+              <Text style={styles.btnLabel}>SIGN UP</Text>
+            </Pressable>
+            <Pressable onPress={() => navigate('Login')} style={styles.loginBtn}>
+              <Text style={styles.btnLabel}>LOGIN</Text>
+            </Pressable>
           </View>
         </View>
-        <Pressable onPress={gmailSignIn} style={styles.btn}>
-          <Image
-            style={styles.icon}
-            source={require('../../assets/images/logo_google.png')}
-          />
-          <View style={styles.wrapper}>
-            <Text style={styles.socialBtnLabel}>SignIn with gmail</Text>
+        <View style={styles.flexOneView}>
+          <View style={[styles.flexOneView,{justifyContent: 'center'}]}>
+            {Platform.OS === 'ios' && version >= 13 && (
+              <View style={{alignSelf: 'center'}}>
+                <AppleButton
+                  onPress={onAppleButtonPress}
+                  buttonStyle={AppleButton.Style.WHITE}
+                  cornerRadius={5}
+                  buttonType={AppleButton.Type.SIGN_IN}
+                  textStyle={{fontFamily: fonts.MontserratSemiBold}}
+                  style={{
+                    width: scale(320), // You must specify a width
+                    height: scale(35), // You must specify a height
+                    borderWidth: scale(1),
+                    borderRadius: scale(4),
+                    marginBottom: verticalScale(8),
+                  }}
+                />
+              </View>
+            )}
+            <View style={styles.btn}>
+              <Image
+                style={styles.icon}
+                source={require('../../assets/images/facebook_logo.png')}
+              />
+              <View style={styles.wrapper}>
+                <Text style={styles.socialBtnLabel}>SignIn with facebook</Text>
+              </View>
+            </View>
+            <Pressable onPress={gmailSignIn} style={styles.btn}>
+              <Image
+                style={styles.icon}
+                source={require('../../assets/images/logo_google.png')}
+              />
+              <View style={styles.wrapper}>
+                <Text style={styles.socialBtnLabel}>SignIn with gmail</Text>
+              </View>
+            </Pressable>
           </View>
-        </Pressable>
 
-        <View style={styles.end}>
-          <Pressable
-            onPress={() => Linking.openURL('mailto:support@example.com')}
-            style={styles.accordion}>
-            <Text style={styles.accordionTitle}>Do You need help ??</Text>
-          </Pressable>
+          <View style={styles.end}>
+            <Pressable
+              onPress={() => Linking.openURL('mailto:support@example.com')}
+              style={styles.accordion}>
+              <Text style={styles.accordionTitle}>Do You need help ??</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </SafeAreaView>
