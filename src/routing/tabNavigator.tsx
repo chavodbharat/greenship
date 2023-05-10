@@ -15,24 +15,45 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Emergency from '../modules/dashBoard/emergency';
 import {shallowEqual, useSelector, useDispatch} from 'react-redux';
 import {navigate} from './navigationRef';
-import MyPetList, { MY_PET_LIST_SCREEN } from '../modules/pet/myPetList';
-import PetPassportMenu, { PET_PASSPORT_MENU_SCREEN } from '../modules/pet/petPassport/petPassportMenu';
-import PetVaccination, { PET_VACCINATION_SCREEN } from '../modules/pet/petPassport/petVaccination';
-import {showMessage} from 'react-native-flash-message';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {types} from '../redux/ActionTypes';
+import MyPetList, {MY_PET_LIST_SCREEN} from '../modules/pet/myPetList';
+import PetPassportMenu, {
+  PET_PASSPORT_MENU_SCREEN,
+} from '../modules/pet/petPassport/petPassportMenu';
+import PetVaccination, {
+  PET_VACCINATION_SCREEN,
+} from '../modules/pet/petPassport/petVaccination';
 import Profile from '../modules/dashBoard/profile';
 import EditProfile from '../modules/dashBoard/profile/editProfile';
-import AddPet, { ADD_PET_SCREEN } from '../modules/pet/addPet';
-import AddAdditionalPetDetails, { ADD_ADDITIONAL_PET_DETAILS_SCREEN } from '../modules/pet/addPet/AddAdditionalPetDetails';
-import VaccinationMenu, { VACCINATION_MENU_SCREEN } from '../modules/pet/petPassport/vaccinationMenu';
-import IdentificationOfAnimal, { IDENTIFICATION_OF_ANIMAL_SCREEN } from '../modules/pet/petPassport/identificationOfAnimal';
-import IssueOfIdentityCard, { ISSUE_OF_IDENTITY_CARD_SCREEN } from '../modules/pet/petPassport/issueOfIdentityCard';
-import AddPetVaccination, { ADD_PET_VACCINATION_SCREEN } from '../modules/pet/petPassport/addPetVaccination';
-import SearchFilter, { SEARCH_FILTER_SCREEN } from '../modules/searchFilters/searchFilter';
-import SearchPetUserList, { SEARCH_PET_USER_LIST_SCREEN } from '../modules/searchFilters/searchPetUserList';
-import CommunityUserList, { COMMUNITY_USER_LIST_SCREEN } from '../modules/community/communityUserList';
-import VisitorProfile, { VISITOR_PROFILE_SCREEN } from '../modules/dashBoard/profile/visitorProfile';
+import AddPet, {ADD_PET_SCREEN} from '../modules/pet/addPet';
+import AddAdditionalPetDetails, {
+  ADD_ADDITIONAL_PET_DETAILS_SCREEN,
+} from '../modules/pet/addPet/AddAdditionalPetDetails';
+import VaccinationMenu, {
+  VACCINATION_MENU_SCREEN,
+} from '../modules/pet/petPassport/vaccinationMenu';
+import IdentificationOfAnimal, {
+  IDENTIFICATION_OF_ANIMAL_SCREEN,
+} from '../modules/pet/petPassport/identificationOfAnimal';
+import IssueOfIdentityCard, {
+  ISSUE_OF_IDENTITY_CARD_SCREEN,
+} from '../modules/pet/petPassport/issueOfIdentityCard';
+import AddPetVaccination, {
+  ADD_PET_VACCINATION_SCREEN,
+} from '../modules/pet/petPassport/addPetVaccination';
+import SearchFilter, {
+  SEARCH_FILTER_SCREEN,
+} from '../modules/searchFilters/searchFilter';
+import SearchPetUserList, {
+  SEARCH_PET_USER_LIST_SCREEN,
+} from '../modules/searchFilters/searchPetUserList';
+import CommunityUserList, {
+  COMMUNITY_USER_LIST_SCREEN,
+} from '../modules/community/communityUserList';
+import VisitorProfile, {
+  VISITOR_PROFILE_SCREEN,
+} from '../modules/dashBoard/profile/visitorProfile';
+import {useIsFocused} from '@react-navigation/native';
+import {setTabBgColor} from '../redux/actions/authAction';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,18 +70,51 @@ function HomeStackScreen() {
     <HomeStack.Navigator screenOptions={screenOptions} initialRouteName="Home">
       <HomeStack.Screen name="Home" component={Home} />
       <HomeStack.Screen name={MY_PET_LIST_SCREEN.name} component={MyPetList} />
-      <HomeStack.Screen name={SEARCH_PET_USER_LIST_SCREEN.name} component={SearchPetUserList} />
-      <HomeStack.Screen name={SEARCH_FILTER_SCREEN.name} component={SearchFilter} />
-      <HomeStack.Screen name={COMMUNITY_USER_LIST_SCREEN.name} component={CommunityUserList}/>
-      <HomeStack.Screen name={PET_PASSPORT_MENU_SCREEN.name} component={PetPassportMenu} />
-      <HomeStack.Screen name={PET_VACCINATION_SCREEN.name} component={PetVaccination} />
-      <HomeStack.Screen name={ADD_PET_VACCINATION_SCREEN.name} component={AddPetVaccination} />
+      <HomeStack.Screen
+        name={SEARCH_PET_USER_LIST_SCREEN.name}
+        component={SearchPetUserList}
+      />
+      <HomeStack.Screen
+        name={SEARCH_FILTER_SCREEN.name}
+        component={SearchFilter}
+      />
+      <HomeStack.Screen
+        name={COMMUNITY_USER_LIST_SCREEN.name}
+        component={CommunityUserList}
+      />
+      <HomeStack.Screen
+        name={PET_PASSPORT_MENU_SCREEN.name}
+        component={PetPassportMenu}
+      />
+      <HomeStack.Screen
+        name={PET_VACCINATION_SCREEN.name}
+        component={PetVaccination}
+      />
+      <HomeStack.Screen
+        name={ADD_PET_VACCINATION_SCREEN.name}
+        component={AddPetVaccination}
+      />
       <HomeStack.Screen name={ADD_PET_SCREEN.name} component={AddPet} />
-      <HomeStack.Screen name={ADD_ADDITIONAL_PET_DETAILS_SCREEN.name} component={AddAdditionalPetDetails} />
-      <HomeStack.Screen name={VACCINATION_MENU_SCREEN.name} component={VaccinationMenu} />
-      <HomeStack.Screen name={IDENTIFICATION_OF_ANIMAL_SCREEN.name} component={IdentificationOfAnimal}/>
-      <HomeStack.Screen name={ISSUE_OF_IDENTITY_CARD_SCREEN.name} component={IssueOfIdentityCard}/>
-      <HomeStack.Screen name={VISITOR_PROFILE_SCREEN.name} component={VisitorProfile}/>
+      <HomeStack.Screen
+        name={ADD_ADDITIONAL_PET_DETAILS_SCREEN.name}
+        component={AddAdditionalPetDetails}
+      />
+      <HomeStack.Screen
+        name={VACCINATION_MENU_SCREEN.name}
+        component={VaccinationMenu}
+      />
+      <HomeStack.Screen
+        name={IDENTIFICATION_OF_ANIMAL_SCREEN.name}
+        component={IdentificationOfAnimal}
+      />
+      <HomeStack.Screen
+        name={ISSUE_OF_IDENTITY_CARD_SCREEN.name}
+        component={IssueOfIdentityCard}
+      />
+      <HomeStack.Screen
+        name={VISITOR_PROFILE_SCREEN.name}
+        component={VisitorProfile}
+      />
       <HomeStack.Screen name="Emergency" component={Emergency} />
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="EditProfile" component={EditProfile} />
@@ -69,6 +123,7 @@ function HomeStackScreen() {
 }
 
 const TabNavigator = ({navigation}: any) => {
+  const isFocused = useIsFocused();
   const {auth} = useSelector(
     state => ({
       auth: state?.auth,
@@ -79,20 +134,12 @@ const TabNavigator = ({navigation}: any) => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
+    if (isFocused) {
+      dispatch(setTabBgColor(null));
+    }
+
     setTimeout(() => SplashScreen.hide(), 1000);
   }, []);
-
-  const logout = () => {
-    AsyncStorage.clear();
-    dispatch({type: types.UPDATE_SIGN_IN, payload: false});
-    dispatch({
-      type: types.LOGOUT_SUCCESS,
-    });
-    showMessage({
-      message: 'Logout Successfully..!!',
-      type: 'success',
-    });
-  };
 
   const tabBgColor = React.useMemo(() => {
     switch (auth?.activeModule) {

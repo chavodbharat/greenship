@@ -16,8 +16,8 @@ import appleAuth, {
 } from '@invertase/react-native-apple-authentication';
 import DeviceInfo from 'react-native-device-info';
 import {scale, verticalScale} from '../../theme/responsive';
-import { fonts } from '../../theme/fonts';
-import {LoginManager} from 'react-native-fbsdk-next';
+import {fonts} from '../../theme/fonts';
+// import {LoginManager} from 'react-native-fbsdk-next';
 
 const version = parseFloat(DeviceInfo.getSystemVersion());
 
@@ -56,22 +56,22 @@ const Welcome = () => {
   };
 
   const facebookLogin = () => {
-    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
-      function (result) {
-        if (result.isCancelled) {
-          alert('Login Cancelled ' + JSON.stringify(result));
-        } else {
-          alert(
-            'Login success with  permisssions: ' +
-              result.grantedPermissions.toString(),
-          );
-          alert('Login Success ' + result.toString());
-        }
-      },
-      function (error) {
-        alert('Login failed with error: ' + error);
-      },
-    );
+    // LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+    //   function (result) {
+    //     if (result.isCancelled) {
+    //       alert('Login Cancelled ' + JSON.stringify(result));
+    //     } else {
+    //       alert(
+    //         'Login success with  permisssions: ' +
+    //           result.grantedPermissions.toString(),
+    //       );
+    //       alert('Login Success ' + result.toString());
+    //     }
+    //   },
+    //   function (error) {
+    //     alert('Login failed with error: ' + error);
+    //   },
+    // );
   };
 
   const onAppleButtonPress = async () => {
@@ -112,13 +112,15 @@ const Welcome = () => {
               style={styles.signUpBtn}>
               <Text style={styles.btnLabel}>SIGN UP</Text>
             </Pressable>
-            <Pressable onPress={() => navigate('Login')} style={styles.loginBtn}>
+            <Pressable
+              onPress={() => navigate('Login')}
+              style={styles.loginBtn}>
               <Text style={styles.btnLabel}>LOGIN</Text>
             </Pressable>
           </View>
         </View>
         <View style={styles.flexOneView}>
-          <View style={[styles.flexOneView,{justifyContent: 'center'}]}>
+          <View style={[styles.flexOneView, {justifyContent: 'center'}]}>
             {Platform.OS === 'ios' && version >= 13 && (
               <View style={{alignSelf: 'center'}}>
                 <AppleButton

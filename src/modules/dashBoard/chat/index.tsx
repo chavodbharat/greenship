@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styles from './styles';
 import {View, Text, Image, SafeAreaView, Pressable, TouchableWithoutFeedback, Platform, TextInput} from 'react-native';
 import { Avatar, Bubble, Composer, GiftedChat, IMessage, InputToolbar, Send, SendProps, Time } from 'react-native-gifted-chat'
 import { useTheme } from '../../../providers/ThemeProvider';
 import { fonts } from '../../../theme/fonts';
 import AllImages from '../../../utils/Constants/AllImages';
-import { scale, verticalScale } from '../../../theme/responsive';
-import { goBack } from '../../../routing/navigationRef';
-import { Button } from 'react-native-paper';
+import {scale, verticalScale} from '../../../theme/responsive';
+import {goBack} from '../../../routing/navigationRef';
+import {Button} from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const Chat = () => {
@@ -17,7 +17,7 @@ const Chat = () => {
     messages: [],
     step: 0,
   });
-  
+
   useEffect(() => {
     const strObj: any = [
       {
@@ -43,7 +43,7 @@ const Chat = () => {
     ];
 
     setState(prev => ({...prev, messages: strObj}));
-  }, [])
+  }, []);
 
   const renderBubble = (props: any) => {
     return  <Bubble
@@ -91,12 +91,8 @@ const Chat = () => {
   }
 
   const renderChatFooter = () => {
-    return (
-      <View>
-        
-      </View>
-    )
-  }
+    return <View></View>;
+  };
 
   const renderAvtar = (props: any) => {
    // console.log(props)
@@ -120,10 +116,10 @@ const Chat = () => {
 
   
   const onSend = (messages = []) => {
-    console.log("Messages", messages);
-    const step = state.step + 1
+    console.log('Messages', messages);
+    const step = state.step + 1;
     setState((previousState: any) => {
-      const sentMessages = [{ ...messages[0], sent: true,  receiived: true}]
+      const sentMessages = [{...messages[0], sent: true, receiived: true}];
       return {
         messages: GiftedChat.append(
           previousState.messages,
@@ -140,12 +136,12 @@ const Chat = () => {
       <View style={{padding: scale(5)}}>
         <Text style={styles.userNameHeaderTextStyle}>Keyur Patel</Text>
         <Text style={styles.userOnlineOfflineStatusStyle}>Online</Text>
-        <TouchableWithoutFeedback
-          onPress={goBack}>
+        <TouchableWithoutFeedback onPress={goBack}>
           <View style={styles.imageLeftArrowParentView}>
             <Image
               style={styles.imageLeftArrowStyle}
-              source={AllImages.leftBackIcon} />
+              source={AllImages.leftBackIcon}
+            />
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -165,7 +161,7 @@ const Chat = () => {
             placeholder={"create message"} 
             {...props} />}
           //renderInputToolbar={(props) => MessengerBarContainer(props)}
-          renderSend={(props: SendProps<IMessage>) => (       
+          renderSend={(props: SendProps<IMessage>) => (
             <Send {...props} containerStyle={styles.sendBtnStyle}>
               <Text style={styles.sendFontStyle}>SEND</Text>
             </Send>

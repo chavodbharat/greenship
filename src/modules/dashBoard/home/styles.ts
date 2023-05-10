@@ -9,7 +9,9 @@ export default StyleSheet.create({
     backgroundColor: 'white',
   },
   main: {
-    paddingTop: verticalScale(50),
+    marginTop: verticalScale(50),
+    alignSelf: 'center',
+    borderRadius: scale(140),
   },
   userView: {
     height: scale(140),

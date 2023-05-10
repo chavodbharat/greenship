@@ -5,18 +5,19 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {navigate} from '../../../routing/navigationRef';
 import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
-import {setActiveSubModule, setTabBgColor} from '../../../redux/actions/authAction';
+import {
+  setActiveSubModule,
+  setTabBgColor,
+} from '../../../redux/actions/authAction';
 import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
 import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
 import {useIsFocused} from '@react-navigation/native';
-import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
-import SeekBar from '../../../components/chooseRadiusModal/radiusSeekBar';
 import Geolocation from 'react-native-geolocation-service';
 import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import { getReverseGeocodingData } from '../../../utils/Utility';
-import { types } from '../../../redux/ActionTypes';
-import { COMMUNITY_USER_LIST_SCREEN } from '../../community/communityUserList';
+import {getReverseGeocodingData} from '../../../utils/Utility';
+import {types} from '../../../redux/ActionTypes';
+import {COMMUNITY_USER_LIST_SCREEN} from '../../community/communityUserList';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -38,7 +39,8 @@ const Home = () => {
   });
 
   useEffect(() => {
-    dispatch(setActiveSubModule(null));
+    // dispatch(setActiveSubModule(null));
+
     if (isFocused) {
       requestLocationPermission();
     }
@@ -62,7 +64,9 @@ const Home = () => {
     if (index === 0) {
       navigate(MY_PET_LIST_SCREEN.name, {userPic: state.userProfilePic});
     } else if (index === 1) {
-      navigate(COMMUNITY_USER_LIST_SCREEN.name, {userPic: state.userProfilePic});
+      navigate(COMMUNITY_USER_LIST_SCREEN.name, {
+        userPic: state.userProfilePic,
+      });
     } else if (index === 3) {
       navigate('Emergency');
     } else {
@@ -104,7 +108,7 @@ const Home = () => {
     } catch (e) {}
   };
 
-  //Location 
+  //Location
   const requestLocationPermission = async () => {
     const granted = await getLocationPermissions();
 
@@ -131,8 +135,8 @@ const Home = () => {
   };
 
   const setPosition = (lat: any, long: any) => {
-    console.log("Lat", lat);
-    console.log("Long", long);
+    console.log('Lat', lat);
+    console.log('Long', long);
     setState(prev => ({...prev, latitude: lat, longitude: long}));
   };
 
@@ -152,7 +156,7 @@ const Home = () => {
 
   const getAddress = (latitude?: any, longitude?: any) => {
     getReverseGeocodingData(latitude, longitude).then(response => {
-      console.log("Address", response);
+      console.log('Address', response);
       dispatch({
         type: types.UPDATE_CURRENT_LOCATION,
         payload: {latitude, longitude, address: response},
