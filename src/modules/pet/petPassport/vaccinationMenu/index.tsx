@@ -14,6 +14,7 @@ import { navigate } from '../../../../routing/navigationRef';
 import { PET_VACCINATION_SCREEN } from '../petVaccination';
 import { useTheme } from '../../../../providers/ThemeProvider';
 import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
+import { SEARCH_FILTER_SCREEN } from '../../../searchFilters/searchFilter';
 
 export const VACCINATION_MENU_SCREEN = {
   name: 'VaccinationMenu',
@@ -56,6 +57,10 @@ const VaccinationMenu = ({route}: any) => {
     navigate(PET_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
   }
 
+  const onFilterPress = () => {
+    navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: true});
+  }
+
   const renderItem = ({item, index}: any) => {
     return (
       <LinearGradient
@@ -80,7 +85,8 @@ const VaccinationMenu = ({route}: any) => {
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
-        statusBarColor={colors.listBackGradientThree}/>
+        statusBarColor={colors.listBackGradientThree}
+        onFilterPress={onFilterPress} />
       <PetPassportSubHeader
         title={petObj.pet_name}
         petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}

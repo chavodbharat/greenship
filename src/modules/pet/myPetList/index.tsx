@@ -11,7 +11,7 @@ import { store } from '../../../store/configureStore';
 import { types } from '../../../redux/ActionTypes';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 import PetListView from '../../../components/petListView';
-import { setActiveSubModule } from '../../../redux/actions/authAction';
+import { setActiveSubModule, setTabBgColor } from '../../../redux/actions/authAction';
 import { navigate } from '../../../routing/navigationRef';
 import { SEARCH_FILTER_SCREEN } from '../../searchFilters/searchFilter';
 
@@ -79,7 +79,7 @@ const MyPetList = ({route}) => {
   };
 
   const onFilterPress = () => {
-    navigate(SEARCH_FILTER_SCREEN.name, {userPic: profilePic, isPetTabShow: true});
+    navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: true});
   }
 
   return (

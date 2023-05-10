@@ -21,7 +21,8 @@ import ImageSelection from '../../../../components/imageSelection';
 import ImagePicker from 'react-native-image-crop-picker';
 import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
 import { setActiveSubModule } from '../../../../redux/actions/authAction';
-import { goBack } from '../../../../routing/navigationRef';
+import { goBack, navigate } from '../../../../routing/navigationRef';
+import { SEARCH_FILTER_SCREEN } from '../../../searchFilters/searchFilter';
 
 export const ADD_PET_VACCINATION_SCREEN = {
   name: 'AddPetVaccination',
@@ -181,6 +182,10 @@ const AddPetVaccination = ({route}: any) => {
     )
   }
 
+  const onFilterPress = () => {
+    navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: true});
+  }
+
   const renderHeaderItemView = () => {
     return(
       <View>
@@ -271,7 +276,8 @@ const AddPetVaccination = ({route}: any) => {
     <SafeAreaView style={styles.flexOne}>
       <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
-        statusBarColor={colors.listBackGradientThree}/>
+        statusBarColor={colors.listBackGradientThree}
+        onFilterPress={onFilterPress} />
       <PetPassportSubHeader
         title={vaccineObj.label}
         petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}

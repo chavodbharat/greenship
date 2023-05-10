@@ -44,6 +44,7 @@ const Home = () => {
     }
 
     if (isFocused && userData?.id) {
+      dispatch(setTabBgColor(null));
       let body = {
         context: 'view',
         id: userData?.id,

@@ -95,7 +95,7 @@ const CommunityUserList = ({route}: any) => {
   }
 
   const onFilterPress = () => {
-    navigate(SEARCH_FILTER_SCREEN.name, {userPic: userPic});
+    navigate(SEARCH_FILTER_SCREEN.name);
   }
   
   return (

@@ -16,6 +16,7 @@ import Header from '../../../components/header';
 import RadiusSeekBar from '../../../components/chooseRadiusModal/radiusSeekBar';
 import { SEARCH_PET_USER_LIST_SCREEN } from '../searchPetUserList';
 import CustomRadiusSeekbar from '../../../components/customRadiusSeekbar';
+import { getUserProfilePic } from '../../../redux/actions/homeAction';
 
 export const SEARCH_FILTER_SCREEN = {
   name: 'SearchFilter',
@@ -25,7 +26,7 @@ const SearchFilter = ({route}: any) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
   
-  const { userPic, isPetTabShow = false } = route.params;
+  const { isPetTabShow = false } = route.params;
   //const [option,setOption] = useState(route.params?.option)
   const [state, setState] = useState({
     name: '',
@@ -34,7 +35,8 @@ const SearchFilter = ({route}: any) => {
     isActionSheetShow: false,
     loader:false,
     selectedRadius: 25,
-    activeTab: 0
+    activeTab: 0,
+    userProfilePic: null
   });
   const [animalState, setAnimalState] = useState({
     name: '',
@@ -60,8 +62,17 @@ const SearchFilter = ({route}: any) => {
   const petGenderListData = allGenderStaticData();
 
   useEffect(() => {
+    getProfilePhoto();
     callPetArtListFn();
   }, []);
+
+  const getProfilePhoto = () => {
+    dispatch(
+      getUserProfilePic({context: 'view', id: userData?.id}, (res: any) => {
+        setState(prev => ({...prev, userProfilePic: res}));
+      }),
+    );
+  }
   
   const callPetArtListFn = () => {
     setAnimalState(prev => ({...prev, loader: true}));
@@ -158,13 +169,13 @@ const SearchFilter = ({route}: any) => {
       const {name, selectedGender, selectedRadius} = state;
       navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: true, name, gender: 
         selectedGender === "Gender" ? "" : selectedGender, radius: selectedRadius,
-        profilePic: userPic});
+        profilePic: state.userProfilePic});
     } else {
       //For Animal
       const {name, selectedGender, selectedRadius, selectedPetArt, selectedPetRace, selectedAge} = animalState;
       navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: false, name, 
         gender: selectedGender === "Gender" ? "" : selectedGender, radius: selectedRadius,
-        profilePic: userPic, petArt: selectedPetArt, petRace: selectedPetRace, petAge: selectedAge});
+        profilePic: state.userProfilePic, petArt: selectedPetArt, petRace: selectedPetRace, petAge: selectedAge});
     }
   }
 
@@ -176,7 +187,7 @@ const SearchFilter = ({route}: any) => {
         <View style={styles.container}>
           <View style={styles.header}>
             <Image
-              source={{uri: userPic?.[0]?.full}}
+              source={{uri: state.userProfilePic?.[0]?.full}}
               resizeMode="contain"
               style={styles.pic}
             />
