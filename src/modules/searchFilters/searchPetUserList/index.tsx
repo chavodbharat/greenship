@@ -20,7 +20,7 @@ const SearchPetUserList = ({route}: any) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
   
-  const { name, gender, radius, profilePic, isUser, petArt, petRace, petAge } = route.params;
+  const { name, gender, radius, profilePic, isUser, petArt, petRace, petAge, memberType } = route.params;
 
   const [state, setState] = useState({
     loader: false,
@@ -54,8 +54,8 @@ const SearchPetUserList = ({route}: any) => {
       //For User Search
       const body = {
         name: name,
-        gender: gender,
-        radius: 1000,
+        member_types: memberType,
+        radius: radius,
         latitude: currentLatitude,
         longitude: currentLongitude,
         page:  1,

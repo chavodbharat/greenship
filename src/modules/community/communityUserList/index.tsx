@@ -95,7 +95,7 @@ const CommunityUserList = ({route}: any) => {
   }
 
   const onFilterPress = () => {
-    navigate(SEARCH_FILTER_SCREEN.name);
+    navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: false});
   }
   
   return (

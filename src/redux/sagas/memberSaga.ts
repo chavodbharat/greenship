@@ -139,7 +139,31 @@ function* sendFriendRequest(data: object) {
     });
 }
 
+//Get user friend list
+function* getLoginUserFriendList(data: object) {
+  const {callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/friends?context=view&is_confirmed=1`, null, 'GET')
+    .then(response => {
+      callback(response);
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
 
+//Get user friend list
+function* getLoginUserGroupList(data: object) {
+  const {callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/groups/me?context=view`, null, 'GET')
+    .then(response => {
+      callback(response);
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
 
 export default function* watchMemberSaga() {
     yield takeLatest(types.GET_COMMUNITY_MEMBER_LIST, getCommunityUserList);
@@ -149,4 +173,6 @@ export default function* watchMemberSaga() {
     yield takeLatest(types.GET_MEMBER_GROUP_LIST, getMemberGroupeList);
     yield takeLatest(types.GET_MEMBER_FRIEND_LIST, getMemberFriendList);
     yield takeLatest(types.SEND_FRIEND_REQUEST, sendFriendRequest);
+    yield takeLatest(types.GET_LOGIN_USER_FRIEND_LIST, getLoginUserFriendList);
+    yield takeLatest(types.GET_LOGIN_USER_GROUP_LIST, getLoginUserGroupList);
 }

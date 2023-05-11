@@ -140,34 +140,26 @@ const VisitorProfile = ({route}: any) => {
   const fetchData = async (fields: any) => {
     // Map array to an array of Promises for API requests
     try {
-      const promises = fields.map(obj => {
+      const promises = fields.map(async (obj: any, index: number) => {
         if(Object.keys(obj).length > 0) {
-          return fetch(
-            `${serviceUrl.apiUrl}buddypress/v1/members/${obj.initiator_id}`,
-          )
-          .then(response => {
-            if (response.ok) {
-              return response.json();
+          try {
+            const response = await fetch(`${serviceUrl.apiUrl}buddypress/v1/members/${obj.initiator_id}`);
+            const responseJson = await response.json();
+            if(!responseJson.message){
+              obj.name = responseJson.name;
+              obj.avatar_urls = responseJson.avatar_urls;
             }
-          })
-          .then(data => {
-            if(data){
-              obj.name = data.name;
-              return obj;
-            }
-          })
-          .catch(error => {
-            return error;
-          });
+            return obj;
+          } catch(error){
+              console.error(error);
+          }
         }
       });
-  
-     // const newData = await Promise.all(promises); 
-     setState(prev => ({...prev, memberFriendListData: [], loading: false}));     
+      const newData = await Promise.all(promises); 
+      setState(prev => ({...prev, memberFriendListData: newData, loader: false}));     
     } catch (error) {
-      console.log("error 11===================================>", error)
+    
     }
-  
   };
 
   const onTabChange = (position: number) => {
@@ -202,7 +194,7 @@ const VisitorProfile = ({route}: any) => {
       <View style={styles.flexDirectionRowView}>
         <View style={styles.flexZero}>
           <Image
-            style={{width: 50, height: 50, borderRadius: 5}}
+            style={styles.groupeFriendsIconStyle}
             source={{uri: item.avatar_urls?.full}}/>
         </View>
         <View style={[styles.flexOne,{marginLeft: scale(10), justifyContent: 'center'}]}>
@@ -214,16 +206,19 @@ const VisitorProfile = ({route}: any) => {
 
   const renderFriendItem = ({item, index}: any) => {
     return (
-      <View style={styles.flexDirectionRowView}>
-        <View style={styles.flexZero}>
-          <Image
-            style={{width: 50, height: 50, borderRadius: 5}}
-            source={{uri: item.avatar_urls?.full}}/>
+      (item.name &&
+        <View style={[styles.flexDirectionRowView,{marginTop: verticalScale(5),
+          marginBottom: verticalScale(5)}]}>
+          <View style={styles.flexZero}>
+            <Image
+              style={styles.groupeFriendsIconStyle}
+              source={{uri: item.avatar_urls?.full}}/>
+          </View>
+          <View style={[styles.flexOne,{marginLeft: scale(10), justifyContent: 'center'}]}>
+            <Text style={styles.groupNameTextStyle}>{item.name}</Text>
+          </View>
         </View>
-        <View style={[styles.flexOne,{marginLeft: scale(10), justifyContent: 'center'}]}>
-          <Text style={styles.groupNameTextStyle}>{item.name}</Text>
-        </View>
-      </View>
+      )
     )
   }
 
@@ -340,9 +335,11 @@ const VisitorProfile = ({route}: any) => {
                   renderItem={renderItem}
                 />
                 :
-                <View style={styles.noDataViewStyle}>
-                  <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Owner details not found</Text>
-                </View>
+                (!state.loader &&
+                  <View style={styles.noDataViewStyle}>
+                    <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Owner details not found</Text>
+                  </View>
+                )
               )
             }
             {state.activeTabPosition == 1 &&
@@ -354,9 +351,11 @@ const VisitorProfile = ({route}: any) => {
                   renderItem={renderFriendItem}
                 />
                 :
-                <View style={styles.noDataViewStyle}>
-                  <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Friend list not found</Text>
-                </View>
+                (!state.loader &&
+                  <View style={styles.noDataViewStyle}>
+                    <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Friend list not found</Text>
+                  </View>
+                )
               )
             }
             {state.activeTabPosition == 2 &&
@@ -369,9 +368,9 @@ const VisitorProfile = ({route}: any) => {
                 />
                 :
                 (!state.loader &&
-                <View style={styles.noDataViewStyle}>
-                  <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Group list not found</Text>
-                </View>
+                  <View style={styles.noDataViewStyle}>
+                    <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Group list not found</Text>
+                  </View>
                 )
               )
             }

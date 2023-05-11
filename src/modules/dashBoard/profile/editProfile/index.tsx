@@ -251,7 +251,7 @@ const EditProfile = () => {
               )}
             </View>
           );
-        } else if (type === 'selectbox' || type === 'member_types') {
+        } else if (type === 'selectbox') {
           return (
             <View key={index}>
               <Controller
@@ -432,6 +432,55 @@ const EditProfile = () => {
                 }}
                 name={name}
                 defaultValue={field?.options}
+                rules={validationRules}
+              />
+              {errors[name] && (
+                <Text style={styles.errorMsg}>{errors?.[name]?.message}</Text>
+              )}
+            </View>
+          );
+        } else if (type === 'member_types') {
+          const allData = Object.values(field?.options);
+          return (
+            <View key={index}>
+              <Controller
+                control={control}
+                render={({field: {onChange, onBlur, value}}) => {
+                  return (
+                    <SelectDropdown
+                      data={allData}
+                      onSelect={onChange}
+                      buttonStyle={styles.dropDown}
+                      rowTextForSelection={(item, index) => {
+                        return item.substring(0, 1).toUpperCase() + item.substring(1);
+                      }}
+                      renderDropdownIcon={isOpened => {
+                        return (
+                          <MaterialIcons
+                            name="arrow-drop-down"
+                            size={scale(30)}
+                            color={darkColors.darkGreen}
+                          />
+                        );
+                      }}
+                      renderCustomizedButtonChild={(selectedItem, index) => {
+                        return (
+                          <View style={styles.dropDownBtnWrapper}>
+                            <Text style={styles.dropDownPlaceHolder}>
+                              {selectedItem ?
+                                selectedItem.substring(0, 1).toUpperCase() + selectedItem.substring(1)
+                              : ""}
+                            </Text>
+                          </View>
+                        );
+                      }}
+                      rowStyle={styles.dropdown1RowStyle}
+                      rowTextStyle={styles.dropdown1RowTxtStyle}
+                    />
+                  );
+                }}
+                name={name}
+                defaultValue={""}
                 rules={validationRules}
               />
               {errors[name] && (

@@ -16,7 +16,7 @@ import Header from '../../../components/header';
 import RadiusSeekBar from '../../../components/chooseRadiusModal/radiusSeekBar';
 import { SEARCH_PET_USER_LIST_SCREEN } from '../searchPetUserList';
 import CustomRadiusSeekbar from '../../../components/customRadiusSeekbar';
-import { getUserProfilePic } from '../../../redux/actions/homeAction';
+import { getProfileFieldsReq, getUserProfilePic } from '../../../redux/actions/homeAction';
 
 export const SEARCH_FILTER_SCREEN = {
   name: 'SearchFilter',
@@ -30,13 +30,14 @@ const SearchFilter = ({route}: any) => {
   //const [option,setOption] = useState(route.params?.option)
   const [state, setState] = useState({
     name: '',
-    selectedGender: "Gender",
+    selectedMemberType: "Member Type",
     actionSheetPosition: 0,
     isActionSheetShow: false,
     loader:false,
     selectedRadius: 25,
     activeTab: 0,
-    userProfilePic: null
+    userProfilePic: null,
+    allMemberTypeData: []
   });
   const [animalState, setAnimalState] = useState({
     name: '',
@@ -64,6 +65,22 @@ const SearchFilter = ({route}: any) => {
   useEffect(() => {
     getProfilePhoto();
     callPetArtListFn();
+  }, []);
+
+  useEffect(() => {
+    dispatch(
+      getProfileFieldsReq((res: any) => {
+        if(res){
+          let obj = res.find((o: any) => o.type === 'member_types');
+          if(Object.keys(obj).length > 0){
+            let allData = Object.values(obj.options);
+            allData = allData.map((str, index) => 
+              ({ title: str.substring(0, 1).toUpperCase() + str.substring(1), id: str }));
+            setState(prev => ({...prev, allMemberTypeData: allData}));
+          }
+        }
+      }),
+    );
   }, []);
 
   const getProfilePhoto = () => {
@@ -139,14 +156,14 @@ const SearchFilter = ({route}: any) => {
   const dropDownUserPosition = (position: number) => {
     setState(prev => ({...prev, actionSheetPosition: position}));
     if(position == 0) {
-      setState(prev => ({...prev, actionSheetData: petGenderListData, isActionSheetShow: true}));
+      setState(prev => ({...prev, actionSheetData: state.allMemberTypeData, isActionSheetShow: true}));
     }
   }
 
   const clickOnActionSheetUserOption = async (index: number) => {
-    const {actionSheetPosition} = state;
+    const {actionSheetPosition, allMemberTypeData} = state;
       if(actionSheetPosition == 0) {
-        setState(prev => ({...prev, selectedGender: petGenderListData[index].title, isActionSheetShow: false}));
+        setState(prev => ({...prev, selectedMemberType: allMemberTypeData[index].title, isActionSheetShow: false}));
       }
   }
 
@@ -166,9 +183,9 @@ const SearchFilter = ({route}: any) => {
   const onSearchPress = () => {
     if(state.activeTab == 0) {
       //For User
-      const {name, selectedGender, selectedRadius} = state;
-      navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: true, name, gender: 
-        selectedGender === "Gender" ? "" : selectedGender, radius: selectedRadius,
+      const {name, selectedMemberType, selectedRadius} = state;
+      navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: true, name, memberType: 
+        selectedMemberType === "Member Type" ? "" : selectedMemberType, radius: selectedRadius,
         profilePic: state.userProfilePic});
     } else {
       //For Animal
@@ -230,8 +247,8 @@ const SearchFilter = ({route}: any) => {
                   onPress={() => dropDownUserPosition(0)}>
                   <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
                     <View style={styles.flexOne}>
-                      <Text style={[styles.dropdownLabelStyle, state.selectedGender != "Gender" &&
-                        {color: colors.black}]}>{state.selectedGender}</Text>
+                      <Text style={[styles.dropdownLabelStyle, state.selectedMemberType != "Member Type" &&
+                        {color: colors.black}]}>{state.selectedMemberType}</Text>
                     </View>
                     <View style={styles.flexZero}>
                       <Image
