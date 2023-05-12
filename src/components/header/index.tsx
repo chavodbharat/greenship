@@ -4,6 +4,9 @@ import {Image, Pressable, StatusBar, TextInput, View} from 'react-native';
 import AllImages from '../../utils/Constants/AllImages';
 import {goBack} from '../../routing/navigationRef';
 import {HeaderTypePropsInterface} from './types';
+import Entypo from 'react-native-vector-icons/Entypo';
+import {scale} from '../../theme/responsive';
+import {darkColors} from '../../theme/colors';
 
 const Header = ({
   statusBarColor,
@@ -13,6 +16,7 @@ const Header = ({
   onLocationSearch,
   onFilterPress,
   isFilterShow = true,
+  onCrossIconPress,
 }: HeaderTypePropsInterface) => {
   const onBackPress = () => {
     goBack();
@@ -39,6 +43,13 @@ const Header = ({
               value={locationAddress}
               placeholder="Type here to search..."
               style={styles.address}
+            />
+            <Entypo
+              onPress={onCrossIconPress}
+              name="circle-with-cross"
+              size={scale(20)}
+              style={{marginRight: scale(5)}}
+              color={darkColors.dashboardEmergencyBG}
             />
           </View>
         ) : null}

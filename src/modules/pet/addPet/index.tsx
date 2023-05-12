@@ -33,6 +33,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import ImageSelection from '../../../components/imageSelection';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { SEARCH_FILTER_SCREEN } from '../../searchFilters/searchFilter';
 
 export const ADD_PET_SCREEN = {
   name: 'AddPet',
@@ -333,10 +334,16 @@ const AddPet = ({route}: any) => {
     }
   };
 
+  const onFilterPress = () => {
+    navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: true});
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
-      <Header statusBarColor={colors.listBackGradientThree} />
+      <Header 
+        statusBarColor={colors.listBackGradientThree} 
+        onFilterPress={onFilterPress} />
       <View style={styles.flexZero}>
         <ScrollView
           keyboardShouldPersistTaps="handled"

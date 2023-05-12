@@ -3,7 +3,7 @@ import {FlatList, Image, ImageBackground, Pressable, ScrollView, Text, View} fro
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {darkColors} from '../../../../theme/colors';
-import {useDispatch} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import Header from '../../../../components/header';
 import {useTheme} from '../../../../providers/ThemeProvider';
 import AllImages from '../../../../utils/Constants/AllImages';
@@ -13,7 +13,7 @@ import {
   allGenderStaticData,
 } from '../../../../utils/Constants/AllConstance';
 import {TouchableWithoutFeedback} from 'react-native';
-import { getMemberFriendList, getMemberGroupeList, getMemberProfileDetails } from '../../../../redux/actions/memberAction';
+import { getMemberFriendList, getMemberGroupeList, getMemberProfileDetails, sendFriendRequest } from '../../../../redux/actions/memberAction';
 import LinearGradient from 'react-native-linear-gradient';
 import LinearGradient1 from '../../../..//components/linearGradient';
 import { fonts } from '../../../../theme/fonts';
@@ -37,6 +37,13 @@ const VisitorProfile = ({route}: any) => {
     memberFriendListData: [],
     memberGroupListData: []
   });
+
+  const {userData} = useSelector(
+    state => ({
+      userData: state.auth?.loginData,
+    }),
+    shallowEqual,
+  );
 
   useEffect(() => {
     callMemberDetailsFn();
@@ -82,6 +89,28 @@ const VisitorProfile = ({route}: any) => {
     );
   };
 
+  //Send friend request
+  const callFriendRequestFn = () => {
+    if(state.memberObj?.friendship_status_slug === "not_friends") {
+      setState(prev => ({...prev, loader: true}));
+      const body = {
+        context: 'edit',
+        initiator_id: userData.id,
+        friend_id: userId
+      }
+      dispatch(
+        sendFriendRequest(body, (res: any) => {
+          if (res) {
+            setState(prev => ({...prev, loader: false}));
+            callMemberDetailsFn();
+          } else {
+            setState(prev => ({...prev, loader: false}));
+          }
+        }),
+      );
+    }
+  };
+
   //Get Member Group List
   const callMemberGroupListFn = () => {
     setState(prev => ({...prev, loader: true}));
@@ -111,34 +140,26 @@ const VisitorProfile = ({route}: any) => {
   const fetchData = async (fields: any) => {
     // Map array to an array of Promises for API requests
     try {
-      const promises = fields.map(obj => {
+      const promises = fields.map(async (obj: any, index: number) => {
         if(Object.keys(obj).length > 0) {
-          return fetch(
-            `${serviceUrl.apiUrl}buddypress/v1/members/${obj.initiator_id}`,
-          )
-          .then(response => {
-            if (response.ok) {
-              return response.json();
+          try {
+            const response = await fetch(`${serviceUrl.apiUrl}buddypress/v1/members/${obj.initiator_id}`);
+            const responseJson = await response.json();
+            if(!responseJson.message){
+              obj.name = responseJson.name;
+              obj.avatar_urls = responseJson.avatar_urls;
             }
-          })
-          .then(data => {
-            if(data){
-              obj.name = data.name;
-              return obj;
-            }
-          })
-          .catch(error => {
-            return error;
-          });
+            return obj;
+          } catch(error){
+              console.error(error);
+          }
         }
       });
-  
       const newData = await Promise.all(promises); 
-     // setState(prev => ({...prev, memberFriendListData: newData, loading: false}));     
+      setState(prev => ({...prev, memberFriendListData: newData, loader: false}));     
     } catch (error) {
-      console.log("error 11===================================>", error)
+    
     }
-  
   };
 
   const onTabChange = (position: number) => {
@@ -173,7 +194,7 @@ const VisitorProfile = ({route}: any) => {
       <View style={styles.flexDirectionRowView}>
         <View style={styles.flexZero}>
           <Image
-            style={{width: 50, height: 50, borderRadius: 5}}
+            style={styles.groupeFriendsIconStyle}
             source={{uri: item.avatar_urls?.full}}/>
         </View>
         <View style={[styles.flexOne,{marginLeft: scale(10), justifyContent: 'center'}]}>
@@ -185,16 +206,19 @@ const VisitorProfile = ({route}: any) => {
 
   const renderFriendItem = ({item, index}: any) => {
     return (
-      <View style={styles.flexDirectionRowView}>
-        <View style={styles.flexZero}>
-          <Image
-            style={{width: 50, height: 50, borderRadius: 5}}
-            source={{uri: item.avatar_urls?.full}}/>
+      (item.name &&
+        <View style={[styles.flexDirectionRowView,{marginTop: verticalScale(5),
+          marginBottom: verticalScale(5)}]}>
+          <View style={styles.flexZero}>
+            <Image
+              style={styles.groupeFriendsIconStyle}
+              source={{uri: item.avatar_urls?.full}}/>
+          </View>
+          <View style={[styles.flexOne,{marginLeft: scale(10), justifyContent: 'center'}]}>
+            <Text style={styles.groupNameTextStyle}>{item.name}</Text>
+          </View>
         </View>
-        <View style={[styles.flexOne,{marginLeft: scale(10), justifyContent: 'center'}]}>
-          <Text style={styles.groupNameTextStyle}>{item.name}</Text>
-        </View>
-      </View>
+      )
     )
   }
 
@@ -262,13 +286,17 @@ const VisitorProfile = ({route}: any) => {
               />
             </View>
             <View style={styles.flexDirectionRowView}>
-              <View style={[styles.btnStyle,{marginLeft: scale(10)}]}>
+              
+              <Pressable style={[styles.btnStyle,{marginLeft: scale(10)}]}
+                onPress={() => callFriendRequestFn()}>
                 <Text style={styles.btnFontStyle}>
                   {state.memberObj?.friendship_status_slug === "not_friends"
                     ? "Add Friend" : state.memberObj?.friendship_status_slug === "pending" ?
                     "Pending" : "Friendship"}</Text>
-              </View>
-              <View style={[styles.btnStyle,{marginRight: scale(10), backgroundColor: colors.lightGreen}]}>
+              </Pressable>
+              <View style={[styles.btnStyle,{marginRight: scale(10), backgroundColor: 
+                state.memberObj?.friendship_status_slug === "is_friend" ? colors.communityGreenColor
+                  : colors.lightGreen}]}>
                 <Text style={styles.btnFontStyle}>Message</Text>
               </View>
             </View>
@@ -307,9 +335,11 @@ const VisitorProfile = ({route}: any) => {
                   renderItem={renderItem}
                 />
                 :
-                <View style={styles.noDataViewStyle}>
-                  <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Owner details not found</Text>
-                </View>
+                (!state.loader &&
+                  <View style={styles.noDataViewStyle}>
+                    <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Owner details not found</Text>
+                  </View>
+                )
               )
             }
             {state.activeTabPosition == 1 &&
@@ -321,9 +351,11 @@ const VisitorProfile = ({route}: any) => {
                   renderItem={renderFriendItem}
                 />
                 :
-                <View style={styles.noDataViewStyle}>
-                  <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Friend list not found</Text>
-                </View>
+                (!state.loader &&
+                  <View style={styles.noDataViewStyle}>
+                    <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Friend list not found</Text>
+                  </View>
+                )
               )
             }
             {state.activeTabPosition == 2 &&
@@ -336,9 +368,9 @@ const VisitorProfile = ({route}: any) => {
                 />
                 :
                 (!state.loader &&
-                <View style={styles.noDataViewStyle}>
-                  <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Group list not found</Text>
-                </View>
+                  <View style={styles.noDataViewStyle}>
+                    <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>Group list not found</Text>
+                  </View>
                 )
               )
             }

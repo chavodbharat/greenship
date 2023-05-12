@@ -1,26 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from './styles';
-import {
-  View,
-  Text,
-  Image,
-  SafeAreaView,
-  Pressable,
-  TouchableWithoutFeedback,
-  Platform,
-  TextInput,
-} from 'react-native';
-import {
-  Bubble,
-  Composer,
-  GiftedChat,
-  IMessage,
-  InputToolbar,
-  Send,
-  SendProps,
-} from 'react-native-gifted-chat';
-import {useTheme} from '../../../providers/ThemeProvider';
-import {fonts} from '../../../theme/fonts';
+import {View, Text, Image, SafeAreaView, Pressable, TouchableWithoutFeedback, Platform, TextInput} from 'react-native';
+import { Avatar, Bubble, Composer, GiftedChat, IMessage, InputToolbar, Send, SendProps, Time } from 'react-native-gifted-chat'
+import { useTheme } from '../../../providers/ThemeProvider';
+import { fonts } from '../../../theme/fonts';
 import AllImages from '../../../utils/Constants/AllImages';
 import {scale, verticalScale} from '../../../theme/responsive';
 import {goBack} from '../../../routing/navigationRef';
@@ -63,49 +46,75 @@ const Chat = () => {
   }, []);
 
   const renderBubble = (props: any) => {
-    return (
-      <Bubble
-        {...props}
-        // renderTime={() => <Text>Time</Text>}
-        // renderTicks={() => <Text>Ticks</Text>}
-        // containerStyle={{
-        //   left: styles.leftSideViewContainer,
-        //   right: {},
-        // }}
-        wrapperStyle={{
-          left: styles.leftSideViewContainer,
-          right: styles.rightSideViewContainer,
+    return  <Bubble
+    {...props}
+    renderTime={() => 
+      <Time {...props}
+        timeTextStyle={{
+          left: styles.leftSideBottomTimeTextStyle,
+          right: styles.rightSideBottomTimeTextStyle,
         }}
-        textStyle={{
-          left: styles.leftSideTextStyle,
-          right: styles.rightSideTextStyle,
-        }}
-        // bottomContainerStyle={{
-        //   left: { borderColor: 'purple', borderWidth: 4 },
-        //   right: {},
-        // }}
-        // tickStyle={{}}
-        // usernameStyle={{ color: 'tomato', fontWeight: '100' }}
-        bottomContainerStyle={{
-          left: {justifyContent: 'flex-end'},
-          right: {},
-        }}
-        // containerToNextStyle={{
-        //   left: { borderColor: 'navy', borderWidth: 4 },
-        //   right: {},
-        // }}
-        // containerToPreviousStyle={{
-        //   left: { borderColor: 'mediumorchid', borderWidth: 4 },
-        //   right: {},
-        // }}
       />
-    );
-  };
+    }
+    tickStyle={{ color: props.currentMessage.seen ? '#34B7F1' : '#999' }}
+    // containerStyle={{
+    //   left: styles.leftSideViewContainer,
+    //   right: {},
+    // }}
+    wrapperStyle={{
+      left: styles.leftSideViewContainer,
+      right: styles.rightSideViewContainer,
+    }}
+    textStyle={{
+      left: styles.leftSideTextStyle,
+      right: styles.rightSideTextStyle,
+    }}
+    // bottomContainerStyle={{
+    //   left: { borderColor: 'purple', borderWidth: 4 },
+    //   right: {},
+    // }}
+    // tickStyle={{}}
+    // usernameStyle={{ color: 'tomato', fontWeight: '100' }}
+    bottomContainerStyle={{
+      left: styles.bottomViewTextStyle,
+      right: styles.bottomViewTextStyle,
+    }}
+    // containerToNextStyle={{
+    //   left: { borderColor: 'navy', borderWidth: 4 },
+    //   right: {},
+    // }}
+    // containerToPreviousStyle={{
+    //   left: { borderColor: 'mediumorchid', borderWidth: 4 },
+    //   right: {},
+    // }}
+  />
+  }
 
   const renderChatFooter = () => {
     return <View></View>;
   };
 
+  const renderAvtar = (props: any) => {
+   // console.log(props)
+    return (
+      <Avatar {...props}
+      imageStyle = {{
+        left: styles.avtarLeftProfileStyle,
+        right: styles.avtarLeftProfileStyle
+      }}
+        />
+      // <>
+      // <Image
+      //   style={styles.avtarLeftProfileStyle}
+      //   source={{uri: props.currentMessage.user.avatar}}/>
+      //   <Image
+      //   style={styles.avtarLeftProfileStyle}
+      //   source={{uri: props.previousMessage?.user?.avatar}}/>
+      // </>  
+    )
+  }
+
+  
   const onSend = (messages = []) => {
     console.log('Messages', messages);
     const step = state.step + 1;
@@ -118,22 +127,10 @@ const Chat = () => {
           Platform.OS !== 'web',
         ),
         step,
-      };
-    });
-  };
-
-  const MessengerBarContainer = props => {
-    return (
-      <InputToolbar
-        {...props}
-        containerStyle={{
-          backgroundColor: colors.white,
-          alignContent: 'center',
-          justifyContent: 'center',
-        }}></InputToolbar>
-    );
-  };
-
+      }
+    })
+  }
+  
   return (
     <SafeAreaView style={styles.flexOneView}>
       <View style={{padding: scale(5)}}>
@@ -154,14 +151,15 @@ const Chat = () => {
           renderBubble={renderBubble}
           renderChatFooter={renderChatFooter}
           alwaysShowSend={true}
-          onSend={messages => onSend(messages)}
-          renderComposer={props => (
-            <Composer
-              textInputStyle={styles.customTextInputStyle}
-              placeholder={'create message'}
-              {...props}
-            />
-          )}
+          showUserAvatar={true}
+          renderAvatar={obj => renderAvtar(obj)}
+          renderAvatarOnTop={true}
+          showAvatarForEveryMessage={true}
+          onSend={(messages) => onSend(messages)}
+          renderComposer={(props) => <Composer 
+            textInputStyle={styles.customTextInputStyle}
+            placeholder={"create message"} 
+            {...props} />}
           //renderInputToolbar={(props) => MessengerBarContainer(props)}
           renderSend={(props: SendProps<IMessage>) => (
             <Send {...props} containerStyle={styles.sendBtnStyle}>

@@ -63,7 +63,7 @@ export default StyleSheet.create({
   },
   leftSideViewContainer: {
     flex: 0,
-    backgroundColor: darkColors.white, 
+    backgroundColor: darkColors.lightGreen, 
     borderTopLeftRadius: 0,
     borderTopRightRadius: scale(10), 
     borderBottomLeftRadius: scale(10), 
@@ -71,20 +71,41 @@ export default StyleSheet.create({
   },
   rightSideViewContainer: {
     flex: 0,
-    backgroundColor: darkColors.communityGreenColor, 
+    backgroundColor: darkColors.senderMessageBG, 
     borderTopLeftRadius: scale(10),
     borderTopRightRadius: 0,  
     borderBottomLeftRadius: scale(10), 
     borderBottomRightRadius: scale(10), 
   },
   leftSideTextStyle: {
-    color: darkColors.subTitleColor, 
+    color: darkColors.white, 
     fontSize: moderateScale(14),
     fontFamily: fonts.MontserratMedium
   },
   rightSideTextStyle: {
-    color: darkColors.white, 
+    color: darkColors.rightSideChatTextColor, 
     fontSize: moderateScale(14),
     fontFamily: fonts.MontserratMedium
+  },
+  bottomViewTextStyle: {
+    justifyContent: 'flex-end',
+    color: darkColors.white,
+    fontSize: moderateScale(14),
+    fontFamily: fonts.MontserratMedium
+  },
+  leftSideBottomTimeTextStyle: {
+    color: darkColors.white, 
+    fontSize: moderateScale(10),
+    fontFamily: fonts.MontserratMedium
+  },
+  rightSideBottomTimeTextStyle: {
+    color: darkColors.rightSideChatTextColor, 
+    fontSize: moderateScale(10),
+    fontFamily: fonts.MontserratMedium
+  },
+  avtarLeftProfileStyle: {
+    width: scale(40), 
+    height: scale(40), 
+    borderRadius: scale(20)
   }
 });

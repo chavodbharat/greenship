@@ -19,6 +19,7 @@ import { createPet, updatePetDetails, uploadPetProfilePhoto } from '../../../red
 import ImageSelection from '../../../components/imageSelection';
 import ImagePicker from 'react-native-image-crop-picker';
 import LinearGradient from '../../../components/linearGradient';
+import { SEARCH_FILTER_SCREEN } from '../../searchFilters/searchFilter';
 
 export const ADD_ADDITIONAL_PET_DETAILS_SCREEN = {
   name: 'AddAdditionalPetDetails',
@@ -276,11 +277,16 @@ const AddAdditionalPetDetails = ({route}: any) => {
     }
   }
 
+  const onFilterPress = () => {
+    navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: true});
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
       <Header
-        statusBarColor={colors.listBackGradientThree}/>
+        statusBarColor={colors.listBackGradientThree}
+        onFilterPress={onFilterPress}/>
       <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
           <View style={[styles.flexOne, {padding: scale(25)}]}>
             {/* {petProfilePicRes ?

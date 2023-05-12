@@ -55,6 +55,12 @@ import VisitorProfile, {
 import {useIsFocused} from '@react-navigation/native';
 import {setTabBgColor} from '../redux/actions/authAction';
 import UpgradeToPro from '../modules/dashBoard/upgradeToPro';
+import MyFriendList, {
+  MY_FRIEND_LIST_SCREEN,
+} from '../modules/dashBoard/profile/myFriendList';
+import MyGroupList, {
+  MY_GROUP_LIST_SCREEN,
+} from '../modules/dashBoard/profile/myGroupList';
 
 const Tab = createBottomTabNavigator();
 
@@ -115,6 +121,14 @@ function HomeStackScreen() {
       <HomeStack.Screen
         name={VISITOR_PROFILE_SCREEN.name}
         component={VisitorProfile}
+      />
+      <HomeStack.Screen
+        name={MY_FRIEND_LIST_SCREEN.name}
+        component={MyFriendList}
+      />
+      <HomeStack.Screen
+        name={MY_GROUP_LIST_SCREEN.name}
+        component={MyGroupList}
       />
       <HomeStack.Screen name="Emergency" component={Emergency} />
       <HomeStack.Screen name="Profile" component={Profile} />

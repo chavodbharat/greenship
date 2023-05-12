@@ -12,8 +12,9 @@ import Spinner from "../../../../components/spinner";
 import moment from "moment";
 import { TAG_DATE_FORMATE } from "../../../../utils/Constants/AllConstance";
 import { getIdentificationOfAnimal, submitIdentificationOfAnimal } from "../../../../redux/actions/petAction";
-import { goBack } from "../../../../routing/navigationRef";
+import { goBack, navigate } from "../../../../routing/navigationRef";
 import PetPassportSubHeader from "../../../../components/petPassportSubHeader";
+import { SEARCH_FILTER_SCREEN } from "../../../searchFilters/searchFilter";
 
 export const IDENTIFICATION_OF_ANIMAL_SCREEN = {
     name: 'IdentificationOfAnimal',
@@ -102,12 +103,17 @@ const IdentificationOfAnimal = ({route}: any) => {
             }),
         );
     };
-
+    
+    const onFilterPress = () => {
+        navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: true});
+    }
+    
     return (
         <SafeAreaView style={styles.flexOne}>
             <Spinner visible={state?.loader} color={darkColors.listBackGradientThree}/>
             <Header
-                statusBarColor={darkColors.listBackGradientThree}/>
+                statusBarColor={darkColors.listBackGradientThree}
+                onFilterPress={onFilterPress}/>
             <PetPassportSubHeader
                 title={vaccineObj.label}
                 petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}

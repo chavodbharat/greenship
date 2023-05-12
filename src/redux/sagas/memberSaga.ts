@@ -122,6 +122,49 @@ function* getMemberFriendList(data: object) {
     });
 }
 
+//Send friend request
+function* sendFriendRequest(data: object) {
+  const {payload, callback} = data;  
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/friends`, payload, 'POST', false)
+    .then(response => {
+      showMessage({
+        message: "Request send successfully",
+        type: 'success',
+      });
+      callback(response);
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+//Get user friend list
+function* getLoginUserFriendList(data: object) {
+  const {callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/friends?context=view&is_confirmed=1`, null, 'GET')
+    .then(response => {
+      callback(response);
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
+
+//Get user friend list
+function* getLoginUserGroupList(data: object) {
+  const {callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/groups/me?context=view`, null, 'GET')
+    .then(response => {
+      callback(response);
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
+
 export default function* watchMemberSaga() {
     yield takeLatest(types.GET_COMMUNITY_MEMBER_LIST, getCommunityUserList);
     yield takeLatest(types.GET_SEARCH_USER_LIST, getSearchUserList);
@@ -129,4 +172,7 @@ export default function* watchMemberSaga() {
     yield takeLatest(types.GET_MEMBER_PROFILE_DETAILS, getMemberProfileDetails);
     yield takeLatest(types.GET_MEMBER_GROUP_LIST, getMemberGroupeList);
     yield takeLatest(types.GET_MEMBER_FRIEND_LIST, getMemberFriendList);
+    yield takeLatest(types.SEND_FRIEND_REQUEST, sendFriendRequest);
+    yield takeLatest(types.GET_LOGIN_USER_FRIEND_LIST, getLoginUserFriendList);
+    yield takeLatest(types.GET_LOGIN_USER_GROUP_LIST, getLoginUserGroupList);
 }

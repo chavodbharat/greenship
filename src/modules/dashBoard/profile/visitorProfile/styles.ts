@@ -107,4 +107,11 @@ export default StyleSheet.create({
     color: darkColors.black,
     fontSize: moderateScale(14)
   },
+  groupeFriendsIconStyle: {
+    width: scale(50), 
+    height: scale(50), 
+    borderRadius: scale(5),
+    borderWidth: 0.5,
+    borderColor: darkColors.lightGreen
+  }
 });

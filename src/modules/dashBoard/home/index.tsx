@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Platform, Pressable, Text, View} from 'react-native';
+import {Image, Platform, Pressable, StatusBar, Text, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {navigate} from '../../../routing/navigationRef';
@@ -46,6 +46,7 @@ const Home = () => {
     }
 
     if (isFocused && userData?.id) {
+      dispatch(setTabBgColor(null));
       let body = {
         context: 'view',
         id: userData?.id,
@@ -166,6 +167,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={darkColors.darkGreen} barStyle={'light-content'} />
       <Pressable
         onPress={() => navigate('Profile', {userPic: state.userProfilePic})}
         style={styles.main}>

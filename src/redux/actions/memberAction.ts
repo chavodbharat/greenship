@@ -46,3 +46,25 @@ export const getMemberFriendList = (payload: object, callback: Function) => {
     callback,
   };
 };
+
+export const sendFriendRequest = (payload: object, callback: Function) => {
+  return {
+    type: types.SEND_FRIEND_REQUEST,
+    payload,
+    callback,
+  };
+};
+
+export const getLoginUserFriendList = (callback: Function) => {
+  return {
+    type: types.GET_LOGIN_USER_FRIEND_LIST,
+    callback,
+  };
+};
+
+export const getLoginUserGroupList = (callback: Function) => {
+  return {
+    type: types.GET_LOGIN_USER_GROUP_LIST,
+    callback,
+  };
+};

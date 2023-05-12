@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Image, Pressable, Text, View} from 'react-native';
+import {FlatList, Image, Pressable, ScrollView, Text, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
@@ -17,6 +17,7 @@ import {ADD_PET_SCREEN} from '../../addPet';
 import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
 import {IDENTIFICATION_OF_ANIMAL_SCREEN} from '../identificationOfAnimal';
 import {ISSUE_OF_IDENTITY_CARD_SCREEN} from '../issueOfIdentityCard';
+import {SEARCH_FILTER_SCREEN} from '../../../searchFilters/searchFilter';
 
 export const PET_PASSPORT_MENU_SCREEN = {
   name: 'PetPassportMenu',
@@ -25,6 +26,8 @@ export const PET_PASSPORT_MENU_SCREEN = {
 const PetPassportMenu = ({route}: any) => {
   const dispatch = useDispatch();
   const {petObj} = route.params;
+
+  console.log('PetObj', petObj);
 
   const {colors} = useTheme();
   const [state, setState] = useState({
@@ -49,7 +52,7 @@ const PetPassportMenu = ({route}: any) => {
           setState(prev => ({
             ...prev,
             loader: false,
-            petPassportOptionsData: data,
+            petPassportOptionsData: data.slice(0, 2),
           }));
         } else {
           setState(prev => ({
@@ -78,6 +81,155 @@ const PetPassportMenu = ({route}: any) => {
     }
   };
 
+  const onFilterPress = () => {
+    navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: true});
+  };
+
+  const renderPetBasicDetails = () => {
+    return (
+      <View
+        style={[
+          styles.flexZero,
+          {marginTop: verticalScale(10), marginBottom: verticalScale(20)},
+        ]}>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Pet Art
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>{petObj?.pet_art}</Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Pet Race
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>{petObj?.pet_race}</Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Gender
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>
+              {petObj?.pet_gender}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Country
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>
+              {petObj?.pet_country}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Date of Birth
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>
+              {petObj?.pet_birth_date}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Pet Postalcode
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>
+              {petObj?.pet_zipcode}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Pet Size
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>{petObj?.pet_size}</Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Pet Weight
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>
+              {petObj?.pet_weight}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Pet Color
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>{petObj?.pet_color}</Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Pet Age
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>{petObj?.pet_age}</Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Is Pet Missing
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>
+              {petObj?.pet_vermisst}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.flexDirectionRowView, {margin: scale(6)}]}>
+          <View style={styles.flexOne}>
+            <Text style={[styles.petDetailsLabelStyle, {marginTop: 0}]}>
+              Family Tree
+            </Text>
+          </View>
+          <View style={styles.flexOnePointFive}>
+            <Text style={styles.petDetailsValueStyle}>
+              {petObj?.pet_stammbaum}
+            </Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   const renderItem = ({item, index}: any) => {
     return (
       <LinearGradient
@@ -101,7 +253,10 @@ const PetPassportMenu = ({route}: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
-      <Header statusBarColor={colors.listBackGradientThree} />
+      <Header
+        statusBarColor={colors.listBackGradientThree}
+        onFilterPress={onFilterPress}
+      />
       <PetPassportSubHeader
         title={petObj.pet_name}
         petImage={
@@ -110,23 +265,30 @@ const PetPassportMenu = ({route}: any) => {
             : petObj.pet_image.pet_image_url
         }
       />
-      <View
-        style={[
-          styles.container,
-          {
-            marginLeft: scale(5),
-            marginRight: scale(5),
-            marginTop: verticalScale(3),
-          },
-        ]}>
-        <FlatList
-          data={state.petPassportOptionsData}
-          horizontal={false}
-          numColumns={2}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItem}
-        />
-      </View>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1}}>
+        <View
+          style={[
+            styles.container,
+            {
+              marginLeft: scale(5),
+              marginRight: scale(5),
+              marginTop: verticalScale(3),
+            },
+          ]}>
+          {renderPetBasicDetails()}
+          <FlatList
+            style={{marginBottom: scale(20)}}
+            data={state.petPassportOptionsData}
+            horizontal={false}
+            numColumns={2}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItem}
+          />
+        </View>
+      </ScrollView>
       <PetHealthFloatingButton />
     </SafeAreaView>
   );

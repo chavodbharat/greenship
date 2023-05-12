@@ -13,7 +13,7 @@ import { PET_PASSPORT_MENU_SCREEN } from '../../modules/pet/petPassport/petPassp
 const PetHealthFloatingButton = ({petObj, isPetHealthViewShow = false}: PetHealthFloatingButtonTypePropsInterface) => {
 
   const clickOnPetHealthIcon = () => {
-    navigate(PET_PASSPORT_MENU_SCREEN.name, {petObj})
+    navigate(VACCINATION_MENU_SCREEN.name, {petObj})
   }
 
   const clickOnPetIcon = () => {

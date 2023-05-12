@@ -28,6 +28,7 @@ const PetListView = ({
   onDeletePress,
   isModalVisible = false,
   onDeleteModalShowOrHide,
+  onItemPress,
 }: PetListViewTypePropsInterface) => {
   const [state, setState] = useState({
     isAdditionalMenuShow: false,
@@ -109,7 +110,10 @@ const PetListView = ({
       <LinearGradient
         allColorsArray={isEmergency ? ['#B72C36', '#ED626C'] : null}
         childrean={
-          <Pressable onPress={() => !isEmergency && onPetListItemPress(item)}>
+          <Pressable
+            onPress={() =>
+              isEmergency ? onItemPress(item) : onPetListItemPress(item)
+            }>
             <View style={styles.petViewParentView}>
               <View style={styles.flexZero}>
                 <Image

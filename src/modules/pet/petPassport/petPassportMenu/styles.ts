@@ -20,6 +20,9 @@ export default StyleSheet.create({
   flexZero: {
     flex: 0,
   },
+  flexOnePointFive: {
+    flex: 1.5
+  },
   linearGradientCustomStyle: {
     borderWidth: 1.3,
     borderColor: darkColors.borderBlueColor,
@@ -46,5 +49,16 @@ export default StyleSheet.create({
     color: darkColors.petPassportTextColor,
     fontFamily: fonts.MontserratBold,
     textAlign: 'center',
+  },
+  petDetailsLabelStyle: {
+    fontFamily: fonts.MontserratSemiBold,
+    color: darkColors.petPassportTextColor,
+    fontSize: moderateScale(14),
+    marginTop: verticalScale(5)
+  },
+  petDetailsValueStyle: {
+    fontFamily: fonts.MontserratRegular,
+    color: darkColors.petPassportTextColor,
+    fontSize: moderateScale(14)
   },
 });

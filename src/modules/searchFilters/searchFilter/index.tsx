@@ -15,6 +15,8 @@ import ActionSheetModal from 'react-native-modal';
 import Header from '../../../components/header';
 import RadiusSeekBar from '../../../components/chooseRadiusModal/radiusSeekBar';
 import { SEARCH_PET_USER_LIST_SCREEN } from '../searchPetUserList';
+import CustomRadiusSeekbar from '../../../components/customRadiusSeekbar';
+import { getProfileFieldsReq, getUserProfilePic } from '../../../redux/actions/homeAction';
 
 export const SEARCH_FILTER_SCREEN = {
   name: 'SearchFilter',
@@ -24,16 +26,18 @@ const SearchFilter = ({route}: any) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
   
-  const { userPic, isPetTabShow = false } = route.params;
+  const { isPetTabShow = false } = route.params;
   //const [option,setOption] = useState(route.params?.option)
   const [state, setState] = useState({
     name: '',
-    selectedGender: "Gender",
+    selectedMemberType: "Member Type",
     actionSheetPosition: 0,
     isActionSheetShow: false,
     loader:false,
     selectedRadius: 25,
-    activeTab: 0
+    activeTab: 0,
+    userProfilePic: null,
+    allMemberTypeData: []
   });
   const [animalState, setAnimalState] = useState({
     name: '',
@@ -59,8 +63,33 @@ const SearchFilter = ({route}: any) => {
   const petGenderListData = allGenderStaticData();
 
   useEffect(() => {
+    getProfilePhoto();
     callPetArtListFn();
   }, []);
+
+  useEffect(() => {
+    dispatch(
+      getProfileFieldsReq((res: any) => {
+        if(res){
+          let obj = res.find((o: any) => o.type === 'member_types');
+          if(Object.keys(obj).length > 0){
+            let allData = Object.values(obj.options);
+            allData = allData.map((str, index) => 
+              ({ title: str.substring(0, 1).toUpperCase() + str.substring(1), id: str }));
+            setState(prev => ({...prev, allMemberTypeData: allData}));
+          }
+        }
+      }),
+    );
+  }, []);
+
+  const getProfilePhoto = () => {
+    dispatch(
+      getUserProfilePic({context: 'view', id: userData?.id}, (res: any) => {
+        setState(prev => ({...prev, userProfilePic: res}));
+      }),
+    );
+  }
   
   const callPetArtListFn = () => {
     setAnimalState(prev => ({...prev, loader: true}));
@@ -127,18 +156,19 @@ const SearchFilter = ({route}: any) => {
   const dropDownUserPosition = (position: number) => {
     setState(prev => ({...prev, actionSheetPosition: position}));
     if(position == 0) {
-      setState(prev => ({...prev, actionSheetData: petGenderListData, isActionSheetShow: true}));
+      setState(prev => ({...prev, actionSheetData: state.allMemberTypeData, isActionSheetShow: true}));
     }
   }
 
   const clickOnActionSheetUserOption = async (index: number) => {
-    const {actionSheetPosition} = state;
+    const {actionSheetPosition, allMemberTypeData} = state;
       if(actionSheetPosition == 0) {
-        setState(prev => ({...prev, selectedGender: petGenderListData[index].title, isActionSheetShow: false}));
+        setState(prev => ({...prev, selectedMemberType: allMemberTypeData[index].title, isActionSheetShow: false}));
       }
   }
 
   const onRadiusChange = (data: any) => {
+    data = data.replace(" km", "");
     if(state.activeTab == 0){
       setState(prev => ({...prev, selectedRadius: data}));
     } else {
@@ -146,23 +176,23 @@ const SearchFilter = ({route}: any) => {
     }
   }
 
-  const onAgeChange = (data: any) => {      
+  const onAgeChange = (data: any) => { 
     setAnimalState(prev => ({...prev, selectedAge: data}));
   }
 
   const onSearchPress = () => {
     if(state.activeTab == 0) {
       //For User
-      const {name, selectedGender, selectedRadius} = state;
-      navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: true, name, gender: 
-        selectedGender === "Gender" ? "" : selectedGender, radius: selectedRadius,
-        profilePic: userPic});
+      const {name, selectedMemberType, selectedRadius} = state;
+      navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: true, name, memberType: 
+        selectedMemberType === "Member Type" ? "" : selectedMemberType, radius: selectedRadius,
+        profilePic: state.userProfilePic});
     } else {
       //For Animal
       const {name, selectedGender, selectedRadius, selectedPetArt, selectedPetRace, selectedAge} = animalState;
       navigate(SEARCH_PET_USER_LIST_SCREEN.name, {isUser: false, name, 
         gender: selectedGender === "Gender" ? "" : selectedGender, radius: selectedRadius,
-        profilePic: userPic, petArt: selectedPetArt, petRace: selectedPetRace, petAge: selectedAge});
+        profilePic: state.userProfilePic, petArt: selectedPetArt, petRace: selectedPetRace, petAge: selectedAge});
     }
   }
 
@@ -174,7 +204,7 @@ const SearchFilter = ({route}: any) => {
         <View style={styles.container}>
           <View style={styles.header}>
             <Image
-              source={{uri: userPic?.[0]?.full}}
+              source={{uri: state.userProfilePic?.[0]?.full}}
               resizeMode="contain"
               style={styles.pic}
             />
@@ -217,8 +247,8 @@ const SearchFilter = ({route}: any) => {
                   onPress={() => dropDownUserPosition(0)}>
                   <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
                     <View style={styles.flexOne}>
-                      <Text style={[styles.dropdownLabelStyle, state.selectedGender != "Gender" &&
-                        {color: colors.black}]}>{state.selectedGender}</Text>
+                      <Text style={[styles.dropdownLabelStyle, state.selectedMemberType != "Member Type" &&
+                        {color: colors.black}]}>{state.selectedMemberType}</Text>
                     </View>
                     <View style={styles.flexZero}>
                       <Image
@@ -230,9 +260,9 @@ const SearchFilter = ({route}: any) => {
 
                 <View style={{margin: scale(20)}}>
                   <Text style={styles.radiusTxtStyle}>Radius</Text>
-                  <RadiusSeekBar 
+                  <CustomRadiusSeekbar 
                     dataArray={["25 km", "50 km", "100 km", "200 km"]} 
-                    dotsColor={darkColors.lightGreen} 
+                    dotsColor={darkColors.communityGreenColor} 
                     dots={4} 
                     onRadiusChange={onRadiusChange} />
                 </View>
@@ -308,18 +338,18 @@ const SearchFilter = ({route}: any) => {
 
                 <View style={{margin: scale(20)}}>
                   <Text style={styles.radiusTxtStyle}>Age (in years)</Text>
-                  <RadiusSeekBar 
+                  <CustomRadiusSeekbar 
                     dataArray={["0-5", "6-10", "11-16", "17-30"]} 
-                    dotsColor={darkColors.lightGreen} 
+                    dotsColor={darkColors.communityGreenColor} 
                     dots={4} 
                     onRadiusChange={onAgeChange} />
                 </View>
 
                 <View style={{margin: scale(20)}}>
                   <Text style={[styles.radiusTxtStyle,{marginTop: scale(20)}]}>Radius</Text>
-                  <RadiusSeekBar 
+                  <CustomRadiusSeekbar 
                     dataArray={["25 km", "50 km", "100 km", "200 km"]} 
-                    dotsColor={darkColors.lightGreen} 
+                    dotsColor={darkColors.communityGreenColor} 
                     dots={4} 
                     onRadiusChange={onRadiusChange} />
                 </View>
