@@ -54,6 +54,7 @@ import VisitorProfile, {
 } from '../modules/dashBoard/profile/visitorProfile';
 import {useIsFocused} from '@react-navigation/native';
 import {setTabBgColor} from '../redux/actions/authAction';
+import UpgradeToPro from '../modules/dashBoard/upgradeToPro';
 
 const Tab = createBottomTabNavigator();
 
@@ -118,6 +119,7 @@ function HomeStackScreen() {
       <HomeStack.Screen name="Emergency" component={Emergency} />
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="EditProfile" component={EditProfile} />
+      <HomeStack.Screen name="UpgradeToPro" component={UpgradeToPro} />
     </HomeStack.Navigator>
   );
 }

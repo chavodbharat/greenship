@@ -13,7 +13,8 @@ export default StyleSheet.create({
     backgroundColor: 'white',
   },
   flexOneView: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   img: {
     height: scale(180),
@@ -48,7 +49,7 @@ export default StyleSheet.create({
   icon: {
     height: scale(20),
     width: scale(20),
-    tintColor: darkColors.black
+    tintColor: darkColors.black,
   },
   btnLabel: {
     color: 'white',
@@ -79,7 +80,7 @@ export default StyleSheet.create({
     paddingVertical: verticalScale(6),
     borderWidth: scale(1),
     borderRadius: scale(4),
-    borderColor: darkColors.black
+    borderColor: darkColors.black,
   },
   socialBtnLabel: {
     color: darkColors.black,

@@ -252,6 +252,8 @@ const EditProfile = () => {
             </View>
           );
         } else if (type === 'selectbox' || type === 'member_types') {
+          console.log('cfcf', name);
+
           return (
             <View key={index}>
               <Controller
@@ -280,7 +282,7 @@ const EditProfile = () => {
                             <Text style={styles.dropDownPlaceHolder}>
                               {field?.otherValue?.[0] && !selectedItem?.name
                                 ? field?.otherValue?.[0]
-                                : selectedItem?.name}
+                                : selectedItem?.name || name}
                             </Text>
                           </View>
                         );
