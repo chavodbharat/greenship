@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import { darkColors } from '../../../theme/colors';
-import { scale } from '../../../theme/responsive';
+import { moderateScale, scale, verticalScale } from '../../../theme/responsive';
+import { fonts } from '../../../theme/fonts';
 
 export default StyleSheet.create({
   container: {
@@ -29,5 +30,17 @@ export default StyleSheet.create({
     flex: 1,
     marginLeft: scale(10), 
     justifyContent: 'center'
-  }
+  },
+  noDataViewStyle: {
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    marginTop: verticalScale(100),
+    marginBottom: verticalScale(100)
+  },
+  tabLabelStyle: {
+    fontFamily: fonts.MontserratSemiBold,
+    color: darkColors.petPassportTextColor,
+    fontSize: moderateScale(14),
+    marginTop: verticalScale(5)
+  },
 });

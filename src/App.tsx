@@ -5,13 +5,27 @@ import {store, persistor} from './store/configureStore';
 import RootStack from './routing/RootStack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import FlashMessage from 'react-native-flash-message';
+import * as PubNubKeys from '../PubNubKeys.js'
+import DeviceInfo from 'react-native-device-info'
+
+import PubNub from 'pubnub'
+import {PubNubProvider} from 'pubnub-react'
+
+//  Create PubNub configuration and instantiate the PubNub object, used to communicate with PubNub
+const pubnub = new PubNub({
+  subscribeKey: PubNubKeys.PUBNUB_SUBSCRIBE_KEY,
+  publishKey: PubNubKeys.PUBNUB_PUBLISH_KEY,
+  uuid: 'ChangeMe',
+})
 
 const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaProvider>
-          <RootStack />
+          <PubNubProvider client={pubnub}>
+            <RootStack />
+          </PubNubProvider>
           <FlashMessage
             position="top"
             animated={true}

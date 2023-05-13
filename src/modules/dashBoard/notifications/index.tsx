@@ -73,13 +73,23 @@ const Notifications = () => {
       <Header
         statusBarColor={colors.listBackGradientThree}
         />
-      <View style={styles.container}>
-        <FlatList
-          style={{margin: 5}}
-          data={state.notificationList}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItem}
-        />
+      <View style={[styles.container,{justifyContent: 'center'}]}>
+        {(state.notificationList.length > 0 && !state.loader) ?
+          <FlatList
+            style={{margin: 5}}
+            data={state.notificationList}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItem}
+          />
+          :
+          (!state.loader &&
+            <View style={styles.noDataViewStyle}>
+              <Text style={[styles.tabLabelStyle, {color: darkColors.dontHaveColor}]}>No any notification</Text>
+            </View>
+          )
+        }
+
+        
       </View>
     </SafeAreaView>
   );
