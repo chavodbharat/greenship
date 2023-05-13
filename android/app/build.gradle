@@ -96,11 +96,11 @@ android {
     namespace "com.greensheep"
     defaultConfig {
                 vectorDrawables.useSupportLibrary = true
-
+missingDimensionStrategy "store", "play"
         applicationId "com.greensheep"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
+        versionCode 3
         versionName "1.0"
     }
 

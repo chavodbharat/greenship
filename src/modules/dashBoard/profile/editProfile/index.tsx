@@ -280,7 +280,7 @@ const EditProfile = () => {
                             <Text style={styles.dropDownPlaceHolder}>
                               {field?.otherValue?.[0] && !selectedItem?.name
                                 ? field?.otherValue?.[0]
-                                : selectedItem?.name}
+                                : selectedItem?.name || name}
                             </Text>
                           </View>
                         );
@@ -452,7 +452,9 @@ const EditProfile = () => {
                       onSelect={onChange}
                       buttonStyle={styles.dropDown}
                       rowTextForSelection={(item, index) => {
-                        return item.substring(0, 1).toUpperCase() + item.substring(1);
+                        return (
+                          item.substring(0, 1).toUpperCase() + item.substring(1)
+                        );
                       }}
                       renderDropdownIcon={isOpened => {
                         return (
@@ -467,9 +469,10 @@ const EditProfile = () => {
                         return (
                           <View style={styles.dropDownBtnWrapper}>
                             <Text style={styles.dropDownPlaceHolder}>
-                              {selectedItem ?
-                                selectedItem.substring(0, 1).toUpperCase() + selectedItem.substring(1)
-                              : ""}
+                              {selectedItem
+                                ? selectedItem.substring(0, 1).toUpperCase() +
+                                  selectedItem.substring(1)
+                                : ''}
                             </Text>
                           </View>
                         );
@@ -480,7 +483,7 @@ const EditProfile = () => {
                   );
                 }}
                 name={name}
-                defaultValue={""}
+                defaultValue={''}
                 rules={validationRules}
               />
               {errors[name] && (

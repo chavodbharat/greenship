@@ -120,7 +120,7 @@ const Welcome = () => {
           </View>
         </View>
         <View style={styles.flexOneView}>
-          <View style={[styles.flexOneView, {justifyContent: 'center'}]}>
+          {/* <View style={[styles.flexOneView, {justifyContent: 'center'}]}>
             {Platform.OS === 'ios' && version >= 13 && (
               <View style={{alignSelf: 'center'}}>
                 <AppleButton
@@ -157,7 +157,7 @@ const Welcome = () => {
                 <Text style={styles.socialBtnLabel}>SignIn with gmail</Text>
               </View>
             </Pressable>
-          </View>
+          </View> */}
 
           <View style={styles.end}>
             <Pressable

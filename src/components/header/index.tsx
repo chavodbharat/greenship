@@ -5,8 +5,8 @@ import AllImages from '../../utils/Constants/AllImages';
 import {goBack} from '../../routing/navigationRef';
 import {HeaderTypePropsInterface} from './types';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { scale } from '../../theme/responsive';
-import { darkColors } from '../../theme/colors';
+import {scale} from '../../theme/responsive';
+import {darkColors} from '../../theme/colors';
 
 const Header = ({
   statusBarColor,
@@ -16,9 +16,8 @@ const Header = ({
   onLocationSearch,
   onFilterPress,
   isFilterShow = true,
-  onCrossIconPress
+  onCrossIconPress,
 }: HeaderTypePropsInterface) => {
-
   const onBackPress = () => {
     goBack();
   };
@@ -56,7 +55,7 @@ const Header = ({
         ) : null}
       </View>
 
-      {isFilterShow &&
+      {isFilterShow && (
         <Pressable onPress={onFilterPress} style={styles.flexZeroView}>
           <Image
             resizeMode="contain"
@@ -64,16 +63,18 @@ const Header = ({
             source={AllImages.filterIcon}
           />
         </Pressable>
-      }
-      <Pressable onPress={onSearchPress}>
-        <View style={styles.flexZeroView}>
-          <Image
-            resizeMode="contain"
-            style={[styles.headerImageStyle, {tintColor: statusBarColor}]}
-            source={AllImages.searchIcon}
-          />
-        </View>
-      </Pressable>
+      )}
+      {onSearchPress ? (
+        <Pressable onPress={onSearchPress}>
+          <View style={styles.flexZeroView}>
+            <Image
+              resizeMode="contain"
+              style={[styles.headerImageStyle, {tintColor: statusBarColor}]}
+              source={AllImages.searchIcon}
+            />
+          </View>
+        </Pressable>
+      ) : null}
     </View>
   );
 };
