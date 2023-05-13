@@ -16,7 +16,7 @@ import {countries} from '../../../utils/Utility';
 import {CheckBox} from 'react-native-elements';
 import NavBar from '../../../components/navBar';
 
-const userType = ['Vetenerian', 'Zoo', 'Animal Lover', 'Breeder'];
+const userType = ['tierarzt', 'tierliebhaber', 'tierpark', 'zuchter'];
 const SignUp = () => {
   const dispatch = useDispatch();
 
@@ -89,6 +89,11 @@ const SignUp = () => {
       password: state.password,
       user_name: `${state.firstName} ${state.lastName}`,
       context: 'edit',
+      field_122: state.userType,
+      field_79: state.country,
+      field_90: state.firstName,
+      field_65: state.lastName,
+
     };
     dispatch(
       registerUser(body, res => {
