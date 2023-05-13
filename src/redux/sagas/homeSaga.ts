@@ -184,10 +184,14 @@ function* updateProfile(data: object) {
 function* getNotificationList(data: object) {
   const {payload, callback} = data;
   utilActions
-    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/notifications?context=view&user_id=` 
-      + payload.user_id, null, 'GET')
+    .apiCall(
+      `${serviceUrl.apiUrl}buddypress/v1/notifications?context=view&user_id=` +
+        payload.user_id,
+      null,
+      'GET',
+    )
     .then(response => {
-      if(Array.isArray(response)){
+      if (Array.isArray(response)) {
         callback(response);
       } else {
         callback();
@@ -196,6 +200,56 @@ function* getNotificationList(data: object) {
           type: 'danger',
         });
       }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+function* deleteAccount(data: object) {
+  const {callback} = data;
+
+  utilActions
+    .apiCall(
+      `${serviceUrl.apiUrl}greensheep-api/v1/users/delete/me`,
+      null,
+      'POST',
+    )
+    .then(response => {
+      callback(response);
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+function* getSubscriptionDetails() {
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/subscription`, null, 'GET')
+    .then(response => {
+      store.dispatch({
+        type: types.GET_SUBSCRIPTION_DETAILS_SUCCESS,
+        payload: response?.data,
+      });
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+function* updateSubscriptionDetails(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(
+      `${serviceUrl.apiUrl}greensheep-api/v1/subscription`,
+      payload,
+      'POST',
+    )
+    .then(response => {
+      store.dispatch({
+        type: types.GET_SUBSCRIPTION_DETAILS,
+      });
+      callback(response);
     })
     .catch(err => {
       callback();
@@ -213,4 +267,10 @@ export default function* watchHomeSaga() {
   yield takeLatest(types.GET_PROFILE_FIELDS, getProfileFields);
   yield takeLatest(types.UPDATE_PROFILE, updateProfile);
   yield takeLatest(types.GET_NOTIFICATION_LIST, getNotificationList);
+  yield takeLatest(types.DELETE_ACCOUNT, deleteAccount);
+  yield takeLatest(types.GET_SUBSCRIPTION_DETAILS, getSubscriptionDetails);
+  yield takeLatest(
+    types.UPDATE_SUBSCRIPTION_DETAILS,
+    updateSubscriptionDetails,
+  );
 }

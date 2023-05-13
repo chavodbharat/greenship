@@ -72,11 +72,8 @@ const PetPassportMenu = ({route}: any) => {
         petObj,
       });
     } else if (position == 1) {
-      navigate('UpgradeToPro');
-
-      // navigate(ISSUE_OF_IDENTITY_CARD_SCREEN.name, {vaccineObj: data, petObj});
+      navigate(ISSUE_OF_IDENTITY_CARD_SCREEN.name, {vaccineObj: data, petObj});
     } else {
-      navigate('UpgradeToPro');
       setState(prev => ({...prev, showUpgradeToProModal: true}));
     }
   };

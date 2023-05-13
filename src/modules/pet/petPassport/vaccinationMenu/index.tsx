@@ -1,65 +1,83 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Image, Pressable, Text, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import Header from '../../../../components/header';
 import LinearGradient from '../../../../components/linearGradient';
 import Spinner from '../../../../components/spinner';
-import { scale, verticalScale } from '../../../../theme/responsive';
-import { MenuOptions } from './types';
-import { getPetVaccineMenuList } from '../../../../redux/actions/petAction';
+import {scale, verticalScale} from '../../../../theme/responsive';
+import {MenuOptions} from './types';
+import {getPetVaccineMenuList} from '../../../../redux/actions/petAction';
 import PetPassportSubHeader from '../../../../components/petPassportSubHeader';
-import { navigate } from '../../../../routing/navigationRef';
-import { PET_VACCINATION_SCREEN } from '../petVaccination';
-import { useTheme } from '../../../../providers/ThemeProvider';
+import {navigate} from '../../../../routing/navigationRef';
+import {PET_VACCINATION_SCREEN} from '../petVaccination';
+import {useTheme} from '../../../../providers/ThemeProvider';
 import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
-import { SEARCH_FILTER_SCREEN } from '../../../searchFilters/searchFilter';
+import {SEARCH_FILTER_SCREEN} from '../../../searchFilters/searchFilter';
 
 export const VACCINATION_MENU_SCREEN = {
   name: 'VaccinationMenu',
 };
 
 const VaccinationMenu = ({route}: any) => {
+  const {subscriptionDetails} = useSelector(
+    state => ({
+      subscriptionDetails: state.auth?.subscriptionDetails,
+    }),
+    shallowEqual,
+  );
   const dispatch = useDispatch();
-  const { petObj } = route.params;
+  const {petObj} = route.params;
 
-  console.log("Pet Id", petObj);
-  
+  console.log('Pet Id', petObj);
+
   const {colors} = useTheme();
   const [state, setState] = useState({
     loader: false,
-    petPassportOptionsData: []
+    petPassportOptionsData: [],
   });
 
   useEffect(() => {
     callPetPassportMenuListFn();
   }, []);
-  
+
   const callPetPassportMenuListFn = () => {
     setState(prev => ({...prev, loader: true}));
     const body = {
-      'form_id': petObj.form_id
-    }
+      form_id: petObj.form_id,
+    };
     dispatch(
-      getPetVaccineMenuList(body,(res: any) => {
-        if(res) {
-          const { data } = res;
-          setState(prev => ({...prev, loader: false, petPassportOptionsData:  data.slice(2, data.length)}));
+      getPetVaccineMenuList(body, (res: any) => {
+        if (res) {
+          const {data} = res;
+          setState(prev => ({
+            ...prev,
+            loader: false,
+            petPassportOptionsData: data.slice(2, data.length),
+          }));
         } else {
-          setState(prev => ({...prev, loader: false, petPassportOptionsData: []}));
+          setState(prev => ({
+            ...prev,
+            loader: false,
+            petPassportOptionsData: [],
+          }));
         }
       }),
     );
   };
 
   const onPetPassportMenuItemPress = (data: MenuOptions) => {
-    navigate(PET_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
-  }
+    if (subscriptionDetails?.sub_status === 0) {
+      navigate(PET_VACCINATION_SCREEN.name, {vaccineObj: data, petObj});
+    } else {
+      navigate('UpgradeToPro');
+    }
+  };
 
   const onFilterPress = () => {
     navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: true});
-  }
+  };
 
   const renderItem = ({item, index}: any) => {
     return (
@@ -67,32 +85,44 @@ const VaccinationMenu = ({route}: any) => {
         isHorizontal={false}
         childStyle={styles.linearGradientCustomStyle}
         childrean={
-          <Pressable
-            onPress={() => onPetPassportMenuItemPress(item)}>
+          <Pressable onPress={() => onPetPassportMenuItemPress(item)}>
             <View style={styles.petPassportOptionView}>
               <Image
                 style={[styles.petPassportIconStyle]}
-                source={{uri: item.icon}}/>
+                source={{uri: item.icon}}
+              />
               <Text style={styles.petListItemTextValueStyle}>{item.label}</Text>
             </View>
           </Pressable>
         }
       />
-    )
-  }
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
+      <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
       <Header
         statusBarColor={colors.listBackGradientThree}
-        onFilterPress={onFilterPress} />
+        onFilterPress={onFilterPress}
+      />
       <PetPassportSubHeader
         title={petObj.pet_name}
-        petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}
-      />  
-      <View style={[styles.container, {marginLeft: scale(5), marginRight: scale(5),
-        marginTop: verticalScale(3)}]}>
+        petImage={
+          typeof petObj.pet_image === 'string'
+            ? petObj.pet_image
+            : petObj.pet_image.pet_image_url
+        }
+      />
+      <View
+        style={[
+          styles.container,
+          {
+            marginLeft: scale(5),
+            marginRight: scale(5),
+            marginTop: verticalScale(3),
+          },
+        ]}>
         <FlatList
           data={state.petPassportOptionsData}
           horizontal={false}
@@ -100,7 +130,7 @@ const VaccinationMenu = ({route}: any) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
         />
-      </View> 
+      </View>
       <PetHealthFloatingButton />
     </SafeAreaView>
   );

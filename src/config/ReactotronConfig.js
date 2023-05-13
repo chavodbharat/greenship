@@ -3,12 +3,12 @@ import sagaPlugin from 'reactotron-redux-saga';
 import {reactotronRedux} from 'reactotron-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-Reactotron.configure({name: 'React_Native'})
+Reactotron.configure({name: 'React_Native', host: '192.168.1.7'})
   .setAsyncStorageHandler(AsyncStorage)
   .useReactNative()
   .use(sagaPlugin())
   .use(reactotronRedux()) //  <- here i am!
-  .connect();
+  .connect({});
 
 const yeOldeConsoleLog = console.log;
 // make a new one

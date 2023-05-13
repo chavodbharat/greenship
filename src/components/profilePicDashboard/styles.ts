@@ -33,7 +33,7 @@ export default StyleSheet.create({
     width: scale(110),
     borderRadius: scale(55),
     backgroundColor: 'gray',
-    marginTop: verticalScale(-50),
+    marginTop: verticalScale(-55),
     marginLeft: scale(115),
   },
   uploadWrapper: {
@@ -55,8 +55,9 @@ export default StyleSheet.create({
   upload1: {
     height: scale(30),
     width: scale(30),
-    marginTop: verticalScale(30),
-    marginLeft: scale(-40),
+    alignSelf: 'center',
+    marginRight: scale(-60),
+    marginTop: verticalScale(-23),
   },
   modalStyle: {
     height: 'auto',

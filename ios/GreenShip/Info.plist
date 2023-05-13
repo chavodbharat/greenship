@@ -57,13 +57,17 @@
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires to access camera for uploading photos to your profile or posts</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Location Permission</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Location Permission</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Location Permission</string>
+	<string>$(PRODUCT_NAME) requires to access camera for uploading photos to your profile or posts</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>$(PRODUCT_NAME) requires to access your current location to find users and pets nearby you</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string> $(PRODUCT_NAME) requires to access your current location to find users and pets nearby you</string>
+  <key>NSLocationUsageDescription</key>
+  <string>
+    $(PRODUCT_NAME) requires to access your current location to find users and pets nearby you</string>
+  
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string> $(PRODUCT_NAME) requires to access your current location to find users and pets nearby you</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires to access Audio recording to record and uplod videos</string>
 	<key>NSPhotoLibraryUsageDescription</key>

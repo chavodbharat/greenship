@@ -152,6 +152,7 @@ const TabNavigator = ({navigation}: any) => {
   React.useEffect(() => {
     if (isFocused) {
       dispatch(setTabBgColor(null));
+      console.log('hhhh');
     }
 
     setTimeout(() => SplashScreen.hide(), 1000);
