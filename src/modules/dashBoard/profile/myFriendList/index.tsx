@@ -44,7 +44,7 @@ const MyFriendList = ({route}: any) => {
       const promises = fields.map(async (obj: any, index: number) => {
         if(Object.keys(obj).length > 0) {
           try {
-            const response = await fetch(`${serviceUrl.apiUrl}buddypress/v1/members/${obj.initiator_id}`);
+            const response = await fetch(`${serviceUrl.apiUrl}buddypress/v1/members/${obj.friend_id}`);
             const responseJson = await response.json();
             if(!responseJson.message){
               obj.name = responseJson.name;

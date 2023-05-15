@@ -15,7 +15,7 @@ import {PubNubProvider} from 'pubnub-react'
 const pubnub = new PubNub({
   subscribeKey: PubNubKeys.PUBNUB_SUBSCRIBE_KEY,
   publishKey: PubNubKeys.PUBNUB_PUBLISH_KEY,
-  uuid: 'ChangeMe',
+  uuid: 'GreenSheepApp',
 })
 
 const App = () => {
