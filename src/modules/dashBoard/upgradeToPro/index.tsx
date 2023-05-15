@@ -19,11 +19,14 @@ import {
   endConnection,
   getSubscriptions,
   requestSubscription,
+  getAvailablePurchases,
+  acknowledgePurchaseAndroid,
 } from 'react-native-iap';
 import {goBack} from '../../../routing/navigationRef';
 import Spinner from '../../../components/spinner';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {updateSubscriptionDetailsReq} from '../../../redux/actions/homeAction';
+import {showMessage} from 'react-native-flash-message';
 
 const UpgradeToPro = () => {
   const dispatch = useDispatch();
@@ -60,7 +63,17 @@ const UpgradeToPro = () => {
       .then(subscriptions => {
         setState(prev => ({...prev, loading: false}));
         setState(prev => ({...prev, activeSubscriptions: subscriptions}));
+        // getAndroidPurchase();
       });
+  };
+
+  const getAndroidPurchase = async () => {
+    if (Platform.OS === 'android') {
+      const subscriptionPurchase = await getAvailablePurchases();
+      if (subscriptionPurchase) {
+        console.log('cdccdcd', subscriptionPurchase);
+      }
+    }
   };
 
   const handleRequestSubscription = () => {
@@ -82,14 +95,21 @@ const UpgradeToPro = () => {
         console.log('error buying product', err);
       })
       .then(async res => {
-        console.log('request subscription ', res);
-        if (subscriptionDetails?.sub_status !== 0 && res?.transactionReceipt) {
+        if (Platform.OS === 'android' && res?.[0]?.purchaseToken) {
+          acknowledgePurchaseAndroid({token: res?.[0]?.purchaseToken});
+          updateSubscriptionDetails(res?.[0]);
+        } else if (
+          Platform.OS === 'ios' &&
+          subscriptionDetails?.sub_status !== 0 &&
+          res?.transactionReceipt
+        ) {
           updateSubscriptionDetails(res);
         }
       });
   };
 
   const updateSubscriptionDetails = details => {
+    setState(prev => ({...prev, loading: true}));
     let body = {
       inapp_data: details,
       inapp_type: Platform.OS === 'ios' ? 'apple' : 'android',
@@ -97,6 +117,11 @@ const UpgradeToPro = () => {
     };
     dispatch(
       updateSubscriptionDetailsReq(body, res => {
+        setState(prev => ({...prev, loading: false}));
+        showMessage({
+          message: 'Wow you subscribed successfully!!',
+          type: 'success',
+        });
         goBack();
       }),
     );

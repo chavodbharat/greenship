@@ -65,6 +65,7 @@ export default StyleSheet.create({
     fontSize: moderateScale(13),
     fontFamily: fonts.MontserratRegular,
     paddingHorizontal: scale(22),
+    color: 'gray',
     paddingVertical: verticalScale(6),
   },
   desc: {
