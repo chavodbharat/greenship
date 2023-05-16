@@ -246,7 +246,11 @@ const Emergency = () => {
             handleSearch(value);
           }}
           onCrossIconPress={() => {
-            setState(prev => ({ ...prev, locationAddress: '', selectedAddress: ''}))
+            setState(prev => ({
+              ...prev,
+              locationAddress: '',
+              selectedAddress: '',
+            }));
           }}
           onFilterPress={() => {
             setState(prev => ({...prev, radiusModal: true}));
@@ -300,7 +304,7 @@ const Emergency = () => {
           <View style={styles.listWrapper}>
             <PetListView
               isEmergency={true}
-              onItemPress={(item) => 
+              onItemPress={item =>
                 zoomToMarker({
                   latitude: item?.latitude,
                   longitude: item.longitude,

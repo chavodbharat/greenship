@@ -17,6 +17,8 @@ export default (state = INITIAL_STATE, {type, payload}: any) => {
       return {...state, activeModule: payload};
     case types.ACTIVE_SUB_MODULE:
       return {...state, activeSubModule: payload};
+    case types.GET_SUBSCRIPTION_DETAILS_SUCCESS:
+      return {...state, subscriptionDetails: payload};
 
     default:
       return state;

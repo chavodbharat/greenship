@@ -8,7 +8,7 @@ Reactotron.configure({name: 'React_Native'})
   .useReactNative()
   .use(sagaPlugin())
   .use(reactotronRedux()) //  <- here i am!
-  .connect();
+  .connect({});
 
 const yeOldeConsoleLog = console.log;
 // make a new one

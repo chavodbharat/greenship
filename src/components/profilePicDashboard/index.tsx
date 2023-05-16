@@ -189,20 +189,6 @@ const ProfilePicDashboard = () => {
           source={{uri: state.userPic?.[0]?.full}}
           style={styles.img}
         />
-        <Pressable
-          onPress={() => {
-            setState(prev => ({
-              ...prev,
-              visible: true,
-              imageType: 'userPic',
-            }));
-          }}>
-          <Image
-            resizeMode="contain"
-            style={styles.upload1}
-            source={require('../../assets/images/upload.png')}
-          />
-        </Pressable>
 
         <View style={styles.uploadWrapper}>
           <Pressable
@@ -222,6 +208,20 @@ const ProfilePicDashboard = () => {
           </Pressable>
         </View>
       </View>
+      <Pressable
+        onPress={() => {
+          setState(prev => ({
+            ...prev,
+            visible: true,
+            imageType: 'userPic',
+          }));
+        }}>
+        <Image
+          resizeMode="contain"
+          style={styles.upload1}
+          source={require('../../assets/images/upload.png')}
+        />
+      </Pressable>
       <ImageSelection
         modalVisible={state.visible}
         setModalVisible={setModalVisible}

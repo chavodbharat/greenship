@@ -19,11 +19,23 @@ import {
   endConnection,
   getSubscriptions,
   requestSubscription,
+  getAvailablePurchases,
+  acknowledgePurchaseAndroid,
 } from 'react-native-iap';
 import {goBack} from '../../../routing/navigationRef';
 import Spinner from '../../../components/spinner';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {updateSubscriptionDetailsReq} from '../../../redux/actions/homeAction';
+import {showMessage} from 'react-native-flash-message';
 
 const UpgradeToPro = () => {
+  const dispatch = useDispatch();
+  const {subscriptionDetails} = useSelector(
+    state => ({
+      subscriptionDetails: state.auth?.subscriptionDetails,
+    }),
+    shallowEqual,
+  );
   const [state, setState] = useState({
     activePackage: 1,
     activeSubscriptions: [],
@@ -43,19 +55,28 @@ const UpgradeToPro = () => {
   }, []);
 
   const start = async () => {
+    setState(prev => ({...prev, loading: true}));
     await initConnection()
       .then(async connection => {
         return await getSubscriptions({skus: itemSkus});
       })
       .then(subscriptions => {
+        setState(prev => ({...prev, loading: false}));
         setState(prev => ({...prev, activeSubscriptions: subscriptions}));
+        // getAndroidPurchase();
       });
   };
 
-  const handleRequestSubscription = () => {
-    console.log('onPress');
+  const getAndroidPurchase = async () => {
+    if (Platform.OS === 'android') {
+      const subscriptionPurchase = await getAvailablePurchases();
+      if (subscriptionPurchase) {
+        console.log('cdccdcd', subscriptionPurchase);
+      }
+    }
+  };
 
-    setState(prev => ({...prev, loading: true}));
+  const handleRequestSubscription = () => {
     requestSubscription({
       sku: state.activeSubscriptions[0]?.productId,
       ...(state.activeSubscriptions[0]?.subscriptionOfferDetails?.[0]
@@ -72,13 +93,38 @@ const UpgradeToPro = () => {
     })
       .catch(err => {
         console.log('error buying product', err);
-        setState(prev => ({...prev, loading: false}));
       })
       .then(async res => {
-        setState(prev => ({...prev, loading: false}));
-        console.log('request subscription ', JSON.stringify(res));
-        // handle/store response
+        if (Platform.OS === 'android' && res?.[0]?.purchaseToken) {
+          acknowledgePurchaseAndroid({token: res?.[0]?.purchaseToken});
+          updateSubscriptionDetails(res?.[0]);
+        } else if (
+          Platform.OS === 'ios' &&
+          subscriptionDetails?.sub_status !== 0 &&
+          res?.transactionReceipt
+        ) {
+          updateSubscriptionDetails(res);
+        }
       });
+  };
+
+  const updateSubscriptionDetails = details => {
+    setState(prev => ({...prev, loading: true}));
+    let body = {
+      inapp_data: details,
+      inapp_type: Platform.OS === 'ios' ? 'apple' : 'android',
+      inapp_product: state.activeSubscriptions[0]?.productId,
+    };
+    dispatch(
+      updateSubscriptionDetailsReq(body, res => {
+        setState(prev => ({...prev, loading: false}));
+        showMessage({
+          message: 'Wow you subscribed successfully!!',
+          type: 'success',
+        });
+        goBack();
+      }),
+    );
   };
 
   const onPay = () => {
@@ -88,8 +134,6 @@ const UpgradeToPro = () => {
       goBack();
     }
   };
-
-  console.log('fvf', state);
 
   return (
     <SafeAreaView style={styles.container}>

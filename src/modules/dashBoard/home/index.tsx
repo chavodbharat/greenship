@@ -5,10 +5,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {navigate} from '../../../routing/navigationRef';
 import {darkColors} from '../../../theme/colors';
 import {useDispatch} from 'react-redux';
-import {
-  setActiveSubModule,
-  setTabBgColor,
-} from '../../../redux/actions/authAction';
+import {setTabBgColor} from '../../../redux/actions/authAction';
 import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
 import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
@@ -39,8 +36,6 @@ const Home = () => {
   });
 
   useEffect(() => {
-    // dispatch(setActiveSubModule(null));
-
     if (isFocused) {
       requestLocationPermission();
     }
@@ -167,7 +162,10 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={darkColors.darkGreen} barStyle={'light-content'} />
+      <StatusBar
+        backgroundColor={darkColors.darkGreen}
+        barStyle={'light-content'}
+      />
       <Pressable
         onPress={() => navigate('Profile', {userPic: state.userProfilePic})}
         style={styles.main}>

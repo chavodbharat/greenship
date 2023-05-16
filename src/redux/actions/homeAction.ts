@@ -76,3 +76,26 @@ export const getNotificationList = (payload: object, callback: Function) => {
     callback,
   };
 };
+
+export const deleteAccountReq = (callback: Function) => {
+  return {
+    type: types.DELETE_ACCOUNT,
+    callback,
+  };
+};
+
+export const getSubscriptionDetails = () => {
+  return {
+    type: types.GET_SUBSCRIPTION_DETAILS,
+  };
+};
+export const updateSubscriptionDetailsReq = (
+  payload: object,
+  callback: Function,
+) => {
+  return {
+    type: types.UPDATE_SUBSCRIPTION_DETAILS,
+    payload,
+    callback,
+  };
+};
