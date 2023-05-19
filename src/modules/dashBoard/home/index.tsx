@@ -15,6 +15,9 @@ import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {getReverseGeocodingData} from '../../../utils/Utility';
 import {types} from '../../../redux/ActionTypes';
 import {COMMUNITY_USER_LIST_SCREEN} from '../../community/communityUserList';
+import VersionCheck from 'react-native-version-check';
+import AppUpdateModal from '../../../components/appUpdateModal';
+import { openLink } from '../../../utils/Constants/AllConstance';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -33,6 +36,8 @@ const Home = () => {
 
   const [state, setState] = useState({
     userProfilePic: null,
+    isAppUpdateModalShow: false,
+    appUpdateData: {}
   });
 
   useEffect(() => {
@@ -54,6 +59,20 @@ const Home = () => {
       );
     }
   }, [isFocused, userData?.id]);
+
+  
+  useEffect(() => {
+    checkVersionOfApplication();
+  }, []);
+
+  const checkVersionOfApplication = async () => {
+    try {
+      const updateData = await VersionCheck.needUpdate();
+      if (updateData?.isNeeded) {
+        setState(prev => ({...prev, isAppUpdateModalShow: true, appUpdateData: updateData}));
+      }
+    } catch (error) {}
+  }
 
   const onTilePress = (index: any) => {
     if (index === 0) {
@@ -160,6 +179,10 @@ const Home = () => {
     });
   };
 
+  const onUpdatePress = () => {
+    openLink(state.appUpdateData?.storeUrl);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -197,6 +220,10 @@ const Home = () => {
           );
         })}
       </View>
+      <AppUpdateModal
+        isModalVisible={state.isAppUpdateModalShow}
+        onClose={() => setState(prev => ({...prev, isAppUpdateModalShow: false}))}
+        onUpdatePress={onUpdatePress}/>
     </SafeAreaView>
   );
 };

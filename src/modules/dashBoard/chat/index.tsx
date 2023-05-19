@@ -43,12 +43,7 @@ const ChatList = () => {
     dispatch(
       getLoginUserFriendList((res: any) => {
         if(res){
-          //console.log("res", JSON.stringify(res));
-          const filterData = res.filter((data: any) => {
-            return data.friend_id != userData?.id;  
-          });
-          //console.log("JSON", JSON.stringify(filterData));
-          fetchData(filterData);
+          fetchData(res);
         }
       }),
     );
@@ -60,7 +55,11 @@ const ChatList = () => {
       const promises = fields.map(async (obj: any, index: number) => {
         if(Object.keys(obj).length > 0) {
           try {
-            const response = await fetch(`${serviceUrl.apiUrl}buddypress/v1/members/${obj.friend_id}`);
+            let finalId = obj.friend_id;
+            if(userData?.id == obj.friend_id) {
+              finalId = obj.initiator_id;
+            }
+            const response = await fetch(`${serviceUrl.apiUrl}buddypress/v1/members/${finalId}`);
             const responseJson = await response.json();
             if(!responseJson.message){
               obj.name = responseJson.name;
@@ -80,10 +79,14 @@ const ChatList = () => {
   };
   
   const renderFriendItem = ({item, index}: any) => {
+    let finalId = item.friend_id;
+    if(userData?.id == item.friend_id) {
+      finalId = item.initiator_id;
+    }
     return (
       (item.name &&
         <Pressable
-          onPress={() => navigate(CHAT_DETAILS_SCREEN.name, {friendId: item.friend_id,
+          onPress={() => navigate(CHAT_DETAILS_SCREEN.name, {friendId: finalId,
             userName: item.name})}>
           <View style={[styles.flexDirectionRowView,{marginTop: verticalScale(10),
             marginBottom: verticalScale(10)}]}>

@@ -5,5 +5,6 @@ import watchHomeSaga from './homeSaga';
 import watchMemberSaga from './memberSaga';
 // Redux Saga: Root Saga
 export function* rootSaga() {
-  yield all([fork(watchAuthSaga), fork(watchPetSaga), fork(watchHomeSaga), fork(watchMemberSaga)]);
+  yield all([fork(watchAuthSaga), fork(watchPetSaga), fork(watchHomeSaga), 
+    fork(watchMemberSaga)]);
 }

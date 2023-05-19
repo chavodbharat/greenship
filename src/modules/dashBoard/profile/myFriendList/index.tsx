@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTheme} from '../../../../providers/ThemeProvider';
 import { getLoginUserFriendList } from '../../../../redux/actions/memberAction';
 import { serviceUrl } from '../../../../utils/Constants/ServiceUrls';
@@ -22,6 +22,13 @@ const MyFriendList = ({route}: any) => {
     allFriendListData: []
   });
 
+  const {userData} = useSelector(
+    state => ({
+      userData: state.auth?.loginData,
+    }),
+    shallowEqual,
+  );
+  
   useEffect(() => {
     callMemberFriendListFn();
   }, []);
@@ -44,6 +51,10 @@ const MyFriendList = ({route}: any) => {
       const promises = fields.map(async (obj: any, index: number) => {
         if(Object.keys(obj).length > 0) {
           try {
+            let finalId = obj.friend_id;
+            if(userData?.id == obj.friend_id) {
+              finalId = obj.initiator_id;
+            }
             const response = await fetch(`${serviceUrl.apiUrl}buddypress/v1/members/${obj.friend_id}`);
             const responseJson = await response.json();
             if(!responseJson.message){

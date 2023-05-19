@@ -99,3 +99,11 @@ export const updateSubscriptionDetailsReq = (
     callback,
   };
 };
+
+export const updateFriendRequestStatus = (payload: object, callback: Function) => {
+  return {
+    type: types.UPDATE_FRIEND_REQUEST_STATUS,
+    payload,
+    callback,
+  };
+};

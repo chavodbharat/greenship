@@ -15,6 +15,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {countries} from '../../../utils/Utility';
 import {CheckBox} from 'react-native-elements';
 import NavBar from '../../../components/navBar';
+import { serviceUrl } from '../../../utils/Constants/ServiceUrls';
 
 const userType = ['tierarzt', 'tierliebhaber', 'tierpark', 'zuchter'];
 const SignUp = () => {
@@ -89,12 +90,15 @@ const SignUp = () => {
       password: state.password,
       user_name: `${state.firstName} ${state.lastName}`,
       context: 'edit',
-      field_122: state.userType,
       field_79: state.country,
       field_90: state.firstName,
       field_65: state.lastName,
-
     };
+    if(serviceUrl.type === 'staging') {
+      body.field_122 = state.userType;
+    } else {
+      body.field_190 = state.userType;
+    }
     dispatch(
       registerUser(body, res => {
         if (res[0]?.id) {
@@ -315,7 +319,7 @@ const SignUp = () => {
             onSelect={selectedItem => {
               setState(prev => ({
                 ...prev,
-                country: selectedItem,
+                country: selectedItem.name,
                 countryError: false,
               }));
             }}

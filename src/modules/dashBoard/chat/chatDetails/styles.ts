@@ -40,6 +40,7 @@ export default StyleSheet.create({
     backgroundColor: darkColors.communityGreenColor,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
     paddingTop: verticalScale(5),
     paddingBottom: verticalScale(5),
     paddingLeft: scale(25),
@@ -54,6 +55,8 @@ export default StyleSheet.create({
     paddingLeft: scale(10),
     borderRadius: scale(10),
     fontSize: moderateScale(14),
+    marginTop: scale(10),
+    marginBottom: scale(10),
     borderColor: '#CFDBE5'
   },
   sendFontStyle: {
@@ -91,7 +94,7 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     color: darkColors.white,
     fontSize: moderateScale(14),
-    fontFamily: fonts.MontserratMedium
+    fontFamily: fonts.MontserratMedium,
   },
   leftSideBottomTimeTextStyle: {
     color: darkColors.white, 

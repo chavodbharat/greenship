@@ -21,10 +21,10 @@ const ChatDetails = ({route}: any) => {
   const { friendId, userName } = route.params;
   const dispatch = useDispatch();
   const [state, setState] = useState({
-    loader: false,
     messages: [],
     step: 0,
-    userProfilePic: null
+    userProfilePic: null,
+    onlineStatus: "-"
   });
 
   const {userData} = useSelector(
@@ -80,12 +80,36 @@ const ChatDetails = ({route}: any) => {
       }
     };
 
-   fetchHistory();
-
+    fetchHistory();
+    getOnlineStatusOfUser();
+  
     return () => {
       shouldSetMessages = false;
     };
   }, [pubnub, userData?.id]);
+
+  const getOnlineStatusOfUser = () => {
+    pubnub.hereNow({
+      channels: [getChannelName()],
+      includeUUIDs: true,
+      includeState: true,
+    }, (status, response) => {
+      if(response){
+        const strChannelsObj = response.channels[getChannelName()];
+        if(Object.keys(strChannelsObj).length > 0){
+          const strOccupants = strChannelsObj.occupants;
+          let users = strOccupants.find(data => data.uuid === friendId);
+          if(users && Object.keys(users).length > 0){
+            setState(prev => ({...prev, onlineStatus: "Online"}));
+          } else {
+            setState(prev => ({...prev, onlineStatus: "Offline"}));
+          }
+        } else {
+          setState(prev => ({...prev, onlineStatus: "Offline"}));
+        }
+      }
+    });
+  }
 
    // First we need to set our PubNub UUID and subscribe to chat channel.
   // We will use `useEffect` hook for that.
@@ -139,10 +163,6 @@ const ChatDetails = ({route}: any) => {
       />
     }
     tickStyle={{ color: props.currentMessage.seen ? '#34B7F1' : '#999' }}
-    // containerStyle={{
-    //   left: styles.leftSideViewContainer,
-    //   right: {},
-    // }}
     wrapperStyle={{
       left: styles.leftSideViewContainer,
       right: styles.rightSideViewContainer,
@@ -151,29 +171,18 @@ const ChatDetails = ({route}: any) => {
       left: styles.leftSideTextStyle,
       right: styles.rightSideTextStyle,
     }}
-    // bottomContainerStyle={{
-    //   left: { borderColor: 'purple', borderWidth: 4 },
-    //   right: {},
-    // }}
-    // tickStyle={{}}
-    // usernameStyle={{ color: 'tomato', fontWeight: '100' }}
     bottomContainerStyle={{
       left: styles.bottomViewTextStyle,
       right: styles.bottomViewTextStyle,
     }}
-    // containerToNextStyle={{
-    //   left: { borderColor: 'navy', borderWidth: 4 },
-    //   right: {},
-    // }}
-    // containerToPreviousStyle={{
-    //   left: { borderColor: 'mediumorchid', borderWidth: 4 },
-    //   right: {},
+    // containerStyle={{
+    //   right: {marginBottom: 100}
     // }}
   />
   }
 
   const renderChatFooter = () => {
-    return <View></View>;
+    return <View style={{height: scale(20)}}/>;
   };
 
   const renderAvtar = (props: any) => {
@@ -208,7 +217,7 @@ const ChatDetails = ({route}: any) => {
     <SafeAreaView style={styles.flexOneView}>
       <View style={{padding: scale(5)}}>
         <Text style={styles.userNameHeaderTextStyle}>{userName.substring(0, 1).toUpperCase() + userName.substring(1)}</Text>
-        <Text style={styles.userOnlineOfflineStatusStyle}>Online</Text>
+        <Text style={styles.userOnlineOfflineStatusStyle}>{state.onlineStatus}</Text>
         <TouchableWithoutFeedback onPress={() => replace(CHAT_LIST_SCREEN.name)}>
           <View style={styles.imageLeftArrowParentView}>
             <Image
