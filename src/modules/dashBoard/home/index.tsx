@@ -37,7 +37,7 @@ const Home = () => {
 
   useEffect(() => {
     if (isFocused) {
-      requestLocationPermission();
+      // requestLocationPermission();
     }
 
     if (isFocused && userData?.id) {
@@ -121,8 +121,9 @@ const Home = () => {
         ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
       }),
       {
-        title: 'GreenShip',
-        message: 'GreenShip would like access to your location ',
+        title: 'GreenSheep Earth',
+        message:
+          'GreenSheep Earth would like access to your location to find missing pet near you',
       },
     );
 
