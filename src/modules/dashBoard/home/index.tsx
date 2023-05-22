@@ -66,12 +66,14 @@ const Home = () => {
   }, []);
 
   const checkVersionOfApplication = async () => {
-    try {
-      const updateData = await VersionCheck.needUpdate();
-      if (updateData?.isNeeded) {
-        setState(prev => ({...prev, isAppUpdateModalShow: true, appUpdateData: updateData}));
-      }
-    } catch (error) {}
+    if(Platform.OS === 'android'){
+      try {
+        const updateData = await VersionCheck.needUpdate();
+        if (updateData?.isNeeded) {
+          setState(prev => ({...prev, isAppUpdateModalShow: true, appUpdateData: updateData}));
+        }
+      } catch (error) {}
+    }
   }
 
   const onTilePress = (index: any) => {

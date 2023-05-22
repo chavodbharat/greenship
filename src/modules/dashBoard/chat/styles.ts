@@ -40,5 +40,14 @@ export default StyleSheet.create({
     color: darkColors.petPassportTextColor,
     fontSize: moderateScale(14),
     marginTop: verticalScale(5)
+  },
+  onlineStatusView: {
+    width: scale(10), 
+    height: scale(10), 
+    borderRadius: scale(5), 
+    backgroundColor: darkColors.darkGrey,
+    position: 'absolute', 
+    alignSelf: 'flex-end', 
+    bottom: scale(5)
   }
 });

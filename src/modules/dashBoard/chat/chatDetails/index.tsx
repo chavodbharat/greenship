@@ -18,7 +18,7 @@ export const CHAT_DETAILS_SCREEN = {
 const ChatDetails = ({route}: any) => {
   const {colors} = useTheme();
   const pubnub = usePubNub();
-  const { friendId, userName } = route.params;
+  const { friendId, userName, userData } = route.params;
   const dispatch = useDispatch();
   const [state, setState] = useState({
     messages: [],
@@ -26,13 +26,6 @@ const ChatDetails = ({route}: any) => {
     userProfilePic: null,
     onlineStatus: "-"
   });
-
-  const {userData} = useSelector(
-    state => ({
-      userData: state.auth?.loginData,
-    }),
-    shallowEqual,
-  );
 
   useEffect(() => {
     if (userData?.id) {
@@ -81,13 +74,16 @@ const ChatDetails = ({route}: any) => {
     };
 
     fetchHistory();
-    getOnlineStatusOfUser();
   
     return () => {
       shouldSetMessages = false;
     };
   }, [pubnub, userData?.id]);
 
+  useEffect(() => {
+    getOnlineStatusOfUser();
+  }, [state.messages]);
+  
   const getOnlineStatusOfUser = () => {
     pubnub.hereNow({
       channels: [getChannelName()],
@@ -98,7 +94,7 @@ const ChatDetails = ({route}: any) => {
         const strChannelsObj = response.channels[getChannelName()];
         if(Object.keys(strChannelsObj).length > 0){
           const strOccupants = strChannelsObj.occupants;
-          let users = strOccupants.find(data => data.uuid === friendId);
+          let users = strOccupants.find(data => data.uuid.toString() === friendId.toString());
           if(users && Object.keys(users).length > 0){
             setState(prev => ({...prev, onlineStatus: "Online"}));
           } else {
@@ -135,6 +131,10 @@ const ChatDetails = ({route}: any) => {
               step,
             }
           })
+        },
+        presence: (presenceEvent: any) => {
+          // handle presence
+          //console.log("Presence Event ===========================================>", presenceEvent);
         }
       };
 
