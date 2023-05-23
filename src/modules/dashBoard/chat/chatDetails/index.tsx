@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
-import {View, Text, Image, SafeAreaView, TouchableWithoutFeedback, Platform} from 'react-native';
+import {View, Text, Image, SafeAreaView, TouchableWithoutFeedback, Platform, Pressable} from 'react-native';
 import { Avatar, Bubble, Composer, GiftedChat, IMessage, Send, SendProps, Time } from 'react-native-gifted-chat'
 import { useTheme } from '../../../../providers/ThemeProvider';
 import AllImages from '../../../../utils/Constants/AllImages';
@@ -10,6 +10,8 @@ import { usePubNub } from "pubnub-react";
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getUserProfilePic } from '../../../../redux/actions/homeAction';
 import { CHAT_LIST_SCREEN } from '..';
+import ImageSelection from '../../../../components/imageSelection';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export const CHAT_DETAILS_SCREEN = {
   name: 'ChatDetails',
@@ -24,7 +26,9 @@ const ChatDetails = ({route}: any) => {
     messages: [],
     step: 0,
     userProfilePic: null,
-    onlineStatus: "-"
+    onlineStatus: "-",
+    imageModalVisible: false,
+    imageType: '',
   });
 
   useEffect(() => {
@@ -150,6 +154,63 @@ const ChatDetails = ({route}: any) => {
     }
   }, [pubnub]);
 
+  const openCamera = () => {
+    try {
+      ImagePicker.openCamera({
+        width: state.imageType === 'cover' ? 1350 : 500,
+        height: 500,
+        cropping: true,
+      }).then(async image => {
+        sendImageInMessage(image);
+      });
+    } catch (e) {
+      //console.log('error', e);
+    }
+  };
+
+  const openGallery = () => {
+    try {
+      ImagePicker.openPicker({
+        width: state.imageType === 'cover' ? 1350 : 500,
+        height: 500,
+        cropping: true,
+      }).then(async (image: any) => {
+        sendImageInMessage(image);
+      });
+    } catch (e) {
+    }
+  };
+
+  const sendImageInMessage = async (image: any) => {
+    // Generate a unique ID for the message
+    const messageId = generateMessageId();
+
+    // Create the message object with image, ID, and createdAt
+    const message = {
+      _id: messageId,
+      createdAt: new Date().toISOString(),
+      image: Platform.OS === 'ios' ? image.path.replace('file://', '') : image.path,
+      user: {
+        _id: userData?.id,   
+        name: userData?.displayName,
+        avatar: state.userProfilePic ? state.userProfilePic : 'https://placeimg.com/140/140/any',
+      }
+    }
+    try {
+      await pubnub.publish({
+        channel: getChannelName(),
+        message
+      });
+    } catch (error) {
+    }
+    setState(prev => ({...prev, imageModalVisible: false}));
+  }
+
+  // Generate a unique ID for the message
+  const generateMessageId = () => {
+    return `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+  };
+
   const renderBubble = (props: any) => {
     return  <Bubble
     {...props}
@@ -185,6 +246,18 @@ const ChatDetails = ({route}: any) => {
     return <View style={{height: scale(20)}}/>;
   };
 
+    // custom action 
+  const renderActions = () => {
+    return(
+      <Pressable style={{alignSelf: 'center'}}
+        onPress={() => setState(prev => ({...prev, imageModalVisible: true}))}>
+        <Image
+          style={styles.plusButtonStyle}
+          source={AllImages.addIcon}/>
+      </Pressable>
+    );
+  }
+
   const renderAvtar = (props: any) => {
    // console.log(props)
     return (
@@ -210,6 +283,7 @@ const ChatDetails = ({route}: any) => {
   const onSend = (messages = []) => {
     // Publish our message to the channel `chat`
     const newMessage: any = messages[0];
+    console.log("New Messgae", newMessage);
     pubnub.publish({ channel: getChannelName(), message: newMessage });
   }
   
@@ -234,6 +308,7 @@ const ChatDetails = ({route}: any) => {
           renderChatFooter={renderChatFooter}
           alwaysShowSend={true}
           showUserAvatar={true}
+          renderActions={renderActions}
           renderAvatar={obj => renderAvtar(obj)}
           renderAvatarOnTop={true}
           onSend={(messages) => onSend(messages)}
@@ -254,6 +329,12 @@ const ChatDetails = ({route}: any) => {
           }}
         />
       </View>
+      <ImageSelection
+        modalVisible={state.imageModalVisible}
+        setModalVisible={() =>  setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}))}
+        onPressCamera={openCamera}
+        onPressGallery={openGallery}
+      /> 
     </SafeAreaView>
   );
 };

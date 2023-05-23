@@ -110,5 +110,11 @@ export default StyleSheet.create({
     width: scale(40), 
     height: scale(40), 
     borderRadius: scale(20)
+  },
+  plusButtonStyle: {
+    width: scale(30), 
+    height: scale(30), 
+    marginLeft: scale(10), 
+    tintColor: darkColors.darkGrey
   }
 });
