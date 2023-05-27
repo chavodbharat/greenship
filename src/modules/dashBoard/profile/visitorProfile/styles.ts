@@ -113,5 +113,16 @@ export default StyleSheet.create({
     borderRadius: scale(5),
     borderWidth: 0.5,
     borderColor: darkColors.lightGreen
+  },
+  reportBlockIconStyle: {
+    width: scale(25), 
+    height: scale(25),
+    tintColor: darkColors.emergencyGradientOne
+  },
+  reportBlockView: {
+    alignSelf: 'flex-end', 
+    position: 'absolute', 
+    flexDirection: 'row', 
+    marginTop: verticalScale(10)
   }
 });

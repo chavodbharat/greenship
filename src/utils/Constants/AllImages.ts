@@ -11,7 +11,8 @@ const AllImages = {
     petHealthIcon: require("../../assets/images/ic_pet_health.png"),
     myPetIcon: require("../../assets/images/myPets.png"),
     myGroupGray: require("../../assets/images/myGroupGray.png"),
-    
+    reportAccountIcon: require("../../assets/images/ic_report_account.png"),
+    blockUserIcon: require("../../assets/images/ic_block_user.png"),
 };
 
 export default AllImages;

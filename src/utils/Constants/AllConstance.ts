@@ -41,3 +41,57 @@ export const openLink = (url: string) => {
       })
       .catch(err => console.log(err));
 };
+
+//For static report problem options
+export const getAllStaticReportProblemOptions = () => {
+    return [
+        {
+            id: "1", 
+            title: "Sexually Inappropriate"
+        }, 
+        {
+            id: "2", 
+            title: "Prohibited Content"
+        }, 
+        {
+            id: "3", 
+            title: "Misleading or Scam"
+        }, 
+        {
+            id: "4", 
+            title: "False News"
+        }, 
+        {
+            id: "5", 
+            title: "Offensive"
+        }, 
+        {
+            id: "6", 
+            title: "Violence"
+        }, 
+        {
+            id: "7", 
+            title: "Spam"
+        }, 
+        {
+            id: "8", 
+            title: "Nudity"
+        }, 
+        {
+            id: "9", 
+            title: "Harassment"
+        }, 
+        {
+            id: "10", 
+            title: "Hate Speech"
+        }, 
+        {
+            id: "11", 
+            title: "Terrorism"
+        }, 
+        {
+            id: "12", 
+            title: "Other"
+        }
+    ];
+}
