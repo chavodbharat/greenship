@@ -359,6 +359,23 @@ function* getIssueOfIdentityCard(data: object) {
     });
 }
 
+//Send Pet Report Problem
+function* sendPetReportProblem(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/pet-report/`, payload, 'POST')
+    .then(response => {
+      showMessage({
+        message: "Report problem submitted successfully",
+        type: 'success',
+      });
+      callback(response);
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
+
 export default function* watchPetSaga() {
   yield takeLatest(types.GET_PET_LIST, getPetListData);
   yield takeLatest(types.DELETE_PET, deletePet);
@@ -376,4 +393,5 @@ export default function* watchPetSaga() {
   yield takeLatest(types.GET_IDENTIFICATION_OF_ANIMAL, getIdentificationOfAnimal);
   yield takeLatest(types.PET_ISSUE_OF_IDENTITY_CARD, submitIssueOfIdentityCard);
   yield takeLatest(types.GET_ISSUE_OF_IDENTITY_CARD, getIssueOfIdentityCard);
+  yield takeLatest(types.SEND_PET_REPORT_PROBLEM, sendPetReportProblem);
 }

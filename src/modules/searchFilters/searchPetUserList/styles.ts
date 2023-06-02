@@ -144,5 +144,10 @@ export default StyleSheet.create({
     paddingLeft: scale(10),
     fontFamily: fonts.MontserratSemiBold,
     fontSize: moderateScale(18),
-  }
+  },
+  reportBlockIconStyle: {
+    width: scale(22), 
+    height: scale(22),
+    tintColor: darkColors.emergencyGradientOne
+  },
 });

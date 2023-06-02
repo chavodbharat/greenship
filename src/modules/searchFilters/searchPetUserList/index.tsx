@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {FlatList, Image, Pressable, Text, View} from 'react-native';
+import {FlatList, Image, Platform, Pressable, Text, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
@@ -11,6 +11,11 @@ import { scale } from '../../../theme/responsive';
 import LinearGradient from 'react-native-linear-gradient';
 import { VISITOR_PROFILE_SCREEN } from '../../dashBoard/profile/visitorProfile';
 import { navigate } from '../../../routing/navigationRef';
+import AllImages from '../../../utils/Constants/AllImages';
+import ReportProblemModal from '../../../components/reportProblemModal';
+import { PERMISSIONS, RESULTS, request } from 'react-native-permissions';
+import Geolocation from 'react-native-geolocation-service';
+import { PET_PASSPORT_MENU_SCREEN } from '../../pet/petPassport/petPassportMenu';
 
 export const SEARCH_PET_USER_LIST_SCREEN = {
   name: 'SearchPetUserList',
@@ -25,17 +30,14 @@ const SearchPetUserList = ({route}: any) => {
   const [state, setState] = useState({
     loader: false,
     filterListData: [],
-    totalResults: 0
+    totalResults: 0,
+    isReportProblemAccountModalShow: false,
+    reportProblemSubmitStatus: true,
+    reportUserId: "",
+    selectedPetIdForReport: "",
+    currentLatitude: 0,
+    currentLongitude: 0
   });
-
-  const {currentLatitude, currentLongitude, currentAddress} = useSelector(
-    state => ({
-      currentLatitude: state.home?.currentLatitude,
-      currentLongitude: state.home?.currentLongitude,
-      currentAddress: state.home?.currentAddress,
-    }),
-    shallowEqual,
-  );
 
   const {userData} = useSelector(
     state => ({
@@ -45,8 +47,52 @@ const SearchPetUserList = ({route}: any) => {
   );
 
   useEffect(() => {
-    callSearchBasedOnFilterFn();
+    requestLocationPermission();
   },[]);
+
+   //Location
+   const requestLocationPermission = async () => {
+    const granted = await getLocationPermissions();
+
+    if (granted) {
+      setState(prev => ({...prev, loading: true}));
+      getCurrentPosition();
+    }
+  };
+
+  const getLocationPermissions = async () => {
+    const granted = await request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
+        ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+      }),
+      {
+        title: 'GreenSheep Earth',
+        message:
+          'GreenSheep Earth would like access to your location to while searching pet or user',
+      },
+    );
+
+    return granted === RESULTS.GRANTED;
+  };
+
+  const getCurrentPosition = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const crd = position.coords;
+        setPosition(crd.latitude, crd.longitude);
+      },
+      error => {
+        console.log('error', error.code, error.message);
+      },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    );
+  };
+
+  const setPosition = (lat: any, long: any) => {
+    setState(prev => ({...prev, currentLatitude: lat, currentLongitude: long}));
+    callSearchBasedOnFilterFn();
+  };
 
   const callSearchBasedOnFilterFn = () => {
     setState(prev => ({...prev, loader: true}));
@@ -56,8 +102,8 @@ const SearchPetUserList = ({route}: any) => {
         name: name,
         member_types: memberType,
         radius: radius,
-        latitude: currentLatitude,
-        longitude: currentLongitude,
+        latitude: state.currentLatitude,
+        longitude: state.currentLongitude,
         page:  1,
         per_page: -1
       }
@@ -75,15 +121,15 @@ const SearchPetUserList = ({route}: any) => {
     } else {
       //For Pet Search
       const body = {
-        petName: name,
-        petArt: petArt,
-        petRace: petRace,
-        petGender: gender,
-        petAge: petAge,
-        petRadius: radius,
-        latitude: currentLatitude,
-        longitude: currentLongitude,
-        page:  1,
+        petName: "",
+        petArt: "",
+        petRace: "",
+        petGender: "",
+        petAge: "",
+        petRadius: "",
+        latitude: "",
+        longitude: "",
+        page:  -1,
         per_page: -1
       }
       dispatch(
@@ -103,6 +149,26 @@ const SearchPetUserList = ({route}: any) => {
   
   const onUserPress = (userId: string) => {
     navigate(VISITOR_PROFILE_SCREEN.name, {userId});
+  } 
+  
+  const onPetItemPress = (item: string) => {
+    navigate(PET_PASSPORT_MENU_SCREEN.name, {petObj: item, isIdentityMenuShow: false});
+  }
+
+  const onSuccessReportProblem = () => {
+    setState(prev => ({...prev, isReportProblemAccountModalShow: false}));
+    callSearchBasedOnFilterFn();
+  }
+
+  const onPressOnReportProblemIcon = (item: any) => {
+    //Check Report Problem Submitted or Not
+    const reportProblemData = item.user_pet_report;
+    let checkReportUser = true;
+    if(reportProblemData) {
+      checkReportUser = reportProblemData.is_valid_report_pet_user;
+    }
+    setState(prev => ({...prev, reportUserId: item.user_id, isReportProblemAccountModalShow: true,
+      selectedPetIdForReport: item.id, reportProblemSubmitStatus: checkReportUser}))
   }
 
   const renderItem = ({item, index}: any) => {
@@ -144,7 +210,7 @@ const SearchPetUserList = ({route}: any) => {
             : [ colors.filterListOne, colors.filterListTwo]} 
           style={[styles.mainView, index%2!=0 && {borderWidth: 1, borderColor: colors.filterSearchPetBorderColor}]}>
           <Pressable
-            onPress={() =>{}}>
+            onPress={() => onPetItemPress(item)}>
             <View style={styles.memberViewParentView}>
               <View style={styles.flexZero}>
                 <Image
@@ -160,6 +226,14 @@ const SearchPetUserList = ({route}: any) => {
                   colors.white : colors.black}]}>{item.pet_art}</Text>
                 <Text style={[styles.memberListItemDesTextValueStyle,{color: index%2==0 ? 
                     colors.white : colors.black}]}>{item.pet_race}</Text>
+              </View>
+              <View style={styles.flexZero}>
+                <Pressable
+                  onPress={() => onPressOnReportProblemIcon(item)}>
+                  <Image
+                    style={[styles.reportBlockIconStyle, {marginLeft: scale(10)}]}
+                    source={AllImages.reportAccountIcon}/>
+                </Pressable> 
               </View>
             </View>
           </Pressable>
@@ -191,7 +265,14 @@ const SearchPetUserList = ({route}: any) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
         />
-      </View> 
+      </View>
+      <ReportProblemModal
+        isModalVisible={state.isReportProblemAccountModalShow}
+        reportUserId={state.reportUserId}
+        reportProblemSubmitStatus={state.reportProblemSubmitStatus}
+        onSuccessReportProblem={onSuccessReportProblem}
+        petId={state.selectedPetIdForReport}
+        onClose={() => setState(prev => ({...prev, isReportProblemAccountModalShow: false}))}/> 
     </SafeAreaView>
   );
 };

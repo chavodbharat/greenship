@@ -15,9 +15,10 @@ import { getAllStaticReportProblemOptions } from '../../utils/Constants/AllConst
 import { scale, verticalScale } from '../../theme/responsive';
 import { sendReportProblem } from '../../redux/actions/memberAction';
 import Spinner from '../spinner';
+import { sendPetReportProblem } from '../../redux/actions/petAction';
 
 const ReportProblemModal = ({isModalVisible, onClose, reportUserId, onSuccessReportProblem,
-  reportProblemSubmitStatus}: ReportProblemModalTypePropsInterface) => {
+  reportProblemSubmitStatus, petId = ""}: ReportProblemModalTypePropsInterface) => {
   
   const dispatch = useDispatch();
   const {colors} = useTheme();
@@ -49,16 +50,30 @@ const ReportProblemModal = ({isModalVisible, onClose, reportUserId, onSuccessRep
       category: state.selectedSubject,
       description: state.problemDesc
     }
-    dispatch(
-      sendReportProblem(body, (res: any) => {
-        if (res) {
-          setState(prev => ({...prev, loader: false}));
-          onSuccessReportProblem();
-        } else {
-          setState(prev => ({...prev, loader: false}));
-        }
-      }),
-    );
+    if(petId){
+      body.pet_id = petId;
+      dispatch(
+        sendPetReportProblem(body, (res: any) => {
+          if (res) {
+            setState(prev => ({...prev, loader: false}));
+            onSuccessReportProblem();
+          } else {
+            setState(prev => ({...prev, loader: false}));
+          }
+        }),
+      );
+    } else {
+      dispatch(
+        sendReportProblem(body, (res: any) => {
+          if (res) {
+            setState(prev => ({...prev, loader: false}));
+            onSuccessReportProblem();
+          } else {
+            setState(prev => ({...prev, loader: false}));
+          }
+        }),
+      );
+    }
   }
 
   const clickOnActionSheetOption = async (index: number) => {
@@ -140,7 +155,8 @@ const ReportProblemModal = ({isModalVisible, onClose, reportUserId, onSuccessRep
           </>
           :
           <View style={{margin: scale(20)}}>
-            <Text style={styles.reportSubmittedLabelStyle}>You already submitted report for this user</Text>
+            <Text style={styles.reportSubmittedLabelStyle}>You already submitted report for this {petId ? "pet" : "user"}
+            </Text>
           </View>
         }
         <ActionSheetModal

@@ -138,3 +138,11 @@ export const updatePetObj = (payload: any) => {
     payload,
   };
 };
+
+export const sendPetReportProblem = (payload: object, callback: Function) => {
+  return {
+    type: types.SEND_PET_REPORT_PROBLEM,
+    payload,
+    callback,
+  };
+};

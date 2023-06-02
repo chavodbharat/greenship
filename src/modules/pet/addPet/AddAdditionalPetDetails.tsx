@@ -20,6 +20,9 @@ import ImageSelection from '../../../components/imageSelection';
 import ImagePicker from 'react-native-image-crop-picker';
 import LinearGradient from '../../../components/linearGradient';
 import { SEARCH_FILTER_SCREEN } from '../../searchFilters/searchFilter';
+import { PERMISSIONS, RESULTS, request } from 'react-native-permissions';
+import Geolocation from 'react-native-geolocation-service';
+import { getReverseGeocodingData } from '../../../utils/Utility';
 
 export const ADD_ADDITIONAL_PET_DETAILS_SCREEN = {
   name: 'AddAdditionalPetDetails',
@@ -46,24 +49,61 @@ const AddAdditionalPetDetails = ({route}: any) => {
     actionSheetData: [],
     imageModalVisible: false,
     imageType: '',
+    currentLatitude: 0,
+    currentLongitude: 0
   });
-
-  const {currentLatitude, currentLongitude, currentAddress} = useSelector(
-    state => ({
-      currentLatitude: state.home?.currentLatitude,
-      currentLongitude: state.home?.currentLongitude,
-      currentAddress: state.home?.currentAddress,
-    }),
-    shallowEqual,
-  );
 
   //Static Data
   const yesNoOptions = yesNoData();
 
   useEffect(() => {
     setPetDetails();
+    requestLocationPermission();
   }, []);
-  
+
+   //Location
+   const requestLocationPermission = async () => {
+    const granted = await getLocationPermissions();
+
+    if (granted) {
+      setState(prev => ({...prev, loading: true}));
+      getCurrentPosition();
+    }
+  };
+
+  const getLocationPermissions = async () => {
+    const granted = await request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
+        ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+      }),
+      {
+        title: 'GreenSheep Earth',
+        message:
+          'GreenSheep Earth would like access to your location to while adding pet',
+      },
+    );
+
+    return granted === RESULTS.GRANTED;
+  };
+
+  const getCurrentPosition = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const crd = position.coords;
+        setPosition(crd.latitude, crd.longitude);
+      },
+      error => {
+        console.log('error', error.code, error.message);
+      },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    );
+  };
+
+  const setPosition = (lat: any, long: any) => {
+    setState(prev => ({...prev, currentLatitude: lat, currentLongitude: long}));
+  };
+
   const setPetDetails = () => {
     if(isEdit && Object.keys(petObj).length > 0){
       setState(prev => ({...prev, petAge: petObj.pet_age, petSize: petObj.pet_size, 
@@ -147,8 +187,8 @@ const AddAdditionalPetDetails = ({route}: any) => {
       pet_stammbaum: selectedFamilyTree,
       pet_vermisst: selectedPetMissing,
       form_id: formId.toString(),
-      latitude: currentLatitude,
-      longitude: currentLongitude,
+      latitude: state.currentLatitude,
+      longitude: state.currentLongitude,
     } 
     if(isEdit){
       body.pet_id = petObj.id;

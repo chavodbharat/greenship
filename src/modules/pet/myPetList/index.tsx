@@ -43,11 +43,7 @@ const MyPetList = ({route}) => {
 
   const callPetListFn = () => {
     setState(prev => ({...prev, loader: true}));
-
-    // console.log("currentLatitude", currentLatitude);
-    // console.log("currentLongitude", currentLongitude);
-    // console.log("currentAddress", currentAddress);
-
+    
     //Manage Floating button
     dispatch(setActiveSubModule(null));
 
