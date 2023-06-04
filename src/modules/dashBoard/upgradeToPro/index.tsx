@@ -43,7 +43,7 @@ const UpgradeToPro = () => {
   });
   const {colors} = useTheme();
   const itemSkus = Platform.select({
-    android: ['com.oneyearsubscription'],
+    android: ['com.1yearsubscription'],
     ios: ['com.OneYearsubscription'],
   });
 
