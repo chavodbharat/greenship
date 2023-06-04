@@ -497,6 +497,7 @@ const AddPet = ({route}: any) => {
               mode="outlined"
               value={state.postCode}
               label={'Postcode'}
+              maxLength={6}
               editable={!isViewOnly}
               activeOutlineColor={colors.listBackGradientThree}
               outlineColor={colors.listBackGradientThree}

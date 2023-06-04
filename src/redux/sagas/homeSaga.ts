@@ -256,6 +256,40 @@ function* updateSubscriptionDetails(data: object) {
     });
 }
 
+function* updateFriendRequestStatus(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}buddypress/v1/friends/${payload.userId}`, payload, 
+      payload.isPutRequest ? 'PUT' : 'DELETE')
+    .then(response => {
+      if (Array.isArray(response)) {
+        showMessage({
+          message: payload.isPutRequest ? 'Friend request accepted successfully' :
+            'Friend request rejected',
+          type: 'success',
+        });
+        callback(response);
+      } else {
+        callback();
+        if(response && response?.message){
+          showMessage({
+            message: response?.message,
+            type: 'danger',
+          });
+        } else {
+          showMessage({
+            message: "Friend request rejected",
+            type: 'danger',
+          });
+        }
+      }
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
+
 export default function* watchHomeSaga() {
   yield takeLatest(types.GET_MISSING_PET_LIST, getMissingPetList);
   yield takeLatest(types.GET_MY_PET_LIST, getMyPetList);
@@ -269,8 +303,6 @@ export default function* watchHomeSaga() {
   yield takeLatest(types.GET_NOTIFICATION_LIST, getNotificationList);
   yield takeLatest(types.DELETE_ACCOUNT, deleteAccount);
   yield takeLatest(types.GET_SUBSCRIPTION_DETAILS, getSubscriptionDetails);
-  yield takeLatest(
-    types.UPDATE_SUBSCRIPTION_DETAILS,
-    updateSubscriptionDetails,
-  );
+  yield takeLatest(types.UPDATE_SUBSCRIPTION_DETAILS, updateSubscriptionDetails);
+  yield takeLatest(types.UPDATE_FRIEND_REQUEST_STATUS, updateFriendRequestStatus);
 }

@@ -100,8 +100,8 @@ missingDimensionStrategy "store", "play"
         applicationId "com.greensheep"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.0"
+        versionCode 4
+        versionName "1.1"
     }
 
     splits {
@@ -119,6 +119,12 @@ missingDimensionStrategy "store", "play"
 //            keyAlias 'androiddebugkey'
 //            keyPassword 'android'
         }
+        release {
+            storeFile file('GreenshipApp.jks')
+            storePassword 'greensheep@2023'
+            keyAlias 'greenship app'
+            keyPassword 'greensheep@2023'
+        }
     }
     buildTypes {
         debug {
@@ -127,7 +133,7 @@ missingDimensionStrategy "store", "play"
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

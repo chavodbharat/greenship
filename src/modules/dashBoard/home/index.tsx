@@ -10,11 +10,10 @@ import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
 import {useSelector, shallowEqual} from 'react-redux';
 import {getUserProfilePic} from '../../../redux/actions/homeAction';
 import {useIsFocused} from '@react-navigation/native';
-import Geolocation from 'react-native-geolocation-service';
-import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {getReverseGeocodingData} from '../../../utils/Utility';
-import {types} from '../../../redux/ActionTypes';
 import {COMMUNITY_USER_LIST_SCREEN} from '../../community/communityUserList';
+import VersionCheck from 'react-native-version-check';
+import AppUpdateModal from '../../../components/appUpdateModal';
+import { openLink } from '../../../utils/Constants/AllConstance';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -33,13 +32,11 @@ const Home = () => {
 
   const [state, setState] = useState({
     userProfilePic: null,
+    isAppUpdateModalShow: false,
+    appUpdateData: {}
   });
 
   useEffect(() => {
-    if (isFocused) {
-      // requestLocationPermission();
-    }
-
     if (isFocused && userData?.id) {
       dispatch(setTabBgColor(null));
       let body = {
@@ -54,6 +51,22 @@ const Home = () => {
       );
     }
   }, [isFocused, userData?.id]);
+
+  
+  useEffect(() => {
+    checkVersionOfApplication();
+  }, []);
+
+  const checkVersionOfApplication = async () => {
+    if(Platform.OS === 'android'){
+      try {
+        const updateData = await VersionCheck.needUpdate();
+        if (updateData?.isNeeded) {
+          setState(prev => ({...prev, isAppUpdateModalShow: true, appUpdateData: updateData}));
+        }
+      } catch (error) {}
+    }
+  }
 
   const onTilePress = (index: any) => {
     if (index === 0) {
@@ -103,63 +116,9 @@ const Home = () => {
     } catch (e) {}
   };
 
-  //Location
-  const requestLocationPermission = async () => {
-    const granted = await getLocationPermissions();
-
-    if (granted) {
-      setState(prev => ({...prev, loading: true}));
-
-      getCurrentPosition();
-    }
-  };
-
-  const getLocationPermissions = async () => {
-    const granted = await request(
-      Platform.select({
-        android: PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
-        ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
-      }),
-      {
-        title: 'GreenSheep Earth',
-        message:
-          'GreenSheep Earth would like access to your location to find missing pet near you',
-      },
-    );
-
-    return granted === RESULTS.GRANTED;
-  };
-
-  const setPosition = (lat: any, long: any) => {
-    console.log('Lat', lat);
-    console.log('Long', long);
-    setState(prev => ({...prev, latitude: lat, longitude: long}));
-  };
-
-  const getCurrentPosition = () => {
-    Geolocation.getCurrentPosition(
-      position => {
-        const crd = position.coords;
-        getAddress(crd.latitude, crd.longitude);
-        setPosition(crd.latitude, crd.longitude);
-      },
-      error => {
-        console.log('error', error.code, error.message);
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    );
-  };
-
-  const getAddress = (latitude?: any, longitude?: any) => {
-    getReverseGeocodingData(latitude, longitude).then(response => {
-      console.log('Address', response);
-      dispatch({
-        type: types.UPDATE_CURRENT_LOCATION,
-        payload: {latitude, longitude, address: response},
-      });
-      setState(prev => ({...prev, locationAddress: response}));
-    });
-  };
+  const onUpdatePress = () => {
+    openLink(state.appUpdateData?.storeUrl);
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -198,6 +157,10 @@ const Home = () => {
           );
         })}
       </View>
+      <AppUpdateModal
+        isModalVisible={state.isAppUpdateModalShow}
+        onClose={() => setState(prev => ({...prev, isAppUpdateModalShow: false}))}
+        onUpdatePress={onUpdatePress}/>
     </SafeAreaView>
   );
 };

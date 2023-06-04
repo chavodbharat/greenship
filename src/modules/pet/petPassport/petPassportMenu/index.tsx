@@ -25,7 +25,7 @@ export const PET_PASSPORT_MENU_SCREEN = {
 
 const PetPassportMenu = ({route}: any) => {
   const dispatch = useDispatch();
-  const {petObj} = route.params;
+  const {petObj, isIdentityMenuShow = true} = route.params;
 
   console.log('PetObj', petObj);
 
@@ -276,14 +276,16 @@ const PetPassportMenu = ({route}: any) => {
             },
           ]}>
           {renderPetBasicDetails()}
-          <FlatList
-            style={{marginBottom: scale(20)}}
-            data={state.petPassportOptionsData}
-            horizontal={false}
-            numColumns={2}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItem}
-          />
+          {isIdentityMenuShow &&
+            <FlatList
+              style={{marginBottom: scale(20)}}
+              data={state.petPassportOptionsData}
+              horizontal={false}
+              numColumns={2}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItem}
+            />
+          }
         </View>
       </ScrollView>
       <PetHealthFloatingButton />

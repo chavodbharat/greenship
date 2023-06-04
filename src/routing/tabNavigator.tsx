@@ -2,7 +2,7 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SplashScreen from 'react-native-splash-screen';
 import Home from '../modules/dashBoard/home';
-import Chat from '../modules/dashBoard/chat';
+import ChatList, { CHAT_LIST_SCREEN } from '../modules/dashBoard/chat';
 import Notifications from '../modules/dashBoard/notifications';
 import {darkColors, lightColors} from '../theme/colors';
 import Feather from 'react-native-vector-icons/Feather';
@@ -61,6 +61,7 @@ import MyFriendList, {
 import MyGroupList, {
   MY_GROUP_LIST_SCREEN,
 } from '../modules/dashBoard/profile/myGroupList';
+import ChatDetails, { CHAT_DETAILS_SCREEN } from '../modules/dashBoard/chat/chatDetails';
 
 const Tab = createBottomTabNavigator();
 
@@ -133,7 +134,9 @@ function HomeStackScreen() {
       <HomeStack.Screen name="Emergency" component={Emergency} />
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="EditProfile" component={EditProfile} />
-      <HomeStack.Screen name="UpgradeToPro" component={UpgradeToPro} />
+      <HomeStack.Screen name="UpgradeToPro" component={UpgradeToPro} />      
+      <HomeStack.Screen name={CHAT_DETAILS_SCREEN.name} component={ChatDetails} />
+      <HomeStack.Screen name={CHAT_LIST_SCREEN.name} component={ChatList} />
     </HomeStack.Navigator>
   );
 }
@@ -211,8 +214,8 @@ const TabNavigator = ({navigation}: any) => {
             />
           ),
         }}
-        name="Chat"
-        component={Chat}
+        name={CHAT_LIST_SCREEN.name}
+        component={ChatList}
       />
 
       {auth?.activeModule === 3 || auth.activeModule === 0 ? (

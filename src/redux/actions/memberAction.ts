@@ -68,3 +68,19 @@ export const getLoginUserGroupList = (callback: Function) => {
     callback,
   };
 };
+
+export const blockUser = (payload: object, callback: Function) => {
+  return {
+    type: types.BLOCK_USER,
+    payload,
+    callback,
+  };
+};
+
+export const sendReportProblem = (payload: object, callback: Function) => {
+  return {
+    type: types.SEND_REPORT_PROBLEM,
+    payload,
+    callback,
+  };
+};

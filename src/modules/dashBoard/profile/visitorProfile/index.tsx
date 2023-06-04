@@ -19,6 +19,8 @@ import LinearGradient1 from '../../../..//components/linearGradient';
 import { fonts } from '../../../../theme/fonts';
 import { getBannerImage } from '../../../../redux/actions/homeAction';
 import { serviceUrl } from '../../../../utils/Constants/ServiceUrls';
+import BlockUserModal from '../../../../components/blockUserModal';
+import ReportProblemModal from '../../../../components/reportProblemModal';
 
 export const VISITOR_PROFILE_SCREEN = {
   name: 'VisitorProfile',
@@ -35,7 +37,10 @@ const VisitorProfile = ({route}: any) => {
     activeTabPosition: 0,
     ownerData: [],
     memberFriendListData: [],
-    memberGroupListData: []
+    memberGroupListData: [],
+    isBlockUserModalShow: false,
+    isReportProblemAccountModalShow: false,
+    reportProblemSubmitStatus: true
   });
 
   const {userData} = useSelector(
@@ -81,7 +86,15 @@ const VisitorProfile = ({route}: any) => {
             let xFields = xProfile.fields;
             result = Object.keys(xFields).map((key) => [key, xFields[key]]);
           }
-          setState(prev => ({...prev, loader: false, memberObj: res, ownerData: result}));
+
+          //Check Report Problem Submitted or Not
+          const reportProblemData = res.youzify_report;
+          let checkReportUser = true;
+          if(reportProblemData) {
+            checkReportUser = res.youzify_report?.is_valid_report_user;
+          }
+          setState(prev => ({...prev, loader: false, memberObj: res, ownerData: result,
+            reportProblemSubmitStatus: checkReportUser}));
         } else {
           setState(prev => ({...prev, loader: false}));
         }
@@ -171,6 +184,20 @@ const VisitorProfile = ({route}: any) => {
     setState(prev => ({...prev, activeTabPosition: position}));
   }
 
+  const redirectToChatDetails = () => {
+    // navigate(CHAT_DETAILS_SCREEN.name, {friendId: finalId,
+    //   userName: item.name, userData})
+  }
+
+  const onSuccessBlockUser = () => {
+    setState(prev => ({...prev, isBlockUserModalShow: false}));
+  }
+
+  const onSuccessReportProblem = () => {
+    setState(prev => ({...prev, isReportProblemAccountModalShow: false}));
+    callMemberDetailsFn();
+  }
+  
   const renderItem = ({item, index}: any) => {
     const regex = /(<([^>]+)>)/ig;
     let objData =  item[1];
@@ -253,6 +280,21 @@ const VisitorProfile = ({route}: any) => {
                       {(state.memberObj?.member_types?.length > 0) &&
                         <Text style={styles.petPassportLabel}>{state.memberObj?.member_types[0]}</Text>
                       }
+                      <View style={styles.reportBlockView}>
+                        <Pressable
+                          onPress={() => setState(prev => ({...prev, isBlockUserModalShow: true}))}>
+                          <Image
+                            style={styles.reportBlockIconStyle}
+                            source={AllImages.blockUserIcon}/>
+                        </Pressable>
+                        <Pressable
+                          onPress={() => setState(prev => ({...prev, isReportProblemAccountModalShow: true}))}>
+                          <Image
+                            style={[styles.reportBlockIconStyle, {marginLeft: scale(10), 
+                              marginRight: scale(10)}]}
+                            source={AllImages.reportAccountIcon}/>
+                        </Pressable>  
+                      </View>
                     </View>
                   }
                 />
@@ -272,6 +314,21 @@ const VisitorProfile = ({route}: any) => {
                       {(state.memberObj?.member_types?.length > 0) &&
                         <Text style={styles.petPassportLabel}>{state.memberObj?.member_types[0]}</Text>
                       }
+                    </View>
+                    <View style={styles.reportBlockView}>
+                      <Pressable
+                        onPress={() => setState(prev => ({...prev, isBlockUserModalShow: true}))}>
+                        <Image
+                          style={styles.reportBlockIconStyle}
+                          source={AllImages.blockUserIcon}/>
+                      </Pressable>
+                      <Pressable
+                        onPress={() => setState(prev => ({...prev, isReportProblemAccountModalShow: true}))}>
+                        <Image
+                          style={[styles.reportBlockIconStyle, {marginLeft: scale(10), 
+                            marginRight: scale(10)}]}
+                          source={AllImages.reportAccountIcon}/>
+                      </Pressable>  
                     </View>
                 </ImageBackground>
               )}
@@ -294,11 +351,12 @@ const VisitorProfile = ({route}: any) => {
                     ? "Add Friend" : state.memberObj?.friendship_status_slug === "pending" ?
                     "Pending" : "Friendship"}</Text>
               </Pressable>
-              <View style={[styles.btnStyle,{marginRight: scale(10), backgroundColor: 
+              <Pressable style={[styles.btnStyle,{marginRight: scale(10), backgroundColor: 
                 state.memberObj?.friendship_status_slug === "is_friend" ? colors.communityGreenColor
-                  : colors.lightGreen}]}>
+                  : colors.lightGreen}]}
+                  onPress={() => state.memberObj?.friendship_status_slug === "is_friend" && redirectToChatDetails()}>
                 <Text style={styles.btnFontStyle}>Message</Text>
-              </View>
+              </Pressable>
             </View>
             <LinearGradient colors={['#00000021', '#FFFFFF21']}
               style={styles.tabMenuGradientChildView}>
@@ -377,7 +435,17 @@ const VisitorProfile = ({route}: any) => {
           </View>
         </ScrollView>
       </View>
-
+      <BlockUserModal
+        isModalVisible={state.isBlockUserModalShow}
+        blockUserId={userId}
+        onSuccessBlockUser={onSuccessBlockUser}
+        onClose={() => setState(prev => ({...prev, isBlockUserModalShow: false}))}/>
+      <ReportProblemModal
+        isModalVisible={state.isReportProblemAccountModalShow}
+        reportUserId={userId}
+        reportProblemSubmitStatus={state.reportProblemSubmitStatus}
+        onSuccessReportProblem={onSuccessReportProblem}
+        onClose={() => setState(prev => ({...prev, isReportProblemAccountModalShow: false}))}/>
     </SafeAreaView>
   );
 };

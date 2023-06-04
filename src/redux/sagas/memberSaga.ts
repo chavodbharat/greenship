@@ -165,6 +165,40 @@ function* getLoginUserGroupList(data: object) {
     });
 }
 
+//Block User
+function* blockUser(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/user-block/`, payload, 'POST')
+    .then(response => {
+      showMessage({
+        message: "User block successfully",
+        type: 'success',
+      });
+      callback(response);
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
+
+//Send Report Problem
+function* sendReportProblem(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/user-report/`, payload, 'POST')
+    .then(response => {
+      showMessage({
+        message: "Report problem submitted successfully",
+        type: 'success',
+      });
+      callback(response);
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
+
 export default function* watchMemberSaga() {
     yield takeLatest(types.GET_COMMUNITY_MEMBER_LIST, getCommunityUserList);
     yield takeLatest(types.GET_SEARCH_USER_LIST, getSearchUserList);
@@ -175,4 +209,6 @@ export default function* watchMemberSaga() {
     yield takeLatest(types.SEND_FRIEND_REQUEST, sendFriendRequest);
     yield takeLatest(types.GET_LOGIN_USER_FRIEND_LIST, getLoginUserFriendList);
     yield takeLatest(types.GET_LOGIN_USER_GROUP_LIST, getLoginUserGroupList);
+    yield takeLatest(types.BLOCK_USER, blockUser);
+    yield takeLatest(types.SEND_REPORT_PROBLEM, sendReportProblem);
 }

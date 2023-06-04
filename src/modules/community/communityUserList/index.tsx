@@ -11,6 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { getCommunityUserList, getSearchUserList } from '../../../redux/actions/memberAction';
 import { navigate } from '../../../routing/navigationRef';
 import { SEARCH_FILTER_SCREEN } from '../../searchFilters/searchFilter';
+import { VISITOR_PROFILE_SCREEN } from '../../dashBoard/profile/visitorProfile';
 
 export const COMMUNITY_USER_LIST_SCREEN = {
   name: 'CommunityUserList',
@@ -61,6 +62,10 @@ const CommunityUserList = ({route}: any) => {
       }),
     );
   };
+
+  const redirectToUserDetails = (userId: number) => {
+    navigate(VISITOR_PROFILE_SCREEN.name, {userId});
+  }
   
   const renderItem = ({item, index}: any) => {
     return (
@@ -71,7 +76,7 @@ const CommunityUserList = ({route}: any) => {
           : [ colors.filterListOne, colors.filterListTwo]} 
         style={[styles.mainView, index%2!=0 && {borderWidth: 1, borderColor: colors.lightGreen}]}>
         <Pressable
-          onPress={() =>{}}>
+          onPress={() => redirectToUserDetails(item.ID)}>
           <View style={styles.memberViewParentView}>
             <View style={styles.flexZero}>
               <Image
