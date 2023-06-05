@@ -171,11 +171,19 @@ function* blockUser(data: object) {
   utilActions
     .apiCall(`${serviceUrl.apiUrl}greensheep-api/v1/user-block/`, payload, 'POST')
     .then(response => {
-      showMessage({
-        message: "User block successfully",
-        type: 'success',
-      });
-      callback(response);
+      if (response.success && response.statusCode == 200) {
+        showMessage({
+          message: "User block successfully",
+          type: 'success',
+        });
+        callback(response);
+      } else {
+        callback();
+        showMessage({
+          message: response?.error,
+          type: 'danger',
+        });
+      }
     })
     .catch(err => {
       callback(err);
