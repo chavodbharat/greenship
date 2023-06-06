@@ -8,6 +8,7 @@ import Modal from "react-native-modal";
 import { CustomDateRangeModalTypePropsInterface } from './types';
 import { TextInput } from "react-native-paper";
 import { blockUser } from '../../redux/actions/memberAction';
+import Spinner from '../spinner';
 
 const BlockUserModal = ({isModalVisible, onClose, blockUserId, onSuccessBlockUser}: CustomDateRangeModalTypePropsInterface) => {
   
@@ -64,6 +65,7 @@ const BlockUserModal = ({isModalVisible, onClose, blockUserId, onSuccessBlockUse
       hasBackdrop={true}
       isVisible={isModalVisible}>
       <View style={styles.modalParentView}>
+        <Spinner visible={state?.loader} color={darkColors.communityGreenColor} />
         <View style={styles.modalHeaderBackView}>
           <Text style={styles.appHeaderLabelText}>Block Member</Text>
         </View>
