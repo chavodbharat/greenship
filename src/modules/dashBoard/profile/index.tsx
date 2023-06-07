@@ -10,8 +10,8 @@ import Accordion from '../../../components/accordion';
 import {shallowEqual, useSelector} from 'react-redux';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
 import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
-import { MY_FRIEND_LIST_SCREEN } from './myFriendList';
-import { MY_GROUP_LIST_SCREEN } from './myGroupList';
+import {MY_FRIEND_LIST_SCREEN} from './myFriendList';
+import {MY_GROUP_LIST_SCREEN} from './myGroupList';
 
 const accordionArray = [
   {
@@ -68,9 +68,9 @@ const Profile = ({route}) => {
     switch (index) {
       case 0:
         return navigate('EditProfile');
-      case 1: 
-        return navigate(MY_FRIEND_LIST_SCREEN.name);  
-      case 2: 
+      case 1:
+        return navigate(MY_FRIEND_LIST_SCREEN.name);
+      case 2:
         return navigate(MY_GROUP_LIST_SCREEN.name);
       case 3:
         return navigate(MY_PET_LIST_SCREEN.name);
@@ -124,11 +124,11 @@ const Profile = ({route}) => {
           })}
         </View>
 
-        <View style={styles.end}>
+        {/* <View style={styles.end}>
           {accordionArray.map((item, index) => {
             return <Accordion item={item} />;
           })}
-        </View>
+        </View> */}
       </View>
       <PetHealthFloatingButton />
     </SafeAreaView>

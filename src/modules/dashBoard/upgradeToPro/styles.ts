@@ -90,7 +90,7 @@ export default StyleSheet.create({
     fontSize: moderateScale(14),
     fontFamily: fonts.MontserratRegular,
     marginHorizontal: scale(20),
-    marginBottom: scale(40),
+    marginBottom: scale(20),
   },
   question1: {
     fontFamily: fonts.MontserratBold,
@@ -99,5 +99,15 @@ export default StyleSheet.create({
     marginTop: verticalScale(20),
     marginBottom: verticalScale(12),
     marginHorizontal: scale(20),
+  },
+  rowWrapper1: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    marginBottom: verticalScale(40),
+  },
+  link: {
+    color: darkColors.darkGreen,
+    textDecorationColor: darkColors.darkGreen,
+    textDecorationLine: 'underline',
   },
 });

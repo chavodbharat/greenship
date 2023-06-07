@@ -68,7 +68,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>GreenSheep Earth requires to access Audio recording to record and uplod videos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>GreenSheep Earth would like to upload photos from your photo gallery</string>
+	<string>GreenSheep Earth requires to access camera for uploading photos to your profile or posts</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>

@@ -7,6 +7,7 @@ import {
   Image,
   Pressable,
   Platform,
+  Linking,
 } from 'react-native';
 import styles from './styles';
 import Header from '../../../components/header';
@@ -252,6 +253,24 @@ const UpgradeToPro = () => {
           {Platform.OS === 'ios' ? 'itunes' : 'playstore'} support within 14
           days from the purchased date
         </Text>
+
+        <View style={styles.rowWrapper1}>
+          <Pressable
+            onPress={() => {
+              Linking.openURL(
+                'https://greensheep.earth/terms-and-conditions/ ',
+              );
+            }}>
+            <Text style={styles.link}>Terms of Use</Text>
+          </Pressable>
+          <Text> & </Text>
+          <Pressable
+            onPress={() => {
+              Linking.openURL('https://greensheep.earth/en/privacy/ ');
+            }}>
+            <Text style={styles.link}> Privacy Policy </Text>
+          </Pressable>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
