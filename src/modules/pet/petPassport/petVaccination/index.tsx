@@ -79,6 +79,7 @@ const PetVaccination = ({route}: any) => {
           if(data && data.length > 0){
             setState(prev => ({...prev, loader: false, petVaccineListData:  data.reverse()}));
           } else {
+            setState(prev => ({...prev, loader: false}));
             navigate(ADD_PET_VACCINATION_SCREEN.name,{vaccineObj, petObj, vaccinationData: false});   
           }
         } else {
