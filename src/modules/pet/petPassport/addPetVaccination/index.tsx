@@ -33,7 +33,7 @@ export const ADD_PET_VACCINATION_SCREEN = {
 
 const AddPetVaccination = ({route}: any) => {
   const dispatch = useDispatch();
-  const {vaccineObj, petObj} = route.params;
+  const {vaccineObj, petObj, vaccinationData} = route.params;
 
   const {colors} = useTheme();
   const [state, setState] = useState({
@@ -358,6 +358,7 @@ const AddPetVaccination = ({route}: any) => {
       <Header
         statusBarColor={colors.listBackGradientThree}
         onFilterPress={onFilterPress}
+        backOneScrren={vaccinationData}
       />
       <PetPassportSubHeader
         title={vaccineObj.label}

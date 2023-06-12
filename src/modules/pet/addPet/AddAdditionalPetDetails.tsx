@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {FlatList, Image, Platform, Pressable, ScrollView, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {FlatList, Image, Linking, Platform, Pressable, ScrollView, Text, TouchableWithoutFeedback, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -461,7 +461,16 @@ const AddAdditionalPetDetails = ({route}: any) => {
                 uncheckedColor={colors.listBackGradientThree}
                 onPress={() => setState(prev => ({...prev, isTermsConditionsCheck: !state.isTermsConditionsCheck}))}
               />
-              <Text style={styles.petNameTextStyle}>{"Yes, I agree to the terms of use of Greensheep"}</Text>
+              <Text style={styles.petNameTextStyle}>{"Yes, I agree to the  "}
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    Linking.openURL(
+                      'https://greensheep.earth/terms-and-conditions/ ',
+                    );
+                  }}>
+                  <Text style={[styles.petNameTextStyle,{textDecorationLine: 'underline'}]}>{"terms"}</Text>
+                </TouchableWithoutFeedback>
+              {"  of use of Greensheep"}</Text>
             </View>
             <Button
               labelStyle={styles.loginFontStyle} 

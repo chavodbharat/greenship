@@ -7,4 +7,5 @@ export interface HeaderTypePropsInterface {
   onFilterPress?: any;
   isFilterShow?: boolean;
   onCrossIconPress?: () => void;
+  backOneScrren?: boolean;
 }

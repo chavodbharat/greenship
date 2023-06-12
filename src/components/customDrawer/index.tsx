@@ -18,7 +18,7 @@ import {types} from '../../redux/ActionTypes';
 import {showMessage} from 'react-native-flash-message';
 import DeleteAccConfirmModal from '../deleteAccConfirmModal';
 import Spinner from '../spinner';
-const CustomDrawer = ({navigation}) => {
+const CustomDrawer = ({navigation}: any) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const {userData} = useSelector(
