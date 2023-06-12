@@ -468,7 +468,7 @@ const AddAdditionalPetDetails = ({route}: any) => {
                       'https://greensheep.earth/terms-and-conditions/ ',
                     );
                   }}>
-                  <Text style={[styles.petNameTextStyle,{textDecorationLine: 'underline'}]}>{"terms"}</Text>
+                  <Text style={styles.petTermsTextStyle}>{"Terms"}</Text>
                 </TouchableWithoutFeedback>
               {"  of use of Greensheep"}</Text>
             </View>

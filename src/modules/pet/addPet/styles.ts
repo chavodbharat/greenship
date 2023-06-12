@@ -122,6 +122,13 @@ export default StyleSheet.create({
     color: darkColors.dontHaveColor, 
     fontFamily: fonts.MontserratBold
   },
+  petTermsTextStyle: {
+    fontSize: verticalScale(12),
+    color: darkColors.black, 
+    fontFamily: fonts.MontserratBold,
+    textDecorationLine: 'underline',
+    textDecorationColor: darkColors.black
+  },
   checkBoxParentViewBack: {
     flexDirection: 'row',
     marginTop: verticalScale(10),  
