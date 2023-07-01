@@ -14,6 +14,7 @@ import {COMMUNITY_USER_LIST_SCREEN} from '../../community/communityUserList';
 import VersionCheck from 'react-native-version-check';
 import AppUpdateModal from '../../../components/appUpdateModal';
 import { openLink } from '../../../utils/Constants/AllConstance';
+import AllImages from '../../../utils/Constants/AllImages';
 
 export const DASHBOARD_SCREEN = {
   name: 'Dashboard',
@@ -90,7 +91,7 @@ const Home = () => {
           return {
             bgColor: darkColors.dashboardPetBG,
             label: 'My Pets',
-            path: require('../../../assets/images/myPets.png'),
+            path: AllImages.myPetIcon,
           };
         case 1:
           return {

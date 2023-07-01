@@ -8,6 +8,9 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  rowView: {
+    flexDirection: 'row'
+  },
   main: {
     flex: 1,
     backgroundColor: 'white',
@@ -95,4 +98,16 @@ export default StyleSheet.create({
     borderWidth: scale(1),
     borderColor: 'black',
   },
+  englishLanIcon: {
+    width: scale(30), 
+    height: scale(30),  
+    marginRight: scale(-15), 
+    backgroundColor: 'white', 
+    borderRadius: scale(15)
+  },
+  germanLanIcon: {
+    width: scale(30), 
+    height: scale(30), 
+    zIndex: -1
+  }
 });

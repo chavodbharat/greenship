@@ -8,6 +8,15 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: darkColors.gradientLightGray,
   },
+  flexOneView: {
+    flex: 1
+  },
+  flexZeroView: {
+    flex: 0
+  },
+  rowView: {
+    flexDirection: 'row'
+  },
   user: {
     marginTop: verticalScale(12),
     alignSelf: 'center',
@@ -36,7 +45,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: darkColors.darkGreen,
     marginHorizontal: scale(20),
-    marginBottom: verticalScale(20),
+    marginBottom: verticalScale(12),
     paddingHorizontal: scale(12),
     borderRadius: scale(8),
     paddingVertical: scale(12),
@@ -50,14 +59,25 @@ export default StyleSheet.create({
   },
   end: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
   },
   version: {
-    color: 'black',
-    paddingBottom: verticalScale(20),
+    color: darkColors.darkGrey,
+    paddingBottom: verticalScale(10),
     marginRight: scale(20),
-    fontFamily: fonts.MontserratSemiBold,
-    fontSize: moderateScale(13),
+    fontFamily: fonts.MontserratBold,
+    fontSize: moderateScale(12),
   },
+  englishLanIcon: {
+    width: scale(30), 
+    height: scale(30),  
+    marginRight: scale(-15), 
+    backgroundColor: 'white', 
+    borderRadius: scale(15)
+  },
+  germanLanIcon: {
+    width: scale(30), 
+    height: scale(30), 
+    zIndex: -1
+  }
 });

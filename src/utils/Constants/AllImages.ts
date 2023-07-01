@@ -13,6 +13,9 @@ const AllImages = {
     myGroupGray: require("../../assets/images/myGroupGray.png"),
     reportAccountIcon: require("../../assets/images/ic_report_account.png"),
     blockUserIcon: require("../../assets/images/ic_block_user.png"),
+    germanLanIcon: require("../../assets/images/ic_german.png"),
+    englishLanIcon: require("../../assets/images/ic_english.png"),
+    
 };
 
 export default AllImages;

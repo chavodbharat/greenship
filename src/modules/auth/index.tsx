@@ -17,6 +17,7 @@ import appleAuth, {
 import DeviceInfo from 'react-native-device-info';
 import {scale, verticalScale} from '../../theme/responsive';
 import {fonts} from '../../theme/fonts';
+import AllImages from '../../utils/Constants/AllImages';
 // import {LoginManager} from 'react-native-fbsdk-next';
 
 const version = parseFloat(DeviceInfo.getSystemVersion());
@@ -99,6 +100,17 @@ const Welcome = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.main}>
+        <View style={[styles.rowView,{marginVertical: scale(20), marginHorizontal: scale(20),
+          justifyContent: 'flex-end'}]}>
+          <Image
+            style={styles.englishLanIcon}
+            source={AllImages.englishLanIcon}
+          />
+          <Image
+            style={styles.germanLanIcon}
+            source={AllImages.germanLanIcon}
+          />
+        </View>
         <View style={styles.flexOneView}>
           <Image
             resizeMode="contain"
@@ -161,7 +173,7 @@ const Welcome = () => {
 
           <View style={styles.end}>
             <Pressable
-              onPress={() => Linking.openURL('mailto:support@example.com')}
+              onPress={() => Linking.openURL('mailto:help@greensheep.earth')}
               style={styles.accordion}>
               <Text style={styles.accordionTitle}>Do You need help ??</Text>
             </Pressable>

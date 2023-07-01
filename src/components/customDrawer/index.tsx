@@ -12,12 +12,16 @@ import {
 import {useIsFocused} from '@react-navigation/native';
 import {navigate} from '../../routing/navigationRef';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {types} from '../../redux/ActionTypes';
 import {showMessage} from 'react-native-flash-message';
 import DeleteAccConfirmModal from '../deleteAccConfirmModal';
 import Spinner from '../spinner';
+import VersionCheck from 'react-native-version-check';
+import { darkColors } from '../../theme/colors';
+import AllImages from '../../utils/Constants/AllImages';
 const CustomDrawer = ({navigation}: any) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -112,6 +116,22 @@ const CustomDrawer = ({navigation}: any) => {
       </Pressable>
       <Text style={styles.userName}>{userData?.nicename?.toUpperCase()}</Text>
 
+      <Pressable onPress={() => console.log("call 11")} style={styles.wrapper}>
+        <Feather
+          name="edit"
+          color={'white'}
+          size={scale(20)}
+        />
+        <Text style={styles.label}>Edit profile</Text>
+      </Pressable>
+      <Pressable onPress={() => console.log("call 11")} style={[styles.wrapper, 
+        {backgroundColor: darkColors.borderBlueColor, paddingVertical: scale(8)}]}>
+        <Image
+          style={{width: scale(20), height: scale(30)}}
+          source={AllImages.myPetIcon}
+        />
+        <Text style={styles.label}>PetPass</Text>
+      </Pressable>
       <Pressable onPress={() => onLogoutPress()} style={styles.wrapper}>
         <MaterialCommunityIcons
           name="logout"
@@ -120,12 +140,30 @@ const CustomDrawer = ({navigation}: any) => {
         />
         <Text style={styles.label}>Logout</Text>
       </Pressable>
-      <Pressable onPress={() => setModalVisible()} style={styles.wrapper}>
-        <AntDesign name="delete" color={'white'} size={scale(20)} />
-        <Text style={styles.label}>Delete account</Text>
-      </Pressable>
       <View style={styles.end}>
-        <Text style={styles.version}>v 1.0</Text>
+        <View style={[styles.rowView,{marginVertical: scale(20), justifyContent: 'center'}]}>
+          <Image
+            style={styles.englishLanIcon}
+            source={AllImages.englishLanIcon}
+          />
+          <Image
+            style={styles.germanLanIcon}
+            source={AllImages.germanLanIcon}
+          />
+        </View>
+        <Pressable onPress={() => setModalVisible()} style={styles.wrapper}>
+          <AntDesign name="delete" color={'white'} size={scale(20)} />
+          <Text style={styles.label}>Delete account</Text>
+        </Pressable>
+        <View style={[styles.rowView,{paddingLeft: scale(10),
+          paddingTop: scale(10)}]}>
+          <View style={styles.flexOneView}>
+            <Text style={styles.version}>Data Protection (GDPR)</Text>
+          </View>
+          <View style={styles.flexZeroView}>
+            <Text style={styles.version}>v {VersionCheck.getCurrentVersion()}</Text>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
