@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {View, Text, Image, Pressable, Linking, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -18,14 +18,28 @@ import DeviceInfo from 'react-native-device-info';
 import {scale, verticalScale} from '../../theme/responsive';
 import {fonts} from '../../theme/fonts';
 import AllImages from '../../utils/Constants/AllImages';
+import LanguageListModal from '../../components/languageListModal';
+import Localization from '../../locales/Localization';
+import { useIsFocused } from '@react-navigation/native';
 // import {LoginManager} from 'react-native-fbsdk-next';
 
 const version = parseFloat(DeviceInfo.getSystemVersion());
 
 const Welcome = () => {
+
+  const isFocused = useIsFocused();
+  const [state, setState] = useState({
+    isLanguageModalShow: false,
+  });
+
   useEffect(() => {
     configureGmail();
   }, []);
+
+  useEffect(() => {
+    setState(prev => ({...prev, isLanguageModalShow: false}));
+    console.log("cak====================", Localization.getLanguage())
+  }, [isFocused]);
 
   const configureGmail = () => {
     GoogleSignin.configure({
@@ -100,6 +114,8 @@ const Welcome = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.main}>
+        <Pressable
+          onPress={() => setState(prev => ({...prev, isLanguageModalShow: true}))}>
         <View style={[styles.rowView,{marginVertical: scale(20), marginHorizontal: scale(20),
           justifyContent: 'flex-end'}]}>
           <Image
@@ -111,6 +127,7 @@ const Welcome = () => {
             source={AllImages.germanLanIcon}
           />
         </View>
+        </Pressable>
         <View style={styles.flexOneView}>
           <Image
             resizeMode="contain"
@@ -122,12 +139,12 @@ const Welcome = () => {
             <Pressable
               onPress={() => navigate('SignUp')}
               style={styles.signUpBtn}>
-              <Text style={styles.btnLabel}>SIGN UP</Text>
+              <Text style={styles.btnLabel}>{Localization.signup}</Text>
             </Pressable>
             <Pressable
               onPress={() => navigate('Login')}
               style={styles.loginBtn}>
-              <Text style={styles.btnLabel}>LOGIN</Text>
+              <Text style={styles.btnLabel}>{Localization.login}</Text>
             </Pressable>
           </View>
         </View>
@@ -180,6 +197,9 @@ const Welcome = () => {
           </View>
         </View>
       </View>
+      <LanguageListModal
+        isModalVisible={state.isLanguageModalShow}
+        onClose={() => setState(prev => ({...prev, isLanguageModalShow: false}))}/>
     </SafeAreaView>
   );
 };

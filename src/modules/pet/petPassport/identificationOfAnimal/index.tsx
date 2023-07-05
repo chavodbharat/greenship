@@ -1,4 +1,4 @@
-import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Image, Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
 import styles from "./styles";
 import { TextInput } from "react-native-paper";
 import { useDispatch } from "react-redux";
@@ -15,6 +15,10 @@ import { getIdentificationOfAnimal, submitIdentificationOfAnimal } from "../../.
 import { goBack, navigate } from "../../../../routing/navigationRef";
 import PetPassportSubHeader from "../../../../components/petPassportSubHeader";
 import { SEARCH_FILTER_SCREEN } from "../../../searchFilters/searchFilter";
+import LinearGradient from "../../../../components/linearGradient";
+import { useTheme } from "../../../../providers/ThemeProvider";
+import DigitalerTierpassView from "../../../../components/digitalerTierpassView";
+import { ISSUE_OF_IDENTITY_CARD_SCREEN } from "../issueOfIdentityCard";
 
 export const IDENTIFICATION_OF_ANIMAL_SCREEN = {
     name: 'IdentificationOfAnimal',
@@ -22,7 +26,8 @@ export const IDENTIFICATION_OF_ANIMAL_SCREEN = {
   
 const IdentificationOfAnimal = ({route}: any) => {
     const dispatch = useDispatch();
-    const { vaccineObj, petObj } = route.params;
+    const {colors} = useTheme();
+    const { petProfilePicRes, petObj } = route.params;
     const staticDateOfImplantation = "Select Date of Implantation";
     const staticDateOfTatto = "Select Date of Tattoo";
 
@@ -55,9 +60,12 @@ const IdentificationOfAnimal = ({route}: any) => {
           getIdentificationOfAnimal({form_id: petObj.form_id}, (res: any) => {
             if(res) {
                 const { data } = res;
+                console.log("data['data-datum-der']", data['data-datum-der'])
                 setState(prev => ({...prev, loader: false, alphanumerischerCode:  data['data-alphanumerischer'],
-                    dateOfImplantation: data['data-datum-der'], implantSite: data['data-implantierungsstelle'],
-                    alphanumericTattooCode: data['data-alphanumerischer-t'], dateOfTattoo: data['data-datum-der-ta'],
+                    dateOfImplantation: data['data-datum-der'] ? data['data-datum-der'] : staticDateOfImplantation, 
+                    implantSite: data['data-implantierungsstelle'],
+                    alphanumericTattooCode: data['data-alphanumerischer-t'], 
+                    dateOfTattoo: data['data-datum-der-ta'] ? data['data-datum-der-ta'] : staticDateOfTatto,
                     tattooSpot: data['data-tätowierungsstelle']}));
             } else {
                 setState(prev => ({...prev, loader: false}));
@@ -99,7 +107,8 @@ const IdentificationOfAnimal = ({route}: any) => {
         dispatch(
             submitIdentificationOfAnimal(body, (res: any) => {
                 setState(prev => ({...prev, loader: false}));
-                goBack();
+                navigate(ISSUE_OF_IDENTITY_CARD_SCREEN.name, {petProfilePicRes, petObj});
+               // goBack();
             }),
         );
     };
@@ -114,12 +123,16 @@ const IdentificationOfAnimal = ({route}: any) => {
             <Header
                 statusBarColor={darkColors.listBackGradientThree}
                 onFilterPress={onFilterPress}/>
-            <PetPassportSubHeader
+            {/* <PetPassportSubHeader
                 title={vaccineObj.label}
                 petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}
-            />  
+            />   */}
             <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
-                <View style={[styles.flexOne,{marginTop: verticalScale(15)}]}>    
+                <View style={[styles.flexOne,{padding: scale(25)}]}>
+                    {petProfilePicRes &&
+                        <DigitalerTierpassView
+                            petProfilePicRes={petProfilePicRes}/>
+                    }    
                     <TextInput
                         value={state.alphanumerischerCode}
                         mode="outlined"
