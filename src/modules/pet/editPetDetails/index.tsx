@@ -177,7 +177,6 @@ const EditPetDetails = ({route}: any) => {
     const granted = await getLocationPermissions();
 
     if (granted) {
-      setState(prev => ({...prev, loading: true}));
       getCurrentPosition();
     }
   };
@@ -256,7 +255,7 @@ const EditPetDetails = ({route}: any) => {
   };
 
   const callPetRaceListFn = (artName: string) => {
-    setState(prev => ({...prev, loader: true}));
+    setState(prev => ({...prev, loader: prev.loader ? false : true}));
     const body = {
       petArt: artName,
     };
