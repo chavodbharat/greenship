@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from './styles';
 import {
   FlatList,
@@ -8,17 +8,17 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {PetListViewTypePropsInterface} from './types';
+import { PetListViewTypePropsInterface } from './types';
 import LinearGradient from '../linearGradient';
-import {scale, verticalScale} from '../../theme/responsive';
+import { scale, verticalScale } from '../../theme/responsive';
 import AllImages from '../../utils/Constants/AllImages';
 import Icon from 'react-native-vector-icons/Feather';
 import AntIcon from 'react-native-vector-icons/AntDesign';
-import {darkColors} from '../../theme/colors';
-import {navigate} from '../../routing/navigationRef';
-import {PET_PASSPORT_MENU_SCREEN} from '../../modules/pet/petPassport/petPassportMenu';
-import {PetListArrayInterface} from '../../modules/pet/myPetList/types';
-import {ADD_PET_SCREEN} from '../../modules/pet/addPet';
+import { darkColors } from '../../theme/colors';
+import { navigate } from '../../routing/navigationRef';
+import { PET_PASSPORT_MENU_SCREEN } from '../../modules/pet/petPassport/petPassportMenu';
+import { PetListArrayInterface } from '../../modules/pet/myPetList/types';
+import { ADD_PET_SCREEN } from '../../modules/pet/addPet';
 import Share from 'react-native-share';
 import DeleteModal from '../deleteModal';
 
@@ -37,7 +37,7 @@ const PetListView = ({
   });
 
   const onPetListItemPress = (data: PetListArrayInterface) => {
-    navigate(PET_PASSPORT_MENU_SCREEN.name, {petObj: data});
+    navigate(PET_PASSPORT_MENU_SCREEN.name, { petObj: data });
   };
 
   const onHandSwipeIconPress = (index: number) => {
@@ -56,7 +56,7 @@ const PetListView = ({
         }));
       }
     } else {
-      setState(prev => ({...prev, menuOpenPosition: -1}));
+      setState(prev => ({ ...prev, menuOpenPosition: -1 }));
     }
   };
 
@@ -101,11 +101,11 @@ const PetListView = ({
   };
 
   const onOpenCloseDeleteModal = (status: boolean) => {
-    setState(prev => ({...prev, isAdditionalMenuShow: false}));
+    setState(prev => ({ ...prev, isAdditionalMenuShow: false }));
     onDeleteModalShowOrHide(false);
   };
 
-  const renderItem = ({item, index}: any) => {
+  const renderItem = ({ item, index }: any) => {
     return (
       <LinearGradient
         allColorsArray={isEmergency ? ['#B72C36', '#ED626C'] : null}
@@ -126,7 +126,7 @@ const PetListView = ({
                   {item.pet_vermisst}
                 </Text>
               </View>
-              <View style={[styles.flexOne, {marginLeft: scale(10)}]}>
+              <View style={[styles.flexOne, { marginLeft: scale(10) }]}>
                 <View style={[styles.flexDirectionRowView]}>
                   <View style={styles.flexOne}>
                     <Text style={styles.petListItemTextLabelStyle}>Name</Text>
@@ -140,7 +140,7 @@ const PetListView = ({
                 <View
                   style={[
                     styles.flexDirectionRowView,
-                    {marginTop: verticalScale(3)},
+                    { marginTop: verticalScale(3) },
                   ]}>
                   <View style={styles.flexOne}>
                     <Text style={styles.petListItemTextLabelStyle}>Art</Text>
@@ -154,7 +154,7 @@ const PetListView = ({
                 <View
                   style={[
                     styles.flexDirectionRowView,
-                    {marginTop: verticalScale(3)},
+                    { marginTop: verticalScale(3) },
                   ]}>
                   <View style={styles.flexOne}>
                     <Text style={styles.petListItemTextLabelStyle}>
@@ -170,7 +170,7 @@ const PetListView = ({
                 <View
                   style={[
                     styles.flexDirectionRowView,
-                    {marginTop: verticalScale(3)},
+                    { marginTop: verticalScale(3) },
                   ]}>
                   <View style={styles.flexOne}>
                     <Text style={styles.petListItemTextLabelStyle}>Alter</Text>
@@ -184,7 +184,7 @@ const PetListView = ({
                 <View
                   style={[
                     styles.flexDirectionRowView,
-                    {marginTop: verticalScale(3)},
+                    { marginTop: verticalScale(3) },
                   ]}>
                   <View style={styles.flexOne}>
                     <Text style={styles.petListItemTextLabelStyle}>Größe</Text>
@@ -205,10 +205,10 @@ const PetListView = ({
                             style={[
                               styles.flexZero,
                               state.isAdditionalMenuShow &&
-                                index == state.menuOpenPosition && {
-                                  marginLeft: scale(5),
-                                  marginRight: scale(10),
-                                },
+                              index == state.menuOpenPosition && {
+                                marginLeft: scale(5),
+                                marginRight: scale(10),
+                              },
                             ]}>
                             <Image
                               style={styles.handImageStyle}

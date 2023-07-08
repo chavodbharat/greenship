@@ -1,19 +1,19 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from './styles';
-import {View, Text, Pressable, Image} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {replace} from '../../../routing/navigationRef';
-import {useDispatch} from 'react-redux';
-import {registerUser} from '../../../redux/actions/authAction';
+import { View, Text, Pressable, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { replace } from '../../../routing/navigationRef';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../../../redux/actions/authAction';
 import Spinner from '../../../components/spinner';
-import {TextInput} from 'react-native-paper';
-import {darkColors} from '../../../theme/colors';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { TextInput } from 'react-native-paper';
+import { darkColors } from '../../../theme/colors';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import SelectDropdown from 'react-native-select-dropdown';
-import {scale} from '../../../theme/responsive';
+import { scale } from '../../../theme/responsive';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {countries} from '../../../utils/Utility';
-import {CheckBox} from 'react-native-elements';
+import { countries } from '../../../utils/Utility';
+import { CheckBox } from 'react-native-elements';
 import NavBar from '../../../components/navBar';
 import { serviceUrl } from '../../../utils/Constants/ServiceUrls';
 
@@ -45,7 +45,7 @@ const SignUp = () => {
   });
 
   const showHidePassword = () => {
-    setState(prev => ({...prev, hidePassword: !state.hidePassword}));
+    setState(prev => ({ ...prev, hidePassword: !state.hidePassword }));
   };
 
   const validateEmail = email => {
@@ -55,27 +55,27 @@ const SignUp = () => {
 
   const onSubmit = () => {
     if (state.userName === '') {
-      setState(prev => ({...prev, userNameError: true}));
+      setState(prev => ({ ...prev, userNameError: true }));
     } else if (state?.firstName === '') {
-      setState(prev => ({...prev, firstNameError: true}));
+      setState(prev => ({ ...prev, firstNameError: true }));
     } else if (state?.lastName === '') {
-      setState(prev => ({...prev, lastNameError: true}));
+      setState(prev => ({ ...prev, lastNameError: true }));
     } else if (state.email === '' || !validateEmail(state?.email)) {
-      setState(prev => ({...prev, emailError: true}));
+      setState(prev => ({ ...prev, emailError: true }));
     } else if (state.userType === '') {
-      setState(prev => ({...prev, userTypeError: true}));
+      setState(prev => ({ ...prev, userTypeError: true }));
     } else if (state.password === '') {
-      setState(prev => ({...prev, passwordError: true}));
+      setState(prev => ({ ...prev, passwordError: true }));
     } else if (state.confirmPassword === '') {
-      setState(prev => ({...prev, confirmPasswordError: true}));
+      setState(prev => ({ ...prev, confirmPasswordError: true }));
     } else if (
       state.password !== state.confirmPassword &&
       state.confirmPassword !== '' &&
       state.password !== ''
     ) {
-      setState(prev => ({...prev, passwordNoMatch: true}));
+      setState(prev => ({ ...prev, passwordNoMatch: true }));
     } else if (state.country === '') {
-      setState(prev => ({...prev, countryError: true}));
+      setState(prev => ({ ...prev, countryError: true }));
     } else if (!state.checked) {
     } else {
       callRegisterFn();
@@ -83,7 +83,7 @@ const SignUp = () => {
   };
 
   const callRegisterFn = () => {
-    setState(prev => ({...prev, loader: true}));
+    setState(prev => ({ ...prev, loader: true }));
     let body = {
       user_login: state.userName,
       user_email: state.email,
@@ -94,7 +94,7 @@ const SignUp = () => {
       field_90: state.firstName,
       field_65: state.lastName,
     };
-    if(serviceUrl.type === 'staging') {
+    if (serviceUrl.type === 'staging') {
       body.field_122 = state.userType;
     } else {
       body.field_190 = state.userType;
@@ -104,7 +104,7 @@ const SignUp = () => {
         if (res[0]?.id) {
           replace('Login');
         }
-        setState(prev => ({...prev, loader: false}));
+        setState(prev => ({ ...prev, loader: false }));
       }),
     );
   };
@@ -357,7 +357,7 @@ const SignUp = () => {
               checkedColor={darkColors.darkGreen}
               checked={state.checked}
               onPress={() =>
-                setState(prev => ({...prev, checked: !state.checked}))
+                setState(prev => ({ ...prev, checked: !state.checked }))
               }
             />
             <Text style={styles.info1}>

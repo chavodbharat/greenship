@@ -44,7 +44,8 @@ export const lightColors = {
   filterListTwo: '#f4f4f4',
   filterSearchPetBorderColor: '#288BA8',
   filterSearchPetGradientOne: '#206E84',
-  rightSideChatTextColor: '#5b5d5c'
+  rightSideChatTextColor: '#5b5d5c',
+  defaultViewBackgroundColor: '#efefef',
 };
 
 export const darkColors = {
@@ -93,5 +94,6 @@ export const darkColors = {
   filterListTwo: '#f4f4f4',
   filterSearchPetBorderColor: '#288BA8',
   filterSearchPetGradientOne: '#206E84',
-  rightSideChatTextColor: '#5b5d5c'
+  rightSideChatTextColor: '#5b5d5c',
+  defaultViewBackgroundColor: '#efefef',
 };

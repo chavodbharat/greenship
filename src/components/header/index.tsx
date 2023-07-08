@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './styles';
-import {Image, Pressable, StatusBar, TextInput, View} from 'react-native';
+import { Image, Pressable, StatusBar, TextInput, View } from 'react-native';
 import AllImages from '../../utils/Constants/AllImages';
-import {goBack} from '../../routing/navigationRef';
-import {HeaderTypePropsInterface} from './types';
+import { goBack } from '../../routing/navigationRef';
+import { HeaderTypePropsInterface } from './types';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {scale} from '../../theme/responsive';
-import {darkColors} from '../../theme/colors';
+import { scale } from '../../theme/responsive';
+import { darkColors, lightColors } from '../../theme/colors';
 
 const Header = ({
   statusBarColor,
@@ -17,19 +17,22 @@ const Header = ({
   onFilterPress,
   isFilterShow = true,
   onCrossIconPress,
+  headerBackgroundColor,
 }: HeaderTypePropsInterface) => {
   const onBackPress = () => {
     goBack();
   };
 
   return (
-    <View style={styles.headerParentView}>
+    <View style={[styles.headerParentView, { backgroundColor: headerBackgroundColor ? headerBackgroundColor : lightColors.defaultViewBackgroundColor }]}>
       <StatusBar backgroundColor={statusBarColor} barStyle={'light-content'} />
       <Pressable onPress={onBackPress}>
         <View style={styles.flexZeroView}>
           <Image
             resizeMode="contain"
-            style={[styles.leftImageStyle, {tintColor: statusBarColor}]}
+            style={[styles.leftImageStyle, {
+              tintColor: statusBarColor
+            }]}
             source={AllImages.leftBackIcon}
           />
         </View>
@@ -48,7 +51,7 @@ const Header = ({
               onPress={onCrossIconPress}
               name="circle-with-cross"
               size={scale(20)}
-              style={{marginRight: scale(5)}}
+              style={{ marginRight: scale(5) }}
               color={darkColors.dashboardEmergencyBG}
             />
           </View>
@@ -59,7 +62,9 @@ const Header = ({
         <Pressable onPress={onFilterPress} style={styles.flexZeroView}>
           <Image
             resizeMode="contain"
-            style={[styles.headerImageStyle, {tintColor: statusBarColor}]}
+            style={[styles.headerImageStyle, {
+              tintColor: statusBarColor
+            }]}
             source={AllImages.filterIcon}
           />
         </Pressable>
@@ -69,7 +74,7 @@ const Header = ({
           <View style={styles.flexZeroView}>
             <Image
               resizeMode="contain"
-              style={[styles.headerImageStyle, {tintColor: statusBarColor}]}
+              style={[styles.headerImageStyle, { tintColor: statusBarColor }]}
               source={AllImages.searchIcon}
             />
           </View>

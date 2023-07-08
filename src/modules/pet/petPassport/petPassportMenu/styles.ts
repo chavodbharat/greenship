@@ -10,6 +10,7 @@ import {fonts} from '../../../../theme/fonts';
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'white',
   },
   flexDirectionRowView: {
     flexDirection: 'row',

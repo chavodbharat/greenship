@@ -1,11 +1,12 @@
-import {Platform, StyleSheet} from 'react-native';
-import {moderateScale, scale, verticalScale} from '../../../theme/responsive';
-import {darkColors} from '../../../theme/colors';
-import {fonts} from '../../../theme/fonts';
+import { Platform, StyleSheet } from 'react-native';
+import { moderateScale, scale, verticalScale } from '../../../theme/responsive';
+import { darkColors, lightColors } from '../../../theme/colors';
+import { fonts } from '../../../theme/fonts';
 
 export default StyleSheet.create({
   safeAreaView: {
     flex: 1,
+    backgroundColor: darkColors.dashboardEmergencyBG,
   },
   container: {
     flex: 1,
@@ -28,8 +29,9 @@ export default StyleSheet.create({
   },
   mapBox: {
     height: scale(250),
+    backgroundColor: 'white',
   },
-  mapStyle: {width: '100%', height: '100%'},
+  mapStyle: { width: '100%', height: '100%' },
   markerImg: {
     height: scale(55),
     width: scale(55),

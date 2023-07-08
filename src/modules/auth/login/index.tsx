@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from './styles';
-import {View, Text, Pressable, Image} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {navigate, replace} from '../../../routing/navigationRef';
-import {useDispatch} from 'react-redux';
-import {loginUserReq} from '../../../redux/actions/authAction';
+import { View, Text, Pressable, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { navigate, replace } from '../../../routing/navigationRef';
+import { useDispatch } from 'react-redux';
+import { loginUserReq } from '../../../redux/actions/authAction';
 import Spinner from '../../../components/spinner';
-import {TextInput} from 'react-native-paper';
-import {darkColors} from '../../../theme/colors';
+import { TextInput } from 'react-native-paper';
+import { darkColors } from '../../../theme/colors';
 import NavBar from '../../../components/navBar';
 
 const Login = () => {
@@ -23,21 +23,21 @@ const Login = () => {
   });
 
   const showHidePassword = () => {
-    setState(prev => ({...prev, hidePassword: !state.hidePassword}));
+    setState(prev => ({ ...prev, hidePassword: !state.hidePassword }));
   };
 
   const onSubmit = () => {
     if (state?.userName === '') {
-      setState(prev => ({...prev, userNameError: true}));
+      setState(prev => ({ ...prev, userNameError: true }));
     } else if (state?.password === '') {
-      setState(prev => ({...prev, passwordError: true}));
+      setState(prev => ({ ...prev, passwordError: true }));
     } else {
       callLoginFn();
     }
   };
 
   const callLoginFn = () => {
-    setState(prev => ({...prev, loader: true}));
+    setState(prev => ({ ...prev, loader: true }));
 
     let body = {
       username: state?.userName,
@@ -45,7 +45,7 @@ const Login = () => {
     };
     dispatch(
       loginUserReq(body, res => {
-        setState(prev => ({...prev, loader: false}));
+        setState(prev => ({ ...prev, loader: false }));
       }),
     );
   };

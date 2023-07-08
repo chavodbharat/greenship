@@ -1,11 +1,16 @@
-import {StyleSheet} from 'react-native';
-import {moderateScale, scale, verticalScale} from '../../../theme/responsive';
-import {darkColors} from '../../../theme/colors';
-import {fonts} from '../../../theme/fonts';
+import { StyleSheet } from 'react-native';
+import { moderateScale, scale, verticalScale } from '../../../theme/responsive';
+import { darkColors } from '../../../theme/colors';
+import { fonts } from '../../../theme/fonts';
 
 export default StyleSheet.create({
+  safeAreaContainer: {
+    flex: 1,
+    // backgroundColor: darkColors.dashboardEmergencyBG,
+  },
   container: {
     flex: 1,
+    backgroundColor: darkColors.defaultViewBackgroundColor,
   },
   parentView: {
     backgroundColor: darkColors.background,
@@ -23,21 +28,21 @@ export default StyleSheet.create({
   memberViewParentView: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: verticalScale(5), 
+    marginTop: verticalScale(5),
     marginBottom: verticalScale(5)
   },
   memberAddParentView: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    margin: scale(10), 
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: scale(10),
     borderRadius: scale(5),
     padding: scale(10),
   },
   memberImageStyle: {
-    width: scale(100), 
-    height: scale(100), 
+    width: scale(100),
+    height: scale(100),
     borderRadius: scale(5),
   },
   mainView: {
@@ -51,60 +56,60 @@ export default StyleSheet.create({
     borderRadius: scale(5),
   },
   memberAddImageStyle: {
-    width: scale(80), 
-    height: scale(80), 
+    width: scale(80),
+    height: scale(80),
     marginRight: verticalScale(20),
     tintColor: darkColors.darkGreen,
   },
   memberNameTextStyle: {
     fontSize: moderateScale(16),
-    color: darkColors.black, 
+    color: darkColors.black,
     fontFamily: fonts.MontserratBold
   },
   memberListItemTextLabelStyle: {
     fontSize: moderateScale(14),
-    color: darkColors.white, 
+    color: darkColors.white,
     fontFamily: fonts.MontserratRegular
   },
   memberListItemTextValueStyle: {
     fontSize: moderateScale(16),
-    color: darkColors.white, 
+    color: darkColors.white,
     fontFamily: fonts.MontserratBold
   },
   memberListItemDesTextValueStyle: {
     fontSize: moderateScale(14),
-    color: darkColors.white, 
+    color: darkColors.white,
     fontFamily: fonts.MontserratRegular,
-    marginTop:scale(5)
+    marginTop: scale(5)
   },
   missingStatusTextStyle: {
     fontSize: moderateScale(12),
-    position:'absolute',
+    position: 'absolute',
     textAlign: 'center',
     right: 0,
     left: 0,
     bottom: verticalScale(8),
-    color: darkColors.toastBorderErrorColor, 
+    color: darkColors.toastBorderErrorColor,
     fontFamily: fonts.MontserratSemiBold
   },
   editDeleteParentView: {
-    position: 'absolute', 
-    alignSelf: 'flex-end', 
-    top: 0, 
-    bottom: 0, 
-    justifyContent: 'center', 
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
     right: verticalScale(-10)
   },
   editDeleteChildView: {
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     flexDirection: 'row',
-    backgroundColor: darkColors.memberListEditDeleteBackColor, 
+    backgroundColor: darkColors.memberListEditDeleteBackColor,
     padding: scale(10)
   },
   handImageStyle: {
-    width: scale(18), 
-    height: scale(18), 
+    width: scale(18),
+    height: scale(18),
     tintColor: darkColors.darkGrey
   },
   editDeleteIconView: {
@@ -135,11 +140,11 @@ export default StyleSheet.create({
     fontFamily: fonts.MontserratSemiBold,
     fontSize: moderateScale(14),
   },
-  listTitle:{
-    marginTop:scale(10),
-    marginBottom:scale(5)
+  listTitle: {
+    marginTop: scale(10),
+    marginBottom: scale(5)
   },
-  listTitleText:{
+  listTitleText: {
     color: darkColors.black,
     paddingLeft: scale(10),
     fontFamily: fonts.MontserratSemiBold,
