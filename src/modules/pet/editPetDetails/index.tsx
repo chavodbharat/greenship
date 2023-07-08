@@ -697,100 +697,76 @@ const EditPetDetails = ({route}: any) => {
               placeholder={'Enter Name'}
             />
             <Pressable onPress={() => !isViewOnly && dropDownPosition(0)}>
-              <View
-                style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text
-                    style={[
-                      styles.dropdownLabelStyle,
-                      state.selectedPetArt != 'Please Select Art' && {
-                        color: colors.black,
-                      },
-                    ]}>
-                    {state.selectedPetArt}
-                  </Text>
-                </View>
-                {!isViewOnly &&
-                <View style={styles.flexZero}>
+              <TextInput
+                mode="outlined"
+                value={state.selectedPetArt}
+                label={'Art'}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={ !isViewOnly && <TextInput.Icon icon={() => (
                   <Image
                     style={styles.dropDownIconStyle}
                     source={AllImages.dropdownIcon}
                   />
-                </View>
-                }
-              </View>
+                  )}/>}
+                placeholder={'Please Select Art'}
+              />
             </Pressable>
             <Pressable onPress={() => !isViewOnly && dropDownPosition(1)}>
-              <View
-                style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text
-                    style={[
-                      styles.dropdownLabelStyle,
-                      state.selectedPetRace != 'Please Select Race' && {
-                        color: colors.black,
-                      },
-                    ]}>
-                    {state.selectedPetRace}
-                  </Text>
-                </View>
-                {!isViewOnly &&
-                <View style={styles.flexZero}>
+              <TextInput
+                mode="outlined"
+                value={state.selectedPetRace}
+                label={'Race'}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={ !isViewOnly && <TextInput.Icon icon={() => (
                   <Image
                     style={styles.dropDownIconStyle}
                     source={AllImages.dropdownIcon}
                   />
-                </View>
-                }
-              </View>
+                  )}/>}
+                placeholder={'Please Select Race'}
+              />
             </Pressable>
             <Pressable onPress={() => !isViewOnly && dropDownPosition(2)}>
-              <View
-                style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text
-                    style={[
-                      styles.dropdownLabelStyle,
-                      state.selectedGender != 'Please Select Gender' && {
-                        color: colors.black,
-                      },
-                    ]}>
-                    {state.selectedGender}
-                  </Text>
-                </View>
-                {!isViewOnly &&
-                <View style={styles.flexZero}>
+              <TextInput
+                mode="outlined"
+                value={state.selectedGender}
+                label={'Gender'}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={ !isViewOnly && <TextInput.Icon icon={() => (
                   <Image
                     style={styles.dropDownIconStyle}
                     source={AllImages.dropdownIcon}
                   />
-                </View>
-                }
-              </View>
+                  )}/>}
+                placeholder={'Please Select Gender'}
+              />
             </Pressable>
             <Pressable onPress={() => !isViewOnly && dropDownPosition(3)}>
-              <View
-                style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text
-                    style={[
-                      styles.dropdownLabelStyle,
-                      state.selectedCountry != 'Please Select Country' && {
-                        color: colors.black,
-                      },
-                    ]}>
-                    {state.selectedCountry}
-                  </Text>
-                </View>
-                {!isViewOnly &&
-                  <View style={styles.flexZero}>
-                    <Image
-                      style={styles.dropDownIconStyle}
-                      source={AllImages.dropdownIcon}
-                    />
-                  </View>
-                }
-              </View>
+              <TextInput
+                mode="outlined"
+                value={state.selectedCountry}
+                label={'Country'}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={ !isViewOnly && <TextInput.Icon icon={() => (
+                  <Image
+                    style={styles.dropDownIconStyle}
+                    source={AllImages.dropdownIcon}
+                  />
+                  )}/>}
+                placeholder={'Please Select Country'}
+              />
             </Pressable>
             <TextInput
               mode="outlined"
@@ -806,34 +782,28 @@ const EditPetDetails = ({route}: any) => {
               }
               placeholder={'Enter Postcode'}
             />
-            <Pressable
+            <Pressable    
               onPress={() =>
                 !isViewOnly &&
                 setState(prev => ({...prev, datePickerStatus: true, datePickerPosition: 0}))
               }>
-              <View
-                style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text
-                    style={[
-                      styles.dropdownLabelStyle,
-                      state.selectedDateOfBirth != 'Select Date Of Birth' && {
-                        color: colors.black,
-                      },
-                    ]}>
-                    {state.selectedDateOfBirth}
-                  </Text>
-                </View>
-                {!isViewOnly &&
-                  <View style={styles.flexZero}>
-                    <AntIcon
-                      name="calendar"
-                      size={scale(18)}
-                      color={colors.listBackGradientThree}
-                    />
-                  </View>
-                }
-              </View>
+              <TextInput
+                mode="outlined"
+                value={state.selectedDateOfBirth}
+                label={'Date Of Birth'}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={ !isViewOnly && <TextInput.Icon icon={() => (
+                  <AntIcon
+                    name="calendar"
+                    size={scale(18)}
+                    color={colors.listBackGradientThree}
+                  />
+                  )}/>}
+                placeholder={'Please Select Date Of Birth'}
+              />
             </Pressable>
             <TextInput
               mode="outlined"
@@ -881,37 +851,41 @@ const EditPetDetails = ({route}: any) => {
               onChangeText={(color) => setState(prev => ({...prev, petColors: color}))}
               placeholder={"Enter Color"}
             />
-            <Pressable
-              onPress={() => !isViewOnly && dropDownPosition(5)}>
-              <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text style={[styles.dropdownLabelStyle, state.selectedFamilyTree!="Family tree" &&
-                    {color: colors.black}]}>{state.selectedFamilyTree}</Text>
-                </View>
-                {!isViewOnly &&
-                  <View style={styles.flexZero}>
-                    <Image
-                      style={styles.dropDownIconStyle}
-                      source={AllImages.dropdownIcon}/>
-                  </View>
-                }
-              </View>
+            <Pressable onPress={() => !isViewOnly && dropDownPosition(5)}>
+              <TextInput
+                mode="outlined"
+                value={state.selectedFamilyTree}
+                label={'Family tree'}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={ !isViewOnly && <TextInput.Icon icon={() => (
+                  <Image
+                    style={styles.dropDownIconStyle}
+                    source={AllImages.dropdownIcon}
+                  />
+                  )}/>}
+                placeholder={'Please Select Family tree'}
+              />
             </Pressable>
-            <Pressable
-              onPress={() => !isViewOnly && dropDownPosition(6)}>
-              <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text style={[styles.dropdownLabelStyle, state.selectedPetMissing!="Missing" &&
-                    {color: colors.black}]}>{state.selectedPetMissing}</Text>
-                </View>
-                {!isViewOnly &&
-                  <View style={styles.flexZero}>
-                    <Image
-                      style={styles.dropDownIconStyle}
-                      source={AllImages.dropdownIcon}/>
-                  </View>
-                }
-              </View>
+            <Pressable onPress={() => !isViewOnly && dropDownPosition(6)}>
+              <TextInput
+                mode="outlined"
+                value={state.selectedPetMissing}
+                label={'Pet Missing'}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={ !isViewOnly && <TextInput.Icon icon={() => (
+                  <Image
+                    style={styles.dropDownIconStyle}
+                    source={AllImages.dropdownIcon}
+                  />
+                  )}/>}
+                placeholder={'Please Select Pet Missing'}
+              />
             </Pressable>
             <TextInput
               value={state.alphanumerischerCode}
@@ -927,7 +901,7 @@ const EditPetDetails = ({route}: any) => {
                   alphanumerischerCodeError: false,
                 }));
               }}
-              style={[styles.txtInput,{marginTop: 0}]}
+              style={styles.textInputStyle}
               placeholder="Alphanumerischer Transponder-Code"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -936,24 +910,28 @@ const EditPetDetails = ({route}: any) => {
               <Text style={styles.error}>Please enter alphanumerischer transponder-code</Text>
             ) : null}
 
-            <Pressable
-              onPress={() => !isViewOnly && setState(prev => ({...prev, datePickerStatus: true, datePickerPosition: 1}))}>
-              <View style={[styles.textInputCustomStyle,{flexDirection: 'row',
-                marginTop: verticalScale(10)}]}>
-                <View style={styles.flexOne}>
-                  <Text style={[styles.dropdownLabelStyle, state.dateOfImplantation != staticDateOfImplantation &&
-                    {color: darkColors.black}]}>{state.dateOfImplantation}</Text>
-                </View>
-                {!isViewOnly &&
-                  <View style={styles.flexZero}>
-                    <AntIcon
-                      name="calendar"
-                      size={scale(18)}
-                      color={darkColors.listBackGradientThree}
-                    />
-                  </View>
-                }
-              </View>
+            <Pressable    
+              onPress={() =>
+                !isViewOnly &&
+                setState(prev => ({...prev, datePickerStatus: true, datePickerPosition: 1}))
+              }>
+              <TextInput
+                mode="outlined"
+                value={state.dateOfImplantation}
+                label={'Date of Implantation'}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={!isViewOnly && <TextInput.Icon icon={() => (
+                  <AntIcon
+                    name="calendar"
+                    size={scale(18)}
+                    color={colors.listBackGradientThree}
+                  />
+                  )}/>}
+                placeholder={staticDateOfImplantation}
+              />
             </Pressable>
             {state.dateOfImplantationError ? (
               <Text style={styles.error}>Please select implantation date</Text>
@@ -973,7 +951,7 @@ const EditPetDetails = ({route}: any) => {
                   implantSiteError: false,
                 }));
               }}
-              style={[styles.txtInput,{marginTop: 0}]}
+              style={styles.textInputStyle}
               placeholder="Implant site"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -996,7 +974,7 @@ const EditPetDetails = ({route}: any) => {
                   alphanumericTattooCodeError: false,
                 }));
               }}
-              style={styles.txtInput}
+              style={styles.textInputStyle}
               placeholder="Alphanumeric tattoo code"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -1005,24 +983,28 @@ const EditPetDetails = ({route}: any) => {
               <Text style={styles.error}>Please enter alphanumeric tattoo code</Text>
             ) : null}
 
-            <Pressable
-              onPress={() => !isViewOnly && setState(prev => ({...prev, datePickerStatus: true, datePickerPosition: 2}))}>
-              <View style={[styles.textInputCustomStyle,{flexDirection: 'row',
-                marginTop: verticalScale(10)}]}>
-                <View style={styles.flexOne}>
-                  <Text style={[styles.dropdownLabelStyle, state.dateOfTattoo != staticDateOfTatto &&
-                    {color: darkColors.black}]}>{state.dateOfTattoo}</Text>
-                </View>
-                {!isViewOnly &&
-                  <View style={styles.flexZero}>
-                    <AntIcon
-                      name="calendar"
-                      size={scale(18)}
-                      color={darkColors.listBackGradientThree}
-                    />
-                  </View>
-                }
-              </View>
+            <Pressable    
+              onPress={() =>
+                !isViewOnly &&
+                setState(prev => ({...prev, datePickerStatus: true, datePickerPosition: 2}))
+              }>
+              <TextInput
+                mode="outlined"
+                value={state.dateOfTattoo}
+                label={'Date of Tattoo'}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={!isViewOnly && <TextInput.Icon icon={() => (
+                  <AntIcon
+                    name="calendar"
+                    size={scale(18)}
+                    color={colors.listBackGradientThree}
+                  />
+                  )}/>}
+                placeholder={staticDateOfTatto}
+              />
             </Pressable>
             {state.dateOfTattooError ? (
               <Text style={styles.error}>Please select tatto date</Text>
@@ -1042,7 +1024,7 @@ const EditPetDetails = ({route}: any) => {
                   tattooSpotError: false,
                 }));
               }}
-              style={[styles.txtInput,{marginTop: 0}]}
+              style={styles.textInputStyle}
               placeholder="Tattoo spot"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -1065,7 +1047,7 @@ const EditPetDetails = ({route}: any) => {
                   nameOfAuthorizedVeterinarianError: false,
                 }));
               }}
-              style={styles.txtInput}
+              style={styles.textInputStyle}
               placeholder="Name of authorized veterinarian"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -1088,7 +1070,7 @@ const EditPetDetails = ({route}: any) => {
                   addressError: false,
                 }));
               }}
-              style={styles.txtInput}
+              style={styles.textInputStyle}
               placeholder="Address"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -1111,7 +1093,7 @@ const EditPetDetails = ({route}: any) => {
                   postalCodeError: false,
                 }));
               }}
-              style={styles.txtInput}
+              style={styles.textInputStyle}
               placeholder="Postal code"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -1134,7 +1116,7 @@ const EditPetDetails = ({route}: any) => {
                   ortError: false,
                 }));
               }}
-              style={styles.txtInput}
+              style={styles.textInputStyle}
               placeholder="Ort"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -1157,7 +1139,7 @@ const EditPetDetails = ({route}: any) => {
                   landError: false,
                 }));
               }}
-              style={styles.txtInput}
+              style={styles.textInputStyle}
               placeholder="Land"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -1181,7 +1163,7 @@ const EditPetDetails = ({route}: any) => {
                   phoneNumberError: false,
                 }));
               }}
-              style={styles.txtInput}
+              style={styles.textInputStyle}
               placeholder="Phone number"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -1204,7 +1186,7 @@ const EditPetDetails = ({route}: any) => {
                   emailAddressError: false,
                 }));
               }}
-              style={styles.txtInput}
+              style={styles.textInputStyle}
               placeholder="Email Address"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
@@ -1250,7 +1232,7 @@ const EditPetDetails = ({route}: any) => {
                   idNumberError: false,
                 }));
               }}
-              style={[styles.txtInput, isViewOnly && {marginBottom: verticalScale(50)}]}
+              style={[styles.textInputStyle, isViewOnly && {marginBottom: verticalScale(50)}]}
               placeholder="ID number"
               placeholderTextColor={'gray'}
               autoCapitalize="none"
