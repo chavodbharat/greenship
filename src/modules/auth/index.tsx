@@ -1,26 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
-import {View, Text, Image, Pressable, Linking, Platform} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {navigate} from '../../routing/navigationRef';
+import { View, Text, Image, Pressable, Linking, Platform, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { navigate } from '../../routing/navigationRef';
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import appleAuth, {
   AppleButton,
-  AppleAuthRequestOperation,
-  AppleAuthRequestScope,
-  AppleAuthCredentialState,
-  AppleAuthError,
+  AppleRequestScope,
+  AppleCredentialState,
+  AppleError,
 } from '@invertase/react-native-apple-authentication';
 import DeviceInfo from 'react-native-device-info';
-import {scale, verticalScale} from '../../theme/responsive';
-import {fonts} from '../../theme/fonts';
 import AllImages from '../../utils/Constants/AllImages';
 import LanguageListModal from '../../components/languageListModal';
 import Localization from '../../locales/Localization';
 import { useIsFocused } from '@react-navigation/native';
+import { scale, verticalScale } from '../../theme/responsive';
+import SocialLogin from './socialLogin/socialLogin';
+import { Appbar } from 'react-native-paper';
 // import {LoginManager} from 'react-native-fbsdk-next';
 
 const version = parseFloat(DeviceInfo.getSystemVersion());
@@ -49,26 +49,26 @@ const Welcome = () => {
     });
   };
 
-  const gmailSignIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      await GoogleSignin.signOut();
-      const userInfo = await GoogleSignin.signIn();
-      console.log('log', userInfo);
-    } catch (error) {
-      console.log('log0', error);
+  // const gmailSignIn = async () => {
+  //   try {
+  //     await GoogleSignin.hasPlayServices();
+  //     await GoogleSignin.signOut();
+  //     const userInfo = await GoogleSignin.signIn();
+  //     console.log('log', userInfo);
+  //   } catch (error) {
+  //     console.log('log0', error);
 
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-      } else {
-        // some other error happened
-      }
-    }
-  };
+  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+  //       // user cancelled the login flow
+  //     } else if (error.code === statusCodes.IN_PROGRESS) {
+  //       // operation (e.g. sign in) is in progress already
+  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+  //       // play services not available or outdated
+  //     } else {
+  //       // some other error happened
+  //     }
+  //   }
+  // };
 
   const facebookLogin = () => {
     // LoginManager.logInWithPermissions(['public_profile', 'email']).then(
@@ -112,44 +112,57 @@ const Welcome = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.main}>
-        <Pressable
-          onPress={() => setState(prev => ({...prev, isLanguageModalShow: true}))}>
-        <View style={[styles.rowView,{marginVertical: scale(20), marginHorizontal: scale(20),
-          justifyContent: 'flex-end'}]}>
-          <Image
-            style={styles.englishLanIcon}
-            source={AllImages.englishLanIcon}
-          />
-          <Image
-            style={styles.germanLanIcon}
-            source={AllImages.germanLanIcon}
-          />
-        </View>
-        </Pressable>
-        <View style={styles.flexOneView}>
-          <Image
-            resizeMode="contain"
-            style={styles.img}
-            source={require('../../assets/images/logo_name.png')}
-          />
+    <View style={{
+      flex: 1
+    }}>
+      <View></View>
+      {/* <StatusBar
+        backgroundColor={"green"}
+        animated={true}
+        // backgroundColor="green"
+        barStyle={"default"}
+        showHideTransition={"fade"}
+        hidden={false}
+      /> */}
+      < SafeAreaView style={styles.container} >
+        <View style={styles.main}>
+          <Pressable
+            onPress={() => setState(prev => ({...prev, isLanguageModalShow: true}))}>
+            <View style={[styles.rowView,{marginVertical: scale(20), marginHorizontal: scale(20),
+              justifyContent: 'flex-end'}]}>
+              <Image
+                style={styles.englishLanIcon}
+                source={AllImages.englishLanIcon}
+              />
+              <Image
+                style={styles.germanLanIcon}
+                source={AllImages.germanLanIcon}
+              />
+            </View>
+          </Pressable>
+          <View style={styles.flexOneView}>
+            <Image
+              resizeMode="contain"
+              style={styles.img}
+              source={require('../../assets/images/logo_name.png')}
+            />
 
-          <View style={styles.btnView}>
-            <Pressable
-              onPress={() => navigate('SignUp')}
-              style={styles.signUpBtn}>
-              <Text style={styles.btnLabel}>{Localization.signup}</Text>
-            </Pressable>
-            <Pressable
-              onPress={() => navigate('Login')}
-              style={styles.loginBtn}>
-              <Text style={styles.btnLabel}>{Localization.login}</Text>
-            </Pressable>
+            <View style={styles.btnView}>
+              <Pressable
+                onPress={() => navigate('SignUp')}
+                style={styles.signUpBtn}>
+                <Text style={styles.btnLabel}>SIGN UP</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => navigate('Login')}
+                style={styles.loginBtn}>
+                <Text style={styles.btnLabel}>LOGIN</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
-        <View style={styles.flexOneView}>
-          {/* <View style={[styles.flexOneView, {justifyContent: 'center'}]}>
+          <View style={styles.flexOneView}>
+            <SocialLogin />
+            {/* <View style={[styles.flexOneView, {justifyContent: 'center'}]}>
             {Platform.OS === 'ios' && version >= 13 && (
               <View style={{alignSelf: 'center'}}>
                 <AppleButton
@@ -201,6 +214,7 @@ const Welcome = () => {
         isModalVisible={state.isLanguageModalShow}
         onClose={() => setState(prev => ({...prev, isLanguageModalShow: false}))}/>
     </SafeAreaView>
+    </View>
   );
 };
 

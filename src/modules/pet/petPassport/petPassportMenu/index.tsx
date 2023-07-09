@@ -4,7 +4,6 @@ import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import Header from '../../../../components/header';
-import LinearGradient from '../../../../components/linearGradient';
 import Spinner from '../.././../../components/spinner';
 import {scale, verticalScale} from '../../../../theme/responsive';
 import {MenuOptions} from './types';
@@ -18,6 +17,8 @@ import PetHealthFloatingButton from '../../../../components/petHealthFloatingBut
 import {IDENTIFICATION_OF_ANIMAL_SCREEN} from '../identificationOfAnimal';
 import {ISSUE_OF_IDENTITY_CARD_SCREEN} from '../issueOfIdentityCard';
 import {SEARCH_FILTER_SCREEN} from '../../../searchFilters/searchFilter';
+import LinearGradientView from '../../../../components/linearGradient';
+import LinearGradient from 'react-native-linear-gradient';
 
 export const PET_PASSPORT_MENU_SCREEN = {
   name: 'PetPassportMenu',
@@ -229,7 +230,7 @@ const PetPassportMenu = ({route}: any) => {
 
   const renderItem = ({item, index}: any) => {
     return (
-      <LinearGradient
+      <LinearGradientView
         isHorizontal={false}
         childStyle={styles.linearGradientCustomStyle}
         childrean={
@@ -248,48 +249,59 @@ const PetPassportMenu = ({route}: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
-      <Header
-        statusBarColor={colors.listBackGradientThree}
-        onFilterPress={onFilterPress}
-      />
-      <PetPassportSubHeader
-        title={petObj.pet_name}
-        petImage={
-          typeof petObj.pet_image === 'string'
-            ? petObj.pet_image
-            : petObj.pet_image.pet_image_url
-        }
-      />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
-        <View
-          style={[
-            styles.container,
-            {
-              marginLeft: scale(5),
-              marginRight: scale(5),
-              marginTop: verticalScale(3),
-            },
-          ]}>
-          {renderPetBasicDetails()}
-          {isIdentityMenuShow &&
-            <FlatList
-              style={{marginBottom: scale(20)}}
-              data={state.petPassportOptionsData}
-              horizontal={false}
-              numColumns={2}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItem}
-            />
-          }
+    <LinearGradient
+      style={{flex: 1}}
+      colors={[
+        colors.listBackGradientThree,
+        colors.defaultViewBackgroundColor,
+      ]}>
+      <SafeAreaView
+        style={[styles.container, {backgroundColor: 'transparent'}]}>
+        <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
+        <Header
+          statusBarColor={colors.listBackGradientThree}
+          onFilterPress={onFilterPress}
+        />
+        <View style={{backgroundColor: 'white'}}>
+          <PetPassportSubHeader
+            title={petObj.pet_name}
+            petImage={
+              typeof petObj.pet_image === 'string'
+                ? petObj.pet_image
+                : petObj.pet_image.pet_image_url
+            }
+          />
+          <ScrollView
+            style={{backgroundColor: 'white'}}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+            <View
+              style={[
+                styles.container,
+                {
+                  marginLeft: scale(5),
+                  marginRight: scale(5),
+                  marginTop: verticalScale(3),
+                },
+              ]}>
+              {renderPetBasicDetails()}
+              {isIdentityMenuShow && (
+                <FlatList
+                  style={{marginBottom: scale(20)}}
+                  data={state.petPassportOptionsData}
+                  horizontal={false}
+                  numColumns={2}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderItem}
+                />
+              )}
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
-      <PetHealthFloatingButton />
-    </SafeAreaView>
+        <PetHealthFloatingButton />
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 

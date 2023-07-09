@@ -20,7 +20,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import MultiSelect from 'react-native-multiple-select';
 import {fonts} from '../../../../theme/fonts';
 import DateTimePicker from '../../../../components/dateTimePicker';
-import {CheckBox} from 'react-native-elements';
+import {CheckBox, colors} from 'react-native-elements';
 import {showMessage} from 'react-native-flash-message';
 
 const EditProfile = () => {
@@ -497,32 +497,34 @@ const EditProfile = () => {
   };
 
   return (
-    <SafeAreaView style={styles.main}>
-      <View style={styles.container}>
-        <Spinner visible={state.loading} />
-        <Ionicons
-          onPress={() => goBack()}
-          name="arrow-back"
-          color={darkColors.darkGreen}
-          size={scale(30)}
-        />
-        <ScrollView
-          keyboardShouldPersistTaps={true}
-          showsVerticalScrollIndicator={false}>
-          <ProfilePicDashboard />
+    <View style={{flex: 1, backgroundColor: darkColors.darkGreen}}>
+      <SafeAreaView style={styles.main}>
+        <View style={styles.container}>
+          <Spinner visible={state.loading} />
+          <Ionicons
+            onPress={() => goBack()}
+            name="arrow-back"
+            color={darkColors.darkGreen}
+            size={scale(30)}
+          />
+          <ScrollView
+            keyboardShouldPersistTaps={true}
+            showsVerticalScrollIndicator={false}>
+            <ProfilePicDashboard />
 
-          <View style={styles.form}>{renderForm()}</View>
+            <View style={styles.form}>{renderForm()}</View>
 
-          {filteredData?.length > 0 ? (
-            <Pressable
-              style={styles.submitBtn}
-              onPress={handleSubmit(onSubmit)}>
-              <Text style={styles.btnLabel}>Submit</Text>
-            </Pressable>
-          ) : null}
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+            {filteredData?.length > 0 ? (
+              <Pressable
+                style={styles.submitBtn}
+                onPress={handleSubmit(onSubmit)}>
+                <Text style={styles.btnLabel}>Submit</Text>
+              </Pressable>
+            ) : null}
+          </ScrollView>
+        </View>
+      </SafeAreaView>
+    </View>
   );
 };
 

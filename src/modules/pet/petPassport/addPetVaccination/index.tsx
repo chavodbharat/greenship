@@ -358,7 +358,7 @@ const AddPetVaccination = ({route}: any) => {
       <Header
         statusBarColor={colors.listBackGradientThree}
         onFilterPress={onFilterPress}
-        backOneScrren={vaccinationData}
+        backOneScreen={vaccinationData}
       />
       <PetPassportSubHeader
         title={vaccineObj.label}

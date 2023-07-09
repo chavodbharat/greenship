@@ -8,7 +8,8 @@ export default StyleSheet.create({
     flexDirection: 'row'
   },
   flexOne: {
-    flex: 1
+    flex: 1,
+    backgroundColor:'white',
   },
   flexOnePointFive: {
     flex: 1.5

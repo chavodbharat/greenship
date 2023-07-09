@@ -1,3 +1,6 @@
+import { ColorValue } from "react-native";
+import { Colors } from "react-native-elements";
+
 export interface HeaderTypePropsInterface {
   statusBarColor?: string;
   onSearchPress?: () => void;
@@ -7,5 +10,6 @@ export interface HeaderTypePropsInterface {
   onFilterPress?: any;
   isFilterShow?: boolean;
   onCrossIconPress?: () => void;
-  backOneScrren?: boolean;
+  backOneScreen?: boolean;
+  headerBackgroundColor?: ColorValue;
 }

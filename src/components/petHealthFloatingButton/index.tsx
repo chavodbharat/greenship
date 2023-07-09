@@ -11,6 +11,7 @@ import {MY_PET_LIST_SCREEN} from '../../modules/pet/myPetList';
 import {PET_PASSPORT_MENU_SCREEN} from '../../modules/pet/petPassport/petPassportMenu';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {getSubscriptionDetails} from '../../redux/actions/homeAction';
+import {BackgroundImage} from 'react-native-elements/dist/config';
 
 const PetHealthFloatingButton = ({
   petObj,

@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {Image, Platform, Pressable, StatusBar, Text, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, Platform, Pressable, StatusBar, Text, View } from 'react-native';
 import styles from './styles';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {navigate} from '../../../routing/navigationRef';
-import {darkColors} from '../../../theme/colors';
-import {useDispatch} from 'react-redux';
-import {setTabBgColor} from '../../../redux/actions/authAction';
-import {MY_PET_LIST_SCREEN} from '../../pet/myPetList';
-import {useSelector, shallowEqual} from 'react-redux';
-import {getUserProfilePic} from '../../../redux/actions/homeAction';
-import {useIsFocused} from '@react-navigation/native';
-import {COMMUNITY_USER_LIST_SCREEN} from '../../community/communityUserList';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { navigate } from '../../../routing/navigationRef';
+import { darkColors } from '../../../theme/colors';
+import { useDispatch } from 'react-redux';
+import { setTabBgColor } from '../../../redux/actions/authAction';
+import { MY_PET_LIST_SCREEN } from '../../pet/myPetList';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getUserProfilePic } from '../../../redux/actions/homeAction';
+import { useIsFocused } from '@react-navigation/native';
+import { COMMUNITY_USER_LIST_SCREEN } from '../../community/communityUserList';
 import VersionCheck from 'react-native-version-check';
 import AppUpdateModal from '../../../components/appUpdateModal';
 import { openLink } from '../../../utils/Constants/AllConstance';
@@ -24,7 +24,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
-  const {userData} = useSelector(
+  const { userData } = useSelector(
     state => ({
       userData: state.auth?.loginData,
     }),
@@ -47,31 +47,31 @@ const Home = () => {
 
       dispatch(
         getUserProfilePic(body, res => {
-          setState(prev => ({...prev, userProfilePic: res}));
+          setState(prev => ({ ...prev, userProfilePic: res }));
         }),
       );
     }
   }, [isFocused, userData?.id]);
 
-  
+
   useEffect(() => {
     checkVersionOfApplication();
   }, []);
 
   const checkVersionOfApplication = async () => {
-    if(Platform.OS === 'android'){
+    if (Platform.OS === 'android') {
       try {
         const updateData = await VersionCheck.needUpdate();
         if (updateData?.isNeeded) {
-          setState(prev => ({...prev, isAppUpdateModalShow: true, appUpdateData: updateData}));
+          setState(prev => ({ ...prev, isAppUpdateModalShow: true, appUpdateData: updateData }));
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   }
 
   const onTilePress = (index: any) => {
     if (index === 0) {
-      navigate(MY_PET_LIST_SCREEN.name, {userPic: state.userProfilePic});
+      navigate(MY_PET_LIST_SCREEN.name, { userPic: state.userProfilePic });
     } else if (index === 1) {
       navigate(COMMUNITY_USER_LIST_SCREEN.name, {
         userPic: state.userProfilePic,
@@ -114,7 +114,7 @@ const Home = () => {
         default:
           return null;
       }
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const onUpdatePress = () => {
@@ -128,12 +128,12 @@ const Home = () => {
         barStyle={'light-content'}
       />
       <Pressable
-        onPress={() => navigate('Profile', {userPic: state.userProfilePic})}
+        onPress={() => navigate('Profile', { userPic: state.userProfilePic })}
         style={styles.main}>
         <Image
           resizeMode="cover"
           style={styles.userView}
-          source={{uri: state?.userProfilePic?.[0]?.full}}
+          source={{ uri: state?.userProfilePic?.[0]?.full }}
           defaultSource={require('../../../assets/images/ic_no_avatar.png')}
         />
       </Pressable>
@@ -160,8 +160,8 @@ const Home = () => {
       </View>
       <AppUpdateModal
         isModalVisible={state.isAppUpdateModalShow}
-        onClose={() => setState(prev => ({...prev, isAppUpdateModalShow: false}))}
-        onUpdatePress={onUpdatePress}/>
+        onClose={() => setState(prev => ({ ...prev, isAppUpdateModalShow: false }))}
+        onUpdatePress={onUpdatePress} />
     </SafeAreaView>
   );
 };

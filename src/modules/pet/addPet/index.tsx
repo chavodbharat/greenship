@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {Image, Pressable, ScrollView, Text, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import styles from './styles';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {navigate} from '../../../routing/navigationRef';
-import {darkColors} from '../../../theme/colors';
-import {useDispatch} from 'react-redux';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { navigate } from '../../../routing/navigationRef';
+import { darkColors } from '../../../theme/colors';
+import { useDispatch } from 'react-redux';
 import Header from '../../../components/header';
-import {useTheme} from '../../../providers/ThemeProvider';
-import LinearGradient from '../../../components/linearGradient';
+import { useTheme } from '../../../providers/ThemeProvider';
+import LinearGradientView from '../../../components/linearGradient';
 import AllImages from '../../../utils/Constants/AllImages';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import {
@@ -17,8 +17,8 @@ import {
   getPetRaceList,
 } from '../../../redux/actions/petAction';
 import Spinner from '../../../components/spinner';
-import {scale, verticalScale} from '../../../theme/responsive';
-import {Button, TextInput} from 'react-native-paper';
+import { scale, verticalScale } from '../../../theme/responsive';
+import { Button, TextInput } from 'react-native-paper';
 import ActionSheet from '../../../components/actionSheet';
 import ActionSheetModal from 'react-native-modal';
 import {
@@ -26,9 +26,9 @@ import {
   allGenderStaticData,
 } from '../../../utils/Constants/AllConstance';
 import moment from 'moment';
-import {TouchableWithoutFeedback} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
-import {ADD_ADDITIONAL_PET_DETAILS_SCREEN} from './AddAdditionalPetDetails';
+import { TouchableWithoutFeedback } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
+import { ADD_ADDITIONAL_PET_DETAILS_SCREEN } from './AddAdditionalPetDetails';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageSelection from '../../../components/imageSelection';
 import PetHealthFloatingButton from '../../../components/petHealthFloatingButton';
@@ -39,10 +39,10 @@ export const ADD_PET_SCREEN = {
   name: 'AddPet',
 };
 
-const AddPet = ({route}: any) => {
+const AddPet = ({ route }: any) => {
   const dispatch = useDispatch();
-  const {formId, petId, isEditMode, isViewOnly} = route.params;
-  const {colors} = useTheme();
+  const { formId, petId, isEditMode, isViewOnly } = route.params;
+  const { colors } = useTheme();
   const [state, setState] = useState({
     loader: false,
     petName: '',
@@ -75,13 +75,13 @@ const AddPet = ({route}: any) => {
   }, []);
 
   const callPetArtListFn = () => {
-    setState(prev => ({...prev, loader: true}));
+    setState(prev => ({ ...prev, loader: true }));
 
     dispatch(
       getPetArtList((res: any) => {
         if (res) {
-          const {data} = res;
-          const newArrayOfObj = data.map(({name: title, values: id}: any) => ({
+          const { data } = res;
+          const newArrayOfObj = data.map(({ name: title, values: id }: any) => ({
             title,
             id,
           }));
@@ -91,7 +91,7 @@ const AddPet = ({route}: any) => {
             petArtListData: newArrayOfObj,
           }));
         } else {
-          setState(prev => ({...prev, loader: false, petArtListData: []}));
+          setState(prev => ({ ...prev, loader: false, petArtListData: [] }));
         }
       }),
     );
@@ -101,21 +101,21 @@ const AddPet = ({route}: any) => {
     dispatch(
       getAllCountryList((res: any) => {
         if (res) {
-          const {data} = res;
-          const newArrayOfObj = data.map(({name: title, values: id}: any) => ({
+          const { data } = res;
+          const newArrayOfObj = data.map(({ name: title, values: id }: any) => ({
             title,
             id,
           }));
-          setState(prev => ({...prev, countryList: newArrayOfObj}));
+          setState(prev => ({ ...prev, countryList: newArrayOfObj }));
         } else {
-          setState(prev => ({...prev, countryList: []}));
+          setState(prev => ({ ...prev, countryList: [] }));
         }
       }),
     );
   };
 
   const callPetRaceListFn = (artName: string) => {
-    setState(prev => ({...prev, loader: true}));
+    setState(prev => ({ ...prev, loader: true }));
     const body = {
       petArt: artName,
     };
@@ -123,8 +123,8 @@ const AddPet = ({route}: any) => {
     dispatch(
       getPetRaceList(body, (res: any) => {
         if (res) {
-          const {data} = res;
-          const newArrayOfObj = data.map(({name: title, values: id}: any) => ({
+          const { data } = res;
+          const newArrayOfObj = data.map(({ name: title, values: id }: any) => ({
             title,
             id,
           }));
@@ -134,7 +134,7 @@ const AddPet = ({route}: any) => {
             petRaceListData: newArrayOfObj,
           }));
         } else {
-          setState(prev => ({...prev, loader: false, petRaceListData: []}));
+          setState(prev => ({ ...prev, loader: false, petRaceListData: [] }));
         }
       }),
     );
@@ -143,9 +143,9 @@ const AddPet = ({route}: any) => {
   const callPetDetails = () => {
     if (petId && (isEditMode || isViewOnly)) {
       dispatch(
-        getPetDetails({petId: petId}, (res: any) => {
+        getPetDetails({ petId: petId }, (res: any) => {
           if (res) {
-            const {data} = res;
+            const { data } = res;
             const imageObj = {
               path: data.pet_image.pet_image_url,
               mime: 'jpg',
@@ -173,7 +173,7 @@ const AddPet = ({route}: any) => {
   };
 
   const dropDownPosition = (position: number) => {
-    setState(prev => ({...prev, actionSheetPosition: position}));
+    setState(prev => ({ ...prev, actionSheetPosition: position }));
     if (position == 0) {
       setState(prev => ({
         ...prev,
@@ -199,12 +199,12 @@ const AddPet = ({route}: any) => {
         isActionSheetShow: true,
       }));
     } else if (position == 4) {
-      setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}));
+      setState(prev => ({ ...prev, imageModalVisible: !prev.imageModalVisible }));
     }
   };
 
   const clickOnActionSheetOption = async (index: number) => {
-    const {petArtListData, actionSheetPosition, petRaceListData, countryList} =
+    const { petArtListData, actionSheetPosition, petRaceListData, countryList } =
       state;
     if (index != petArtListData.length) {
       if (actionSheetPosition == 0) {
@@ -317,276 +317,278 @@ const AddPet = ({route}: any) => {
       });
     } else {
       if (!petName) {
-        showMessage({message: 'Please enter pet name', type: 'danger'});
+        showMessage({ message: 'Please enter pet name', type: 'danger' });
       } else if (selectedPetArt === artDefaultMessage) {
-        showMessage({message: artDefaultMessage, type: 'danger'});
+        showMessage({ message: artDefaultMessage, type: 'danger' });
       } else if (selectedPetRace === raceDefaultMessage) {
-        showMessage({message: raceDefaultMessage, type: 'danger'});
+        showMessage({ message: raceDefaultMessage, type: 'danger' });
       } else if (selectedGender === genderDefaultMessage) {
-        showMessage({message: genderDefaultMessage, type: 'danger'});
+        showMessage({ message: genderDefaultMessage, type: 'danger' });
       } else if (selectedCountry === countryDefaultMessage) {
-        showMessage({message: countryDefaultMessage, type: 'danger'});
+        showMessage({ message: countryDefaultMessage, type: 'danger' });
       } else if (!postCode) {
-        showMessage({message: 'Please enter post code', type: 'danger'});
+        showMessage({ message: 'Please enter post code', type: 'danger' });
       } else if (selectedDateOfBirth === dobDefaultMessage) {
-        showMessage({message: dobDefaultMessage, type: 'danger'});
+        showMessage({ message: dobDefaultMessage, type: 'danger' });
       }
     }
   };
 
   const onFilterPress = () => {
-    navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: true});
+    navigate(SEARCH_FILTER_SCREEN.name, { isPetTabShow: true });
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
-      <Header 
-        statusBarColor={colors.listBackGradientThree} 
-        onFilterPress={onFilterPress} />
-      <View style={styles.flexZero}>
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{flexGrow: 1}}>
-          <View style={[styles.flexOne, {padding: scale(25)}]}>
-            <View style={styles.flexOne}>
-              <LinearGradient
-                isHorizontal={false}
-                childStyle={styles.gradientChildStyle}
-                allColorsArray={[
-                  darkColors.listBackGradientTwo,
-                  darkColors.listBackGradientThree,
-                ]}
-                childrean={
-                  <View
-                    style={[
-                      styles.flexOne,
-                      {alignItems: 'center', paddingTop: verticalScale(10)},
-                    ]}>
-                    <Text style={styles.digitalPassportLabel}>
-                      DIGITALER TIERPASS
-                    </Text>
-                    <Text style={styles.petPassportLabel}>PET PASSPORT</Text>
-                  </View>
-                }
-              />
-              <Image
-                style={styles.petProfilePicView}
-                source={
-                  state.imageResponse
-                    ? {uri: state.imageResponse?.path}
-                    : AllImages.appPlaceholderIcon
-                }
-                resizeMode="contain"
-              />
+    <View style={{ flex: 1, backgroundColor: colors.listBackGradientThree }}>
+      <SafeAreaView style={[styles.safeAreaStyle, { backgroundColor: "transparent", }]}>
+        <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
+        <Header
+          statusBarColor={colors.listBackGradientThree}
+          onFilterPress={onFilterPress} />
+        <View style={[styles.flexZero, { backgroundColor: colors.defaultViewBackgroundColor }]}>
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.defaultViewBackgroundColor }}>
+            <View style={[styles.flexOne, { padding: scale(25) }]}>
+              <View style={styles.flexOne}>
+                <LinearGradientView
+                  isHorizontal={false}
+                  childStyle={styles.gradientChildStyle}
+                  allColorsArray={[
+                    darkColors.listBackGradientTwo,
+                    darkColors.listBackGradientThree,
+                  ]}
+                  childrean={
+                    <View
+                      style={[
+                        styles.flexOne,
+                        { alignItems: 'center', paddingTop: verticalScale(10) },
+                      ]}>
+                      <Text style={styles.digitalPassportLabel}>
+                        DIGITALER TIERPASS
+                      </Text>
+                      <Text style={styles.petPassportLabel}>PET PASSPORT</Text>
+                    </View>
+                  }
+                />
+                <Image
+                  style={styles.petProfilePicView}
+                  source={
+                    state.imageResponse
+                      ? { uri: state.imageResponse?.path }
+                      : AllImages.appPlaceholderIcon
+                  }
+                  resizeMode="contain"
+                />
 
-              <View style={styles.uploadWrapper}>
-                <TouchableWithoutFeedback
-                  onPress={() => !isViewOnly && dropDownPosition(4)}>
-                  <Image
-                    resizeMode="contain"
-                    style={styles.pressableUpload}
-                    source={AllImages.uploadIcon}
-                  />
-                </TouchableWithoutFeedback>
+                <View style={styles.uploadWrapper}>
+                  <TouchableWithoutFeedback
+                    onPress={() => !isViewOnly && dropDownPosition(4)}>
+                    <Image
+                      resizeMode="contain"
+                      style={styles.pressableUpload}
+                      source={AllImages.uploadIcon}
+                    />
+                  </TouchableWithoutFeedback>
+                </View>
               </View>
+              <TextInput
+                mode="outlined"
+                value={state.petName}
+                label={'Name'}
+                editable={!isViewOnly}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                onChangeText={name =>
+                  setState(prev => ({ ...prev, petName: name }))
+                }
+                placeholder={'Enter Name'}
+              />
+              <Pressable onPress={() => !isViewOnly && dropDownPosition(0)}>
+                <View
+                  style={[styles.textInputCustomStyle, { flexDirection: 'row' }]}>
+                  <View style={styles.flexOne}>
+                    <Text
+                      style={[
+                        styles.dropdownLabelStyle,
+                        state.selectedPetArt != 'Please Select Art' && {
+                          color: colors.black,
+                        },
+                      ]}>
+                      {state.selectedPetArt}
+                    </Text>
+                  </View>
+                  <View style={styles.flexZero}>
+                    <Image
+                      style={styles.dropDownIconStyle}
+                      source={AllImages.dropdownIcon}
+                    />
+                  </View>
+                </View>
+              </Pressable>
+              <Pressable onPress={() => !isViewOnly && dropDownPosition(1)}>
+                <View
+                  style={[styles.textInputCustomStyle, { flexDirection: 'row' }]}>
+                  <View style={styles.flexOne}>
+                    <Text
+                      style={[
+                        styles.dropdownLabelStyle,
+                        state.selectedPetRace != 'Please Select Race' && {
+                          color: colors.black,
+                        },
+                      ]}>
+                      {state.selectedPetRace}
+                    </Text>
+                  </View>
+                  <View style={styles.flexZero}>
+                    <Image
+                      style={styles.dropDownIconStyle}
+                      source={AllImages.dropdownIcon}
+                    />
+                  </View>
+                </View>
+              </Pressable>
+              <Pressable onPress={() => !isViewOnly && dropDownPosition(2)}>
+                <View
+                  style={[styles.textInputCustomStyle, { flexDirection: 'row' }]}>
+                  <View style={styles.flexOne}>
+                    <Text
+                      style={[
+                        styles.dropdownLabelStyle,
+                        state.selectedGender != 'Please Select Gender' && {
+                          color: colors.black,
+                        },
+                      ]}>
+                      {state.selectedGender}
+                    </Text>
+                  </View>
+                  <View style={styles.flexZero}>
+                    <Image
+                      style={styles.dropDownIconStyle}
+                      source={AllImages.dropdownIcon}
+                    />
+                  </View>
+                </View>
+              </Pressable>
+              <Pressable onPress={() => !isViewOnly && dropDownPosition(3)}>
+                <View
+                  style={[styles.textInputCustomStyle, { flexDirection: 'row' }]}>
+                  <View style={styles.flexOne}>
+                    <Text
+                      style={[
+                        styles.dropdownLabelStyle,
+                        state.selectedCountry != 'Please Select Country' && {
+                          color: colors.black,
+                        },
+                      ]}>
+                      {state.selectedCountry}
+                    </Text>
+                  </View>
+                  <View style={styles.flexZero}>
+                    <Image
+                      style={styles.dropDownIconStyle}
+                      source={AllImages.dropdownIcon}
+                    />
+                  </View>
+                </View>
+              </Pressable>
+              <TextInput
+                mode="outlined"
+                value={state.postCode}
+                label={'Postcode'}
+                maxLength={6}
+                editable={!isViewOnly}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                onChangeText={code =>
+                  setState(prev => ({ ...prev, postCode: code }))
+                }
+                placeholder={'Enter Postcode'}
+              />
+              <Pressable
+                onPress={() =>
+                  !isViewOnly &&
+                  setState(prev => ({ ...prev, datePickerStatus: true }))
+                }>
+                <View
+                  style={[styles.textInputCustomStyle, { flexDirection: 'row' }]}>
+                  <View style={styles.flexOne}>
+                    <Text
+                      style={[
+                        styles.dropdownLabelStyle,
+                        state.selectedDateOfBirth != 'Select Date Of Birth' && {
+                          color: colors.black,
+                        },
+                      ]}>
+                      {state.selectedDateOfBirth}
+                    </Text>
+                  </View>
+                  <View style={styles.flexZero}>
+                    <AntIcon
+                      name="calendar"
+                      size={scale(18)}
+                      color={colors.listBackGradientThree}
+                    />
+                  </View>
+                </View>
+              </Pressable>
+              {!isViewOnly && (
+                <Button
+                  labelStyle={styles.loginFontStyle}
+                  style={[
+                    styles.allButonStyle,
+                    { marginBottom: verticalScale(50) },
+                  ]}
+                  mode="contained"
+                  onPress={onContinuePress}>
+                  Continue
+                </Button>
+              )}
             </View>
-            <TextInput
-              mode="outlined"
-              value={state.petName}
-              label={'Name'}
-              editable={!isViewOnly}
-              activeOutlineColor={colors.listBackGradientThree}
-              outlineColor={colors.listBackGradientThree}
-              style={styles.textInputStyle}
-              onChangeText={name =>
-                setState(prev => ({...prev, petName: name}))
-              }
-              placeholder={'Enter Name'}
-            />
-            <Pressable onPress={() => !isViewOnly && dropDownPosition(0)}>
-              <View
-                style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text
-                    style={[
-                      styles.dropdownLabelStyle,
-                      state.selectedPetArt != 'Please Select Art' && {
-                        color: colors.black,
-                      },
-                    ]}>
-                    {state.selectedPetArt}
-                  </Text>
-                </View>
-                <View style={styles.flexZero}>
-                  <Image
-                    style={styles.dropDownIconStyle}
-                    source={AllImages.dropdownIcon}
-                  />
-                </View>
-              </View>
-            </Pressable>
-            <Pressable onPress={() => !isViewOnly && dropDownPosition(1)}>
-              <View
-                style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text
-                    style={[
-                      styles.dropdownLabelStyle,
-                      state.selectedPetRace != 'Please Select Race' && {
-                        color: colors.black,
-                      },
-                    ]}>
-                    {state.selectedPetRace}
-                  </Text>
-                </View>
-                <View style={styles.flexZero}>
-                  <Image
-                    style={styles.dropDownIconStyle}
-                    source={AllImages.dropdownIcon}
-                  />
-                </View>
-              </View>
-            </Pressable>
-            <Pressable onPress={() => !isViewOnly && dropDownPosition(2)}>
-              <View
-                style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text
-                    style={[
-                      styles.dropdownLabelStyle,
-                      state.selectedGender != 'Please Select Gender' && {
-                        color: colors.black,
-                      },
-                    ]}>
-                    {state.selectedGender}
-                  </Text>
-                </View>
-                <View style={styles.flexZero}>
-                  <Image
-                    style={styles.dropDownIconStyle}
-                    source={AllImages.dropdownIcon}
-                  />
-                </View>
-              </View>
-            </Pressable>
-            <Pressable onPress={() => !isViewOnly && dropDownPosition(3)}>
-              <View
-                style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text
-                    style={[
-                      styles.dropdownLabelStyle,
-                      state.selectedCountry != 'Please Select Country' && {
-                        color: colors.black,
-                      },
-                    ]}>
-                    {state.selectedCountry}
-                  </Text>
-                </View>
-                <View style={styles.flexZero}>
-                  <Image
-                    style={styles.dropDownIconStyle}
-                    source={AllImages.dropdownIcon}
-                  />
-                </View>
-              </View>
-            </Pressable>
-            <TextInput
-              mode="outlined"
-              value={state.postCode}
-              label={'Postcode'}
-              maxLength={6}
-              editable={!isViewOnly}
-              activeOutlineColor={colors.listBackGradientThree}
-              outlineColor={colors.listBackGradientThree}
-              style={styles.textInputStyle}
-              onChangeText={code =>
-                setState(prev => ({...prev, postCode: code}))
-              }
-              placeholder={'Enter Postcode'}
-            />
-            <Pressable
-              onPress={() =>
-                !isViewOnly &&
-                setState(prev => ({...prev, datePickerStatus: true}))
-              }>
-              <View
-                style={[styles.textInputCustomStyle, {flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text
-                    style={[
-                      styles.dropdownLabelStyle,
-                      state.selectedDateOfBirth != 'Select Date Of Birth' && {
-                        color: colors.black,
-                      },
-                    ]}>
-                    {state.selectedDateOfBirth}
-                  </Text>
-                </View>
-                <View style={styles.flexZero}>
-                  <AntIcon
-                    name="calendar"
-                    size={scale(18)}
-                    color={colors.listBackGradientThree}
-                  />
-                </View>
-              </View>
-            </Pressable>
-            {!isViewOnly && (
-              <Button
-                labelStyle={styles.loginFontStyle}
-                style={[
-                  styles.allButonStyle,
-                  {marginBottom: verticalScale(50)},
-                ]}
-                mode="contained"
-                onPress={onContinuePress}>
-                Continue
-              </Button>
-            )}
-          </View>
-        </ScrollView>
-      </View>
-      <ActionSheetModal
-        isVisible={state.isActionSheetShow}
-        style={styles.actionModalStyle}>
-        <ActionSheet
-          actionSheetItems={state.actionSheetData}
-          onCancelPress={() =>
-            setState(prev => ({...prev, isActionSheetShow: false}))
-          }
-          onPressItem={clickOnActionSheetOption}
+          </ScrollView>
+        </View>
+        <ActionSheetModal
+          isVisible={state.isActionSheetShow}
+          style={styles.actionModalStyle}>
+          <ActionSheet
+            actionSheetItems={state.actionSheetData}
+            onCancelPress={() =>
+              setState(prev => ({ ...prev, isActionSheetShow: false }))
+            }
+            onPressItem={clickOnActionSheetOption}
+          />
+        </ActionSheetModal>
+        <DateTimePicker
+          mode="date"
+          isVisible={state.datePickerStatus}
+          date={new Date()}
+          onConfirm={date => {
+            const updatedDate = moment(date).format(TAG_DATE_FORMATE);
+            setState(prev => ({
+              ...prev,
+              selectedDateOfBirth: updatedDate,
+              datePickerStatus: false,
+            }));
+          }}
+          onCancel={() => setState(prev => ({ ...prev, datePickerStatus: false }))}
         />
-      </ActionSheetModal>
-      <DateTimePicker
-        mode="date"
-        isVisible={state.datePickerStatus}
-        date={new Date()}
-        onConfirm={date => {
-          const updatedDate = moment(date).format(TAG_DATE_FORMATE);
-          setState(prev => ({
-            ...prev,
-            selectedDateOfBirth: updatedDate,
-            datePickerStatus: false,
-          }));
-        }}
-        onCancel={() => setState(prev => ({...prev, datePickerStatus: false}))}
-      />
-      <ImageSelection
-        modalVisible={state.imageModalVisible}
-        setModalVisible={() =>
-          setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}))
-        }
-        onPressCamera={openCamera}
-        onPressGallery={openGallery}
-      />
-      <PetHealthFloatingButton
-        petObj={state.petObj}
-        isPetHealthViewShow={isEditMode || isViewOnly ? true : false}
-      />
-    </SafeAreaView>
+        <ImageSelection
+          modalVisible={state.imageModalVisible}
+          setModalVisible={() =>
+            setState(prev => ({ ...prev, imageModalVisible: !prev.imageModalVisible }))
+          }
+          onPressCamera={openCamera}
+          onPressGallery={openGallery}
+        />
+        <PetHealthFloatingButton
+          petObj={state.petObj}
+          isPetHealthViewShow={isEditMode || isViewOnly ? true : false}
+        />
+      </SafeAreaView>
+    </View >
   );
 };
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles';
 import {
   Text,
@@ -10,20 +10,20 @@ import {
   Pressable,
 } from 'react-native';
 import MapView from 'react-native-maps';
-import {Marker, Callout} from 'react-native-maps';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {setTabBgColor} from '../../../redux/actions/authAction';
+import { Marker, Callout } from 'react-native-maps';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { setTabBgColor } from '../../../redux/actions/authAction';
 import Geolocation from 'react-native-geolocation-service';
-import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {useIsFocused} from '@react-navigation/native';
+import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { useIsFocused } from '@react-navigation/native';
 import {
   fetchLocationResults,
   getReverseGeocodingData,
 } from '../../../utils/Utility';
-import {getMissingPetListReq} from '../../../redux/actions/homeAction';
+import { getMissingPetListReq } from '../../../redux/actions/homeAction';
 import Spinner from '../../../components/spinner';
-import {darkColors} from '../../../theme/colors';
-import {types} from '../../../redux/ActionTypes';
+import { darkColors } from '../../../theme/colors';
+import { types } from '../../../redux/ActionTypes';
 import PetListView from '../../../components/petListView';
 import Header from '../../../components/header';
 import ChooseRadiusModal from '../../../components/chooseRadiusModal';
@@ -35,7 +35,7 @@ const Emergency = () => {
   const isFocused = useIsFocused();
   const mapRef = useRef(null);
 
-  const {missingPetSuccess} = useSelector(
+  const { missingPetSuccess } = useSelector(
     state => ({
       missingPetSuccess: state.home?.missingPetSuccess,
     }),
@@ -72,7 +72,7 @@ const Emergency = () => {
     Geocoder.init('AIzaSyCIqkzX9pTLBDe3KKTnDITtVBa-gLqbIEY');
 
     if (state.selectedAddress !== '' || missingPetSuccess === true) {
-      setState(prev => ({...prev, loading: true}));
+      setState(prev => ({ ...prev, loading: true }));
       callGetMissingPetList();
     }
   }, [missingPetSuccess]);
@@ -81,7 +81,7 @@ const Emergency = () => {
     const granted = await getLocationPermissions();
 
     if (granted) {
-      setState(prev => ({...prev, loading: true}));
+      setState(prev => ({ ...prev, loading: true }));
 
       getCurrentPosition();
     }
@@ -104,7 +104,7 @@ const Emergency = () => {
   };
 
   const setPosition = (lat, long) => {
-    setState(prev => ({...prev, latitude: lat, longitude: long}));
+    setState(prev => ({ ...prev, latitude: lat, longitude: long }));
   };
 
   const getCurrentPosition = () => {
@@ -117,14 +117,14 @@ const Emergency = () => {
       error => {
         console.log('error', error.code, error.message);
       },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
     );
   };
 
   const getAddress = (latitude?: any, longitude?: any) => {
     getReverseGeocodingData(latitude, longitude).then(response => {
       callGetMissingPetList(latitude, longitude, response);
-      setState(prev => ({...prev, locationAddress: response}));
+      setState(prev => ({ ...prev, locationAddress: response }));
     });
   };
 
@@ -164,17 +164,17 @@ const Emergency = () => {
       longitude: Number(marker.longitude),
     }));
     mapRef.current.fitToCoordinates(coordinates, {
-      edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
+      edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
       animated: true,
     });
   };
 
   const zoomToMarker = (marker?: any) => {
     const coordinates = [
-      {latitude: Number(marker.latitude), longitude: Number(marker.longitude)},
+      { latitude: Number(marker.latitude), longitude: Number(marker.longitude) },
     ];
     const options = {
-      edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
+      edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
       animated: true,
     };
     mapRef.current.fitToCoordinates(coordinates, options);
@@ -196,7 +196,7 @@ const Emergency = () => {
 
   const handleSearch = async query => {
     const results = await fetchLocationResults(query);
-    setState(prev => ({...prev, locations: results}));
+    setState(prev => ({ ...prev, locations: results }));
   };
 
   const getLatLongFromAddress = address => {
@@ -218,7 +218,7 @@ const Emergency = () => {
   };
 
   const onFilterRadius = radius => {
-    setState(prev => ({...prev, radius}));
+    setState(prev => ({ ...prev, radius }));
     setState(prev => ({
       ...prev,
       loading: true,
@@ -232,6 +232,7 @@ const Emergency = () => {
   };
 
   return (
+    // <View style={styles.parentContainer}>
     <SafeAreaView style={styles.safeAreaView}>
       <Spinner
         color={darkColors.dashboardEmergencyBG}
@@ -239,11 +240,12 @@ const Emergency = () => {
       />
       <>
         <Header
+          headerBackgroundColor={darkColors.gradientLightGray}
           statusBarColor={darkColors.emergencyGradientOne}
           isEmergency={true}
           locationAddress={state.locationAddress}
           onLocationSearch={value => {
-            setState(prev => ({...prev, locationAddress: value}));
+            setState(prev => ({ ...prev, locationAddress: value }));
             handleSearch(value);
           }}
           onCrossIconPress={() => {
@@ -254,19 +256,20 @@ const Emergency = () => {
             }));
           }}
           onFilterPress={() => {
-            setState(prev => ({...prev, radiusModal: true}));
+            setState(prev => ({ ...prev, radiusModal: true }));
           }}
         />
         <ChooseRadiusModal
           modalVisible={state.radiusModal}
           setModalVisible={() => {
-            setState(prev => ({...prev, radiusModal: false}));
+            setState(prev => ({ ...prev, radiusModal: false }));
           }}
           radius={state.radius}
           onSubmit={onFilterRadius}
         />
         <View style={styles.mapBox}>
           <MapView
+            zoomControlEnabled={true}
             zoomEnabled={true}
             zoomTapEnabled={true}
             style={styles.mapStyle}
@@ -281,7 +284,7 @@ const Emergency = () => {
                   }}>
                   <Image
                     resizeMode="contain"
-                    source={{uri: marker?.pet_image_url}}
+                    source={{ uri: marker?.pet_image_url }}
                     style={styles.markerImg}
                   />
 
@@ -338,6 +341,7 @@ const Emergency = () => {
         </View>
       </>
     </SafeAreaView>
+    // </View>
   );
 };
 

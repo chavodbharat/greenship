@@ -1,8 +1,8 @@
-import {Platform, StyleSheet} from 'react-native';
-import {moderateScale, scale, verticalScale} from '../../theme/responsive';
-import {darkColors} from '../../theme/colors';
-import {useTheme} from '../../providers/ThemeProvider';
-import {fonts} from '../../theme/fonts';
+import { Platform, StyleSheet } from 'react-native';
+import { moderateScale, scale, verticalScale } from '../../theme/responsive';
+import { darkColors } from '../../theme/colors';
+import { useTheme } from '../../providers/ThemeProvider';
+import { fonts } from '../../theme/fonts';
 
 const styles = StyleSheet.create({
   headerParentView: {

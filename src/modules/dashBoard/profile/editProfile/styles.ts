@@ -10,7 +10,7 @@ import {darkColors} from '../../../../theme/colors';
 export default StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
   },
   container: {
     flex: 1,
