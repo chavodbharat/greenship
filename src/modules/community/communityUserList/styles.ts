@@ -149,5 +149,18 @@ export default StyleSheet.create({
     paddingLeft: scale(10),
     fontFamily: fonts.MontserratSemiBold,
     fontSize: moderateScale(16),
-  }
+  },
+  noDataViewStyle: {
+    flex: 1,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    marginTop: verticalScale(100),
+    marginBottom: verticalScale(100)
+  },
+  tabLabelStyle: {
+    fontFamily: fonts.MontserratSemiBold,
+    color: darkColors.petPassportTextColor,
+    fontSize: moderateScale(14),
+    marginTop: verticalScale(5)
+  },
 });

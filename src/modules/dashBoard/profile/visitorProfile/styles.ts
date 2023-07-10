@@ -124,5 +124,9 @@ export default StyleSheet.create({
     position: 'absolute', 
     flexDirection: 'row', 
     marginTop: verticalScale(10)
-  }
+  },
+  actionModalStyle: {
+    marginTop: verticalScale(80),
+    justifyContent: 'flex-end'
+  },
 });

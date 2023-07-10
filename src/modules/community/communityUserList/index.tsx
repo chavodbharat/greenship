@@ -176,11 +176,25 @@ const CommunityUserList = ({route}: any) => {
             <Text style={styles.listTitleText}>User in your area</Text>
           </View>
 
-          <FlatList
-            data={state.communityListData}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItem}
-          />
+          {state.communityListData.length > 0 && !state.loader ? (
+            <FlatList
+              data={state.communityListData}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItem}
+            />
+          ) : (
+            !state.loader && (
+              <View style={styles.noDataViewStyle}>
+                <Text
+                  style={[
+                    styles.tabLabelStyle,
+                    {color: colors.dontHaveColor},
+                  ]}>
+                  No any user in your area
+                </Text>
+              </View>
+            )
+          )}
         </View>
       </SafeAreaView>
     </LinearGradient>

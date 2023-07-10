@@ -7,6 +7,7 @@ import {HeaderTypePropsInterface} from './types';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { scale } from '../../theme/responsive';
 import { darkColors, lightColors } from '../../theme/colors';
+import Feather from 'react-native-vector-icons/Feather';
 
 const Header = ({
   statusBarColor,
@@ -19,6 +20,8 @@ const Header = ({
   onCrossIconPress,
   backOneScreen = true,
   headerBackgroundColor,
+  isMoreOptionShow = false,
+  onMoreIconPress,
 }: HeaderTypePropsInterface) => {
   const onBackPress = () => {
     if(backOneScreen){
@@ -63,6 +66,15 @@ const Header = ({
         ) : null}
       </View>
 
+      {isMoreOptionShow && (
+        <Pressable onPress={onMoreIconPress} style={[styles.flexZeroView,{marginRight: scale(5)}]}>
+          <Feather
+            name="more-horizontal"
+            color={statusBarColor}
+            size={scale(20)}
+          />
+        </Pressable>
+      )}
       {isFilterShow && (
         <Pressable onPress={onFilterPress} style={styles.flexZeroView}>
           <Image

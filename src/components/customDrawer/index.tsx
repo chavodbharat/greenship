@@ -116,7 +116,7 @@ const CustomDrawer = ({navigation}: any) => {
       </Pressable>
       <Text style={styles.userName}>{userData?.nicename?.toUpperCase()}</Text>
 
-      <Pressable onPress={() => console.log("call 11")} style={styles.wrapper}>
+      <Pressable onPress={() => navigate('EditProfile')} style={styles.wrapper}>
         <Feather
           name="edit"
           color={'white'}

@@ -20,7 +20,7 @@ export const CHAT_DETAILS_SCREEN = {
 const ChatDetails = ({route}: any) => {
   const {colors} = useTheme();
   const pubnub = usePubNub();
-  const { friendId, userName, userData } = route.params;
+  const { friendId, userName, userData, isFromChatList = true } = route.params;
   const dispatch = useDispatch();
   const [state, setState] = useState({
     messages: [],
@@ -211,6 +211,13 @@ const ChatDetails = ({route}: any) => {
     return `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
   };
 
+  const onBackPress = () => {
+    if(isFromChatList) 
+      replace(CHAT_LIST_SCREEN.name);
+    else
+      goBack(); 
+  }
+
   const renderBubble = (props: any) => {
     return  <Bubble
     {...props}
@@ -292,7 +299,7 @@ const ChatDetails = ({route}: any) => {
       <View style={{padding: scale(5)}}>
         <Text style={styles.userNameHeaderTextStyle}>{userName.substring(0, 1).toUpperCase() + userName.substring(1)}</Text>
         <Text style={styles.userOnlineOfflineStatusStyle}>{state.onlineStatus}</Text>
-        <TouchableWithoutFeedback onPress={() => replace(CHAT_LIST_SCREEN.name)}>
+        <TouchableWithoutFeedback onPress={onBackPress}>
           <View style={styles.imageLeftArrowParentView}>
             <Image
               style={styles.imageLeftArrowStyle}

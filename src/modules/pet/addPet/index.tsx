@@ -407,92 +407,76 @@ const AddPet = ({ route }: any) => {
                 placeholder={'Enter Name'}
               />
               <Pressable onPress={() => !isViewOnly && dropDownPosition(0)}>
-                <View
-                  style={[styles.textInputCustomStyle, { flexDirection: 'row' }]}>
-                  <View style={styles.flexOne}>
-                    <Text
-                      style={[
-                        styles.dropdownLabelStyle,
-                        state.selectedPetArt != 'Please Select Art' && {
-                          color: colors.black,
-                        },
-                      ]}>
-                      {state.selectedPetArt}
-                    </Text>
-                  </View>
-                  <View style={styles.flexZero}>
+                <TextInput
+                  mode="outlined"
+                  value={state.selectedPetArt}
+                  label={state.selectedPetArt != "Please Select Art" ? 'Art' : ''}
+                  editable={false}
+                  activeOutlineColor={colors.listBackGradientThree}
+                  outlineColor={colors.listBackGradientThree}
+                  style={styles.textInputStyle}
+                  right={ !isViewOnly && <TextInput.Icon icon={() => (
                     <Image
                       style={styles.dropDownIconStyle}
                       source={AllImages.dropdownIcon}
                     />
-                  </View>
-                </View>
+                    )}/>}
+                  placeholder={'Please Select Art'}
+                />
               </Pressable>
               <Pressable onPress={() => !isViewOnly && dropDownPosition(1)}>
-                <View
-                  style={[styles.textInputCustomStyle, { flexDirection: 'row' }]}>
-                  <View style={styles.flexOne}>
-                    <Text
-                      style={[
-                        styles.dropdownLabelStyle,
-                        state.selectedPetRace != 'Please Select Race' && {
-                          color: colors.black,
-                        },
-                      ]}>
-                      {state.selectedPetRace}
-                    </Text>
-                  </View>
-                  <View style={styles.flexZero}>
+                <TextInput
+                  mode="outlined"
+                  value={state.selectedPetRace}
+                  label={state.selectedPetRace != "Please Select Race" ? 'Race' : ''}
+                  editable={false}
+                  activeOutlineColor={colors.listBackGradientThree}
+                  outlineColor={colors.listBackGradientThree}
+                  style={styles.textInputStyle}
+                  right={ !isViewOnly && <TextInput.Icon icon={() => (
                     <Image
                       style={styles.dropDownIconStyle}
                       source={AllImages.dropdownIcon}
                     />
-                  </View>
-                </View>
+                    )}/>}
+                  placeholder={'Please Select Race'}
+                />
               </Pressable>
               <Pressable onPress={() => !isViewOnly && dropDownPosition(2)}>
-                <View
-                  style={[styles.textInputCustomStyle, { flexDirection: 'row' }]}>
-                  <View style={styles.flexOne}>
-                    <Text
-                      style={[
-                        styles.dropdownLabelStyle,
-                        state.selectedGender != 'Please Select Gender' && {
-                          color: colors.black,
-                        },
-                      ]}>
-                      {state.selectedGender}
-                    </Text>
-                  </View>
-                  <View style={styles.flexZero}>
+                <TextInput
+                  mode="outlined"
+                  value={state.selectedGender}
+                  label={state.selectedGender != "Please Select Gender" ? 'Gender' : ''}
+                  editable={false}
+                  activeOutlineColor={colors.listBackGradientThree}
+                  outlineColor={colors.listBackGradientThree}
+                  style={styles.textInputStyle}
+                  right={ !isViewOnly && <TextInput.Icon icon={() => (
                     <Image
                       style={styles.dropDownIconStyle}
                       source={AllImages.dropdownIcon}
                     />
-                  </View>
-                </View>
+                    )}/>}
+                  placeholder={'Please Select Gender'}
+                />
               </Pressable>
               <Pressable onPress={() => !isViewOnly && dropDownPosition(3)}>
-                <View
-                  style={[styles.textInputCustomStyle, { flexDirection: 'row' }]}>
-                  <View style={styles.flexOne}>
-                    <Text
-                      style={[
-                        styles.dropdownLabelStyle,
-                        state.selectedCountry != 'Please Select Country' && {
-                          color: colors.black,
-                        },
-                      ]}>
-                      {state.selectedCountry}
-                    </Text>
-                  </View>
-                  <View style={styles.flexZero}>
+                <TextInput
+                  mode="outlined"
+                  value={state.selectedCountry}
+                  label={state.selectedCountry != "Please Select Country" ? 'Country' : ''}
+                  editable={false}
+                  activeOutlineColor={colors.listBackGradientThree}
+                  outlineColor={colors.listBackGradientThree}
+                  style={styles.textInputStyle}
+                  right={ !isViewOnly && <TextInput.Icon icon={() => (
                     <Image
                       style={styles.dropDownIconStyle}
                       source={AllImages.dropdownIcon}
                     />
-                  </View>
-                </View>
+                    )}/>}
+                  placeholder={'Please Select Country'}
+                />
               </Pressable>
               <TextInput
                 mode="outlined"
@@ -508,32 +492,26 @@ const AddPet = ({ route }: any) => {
                 }
                 placeholder={'Enter Postcode'}
               />
-              <Pressable
+              <Pressable    
                 onPress={() =>
-                  !isViewOnly &&
-                  setState(prev => ({ ...prev, datePickerStatus: true }))
-                }>
-                <View
-                  style={[styles.textInputCustomStyle, { flexDirection: 'row' }]}>
-                  <View style={styles.flexOne}>
-                    <Text
-                      style={[
-                        styles.dropdownLabelStyle,
-                        state.selectedDateOfBirth != 'Select Date Of Birth' && {
-                          color: colors.black,
-                        },
-                      ]}>
-                      {state.selectedDateOfBirth}
-                    </Text>
-                  </View>
-                  <View style={styles.flexZero}>
+                  !isViewOnly && setState(prev => ({...prev, datePickerStatus: true})) }>
+                <TextInput
+                  mode="outlined"
+                  value={state.selectedDateOfBirth}
+                  label={state.selectedDateOfBirth != "Select Date Of Birth" ? 'Date Of Birth' : ''}
+                  editable={false}
+                  activeOutlineColor={colors.listBackGradientThree}
+                  outlineColor={colors.listBackGradientThree}
+                  style={styles.textInputStyle}
+                  right={ !isViewOnly && <TextInput.Icon icon={() => (
                     <AntIcon
                       name="calendar"
                       size={scale(18)}
                       color={colors.listBackGradientThree}
                     />
-                  </View>
-                </View>
+                    )}/>}
+                  placeholder={'Select Date Of Birth'}
+                />
               </Pressable>
               {!isViewOnly && (
                 <Button

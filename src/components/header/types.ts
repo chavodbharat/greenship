@@ -12,4 +12,6 @@ export interface HeaderTypePropsInterface {
   onCrossIconPress?: () => void;
   backOneScreen?: boolean;
   headerBackgroundColor?: ColorValue;
+  isMoreOptionShow?: boolean;
+  onMoreIconPress?: () => void;
 }

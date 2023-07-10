@@ -17,8 +17,10 @@ import {useTheme} from '../../../../providers/ThemeProvider';
 import AllImages from '../../../../utils/Constants/AllImages';
 import Spinner from '../../../../components/spinner';
 import {scale, verticalScale} from '../../../../theme/responsive';
-import {allGenderStaticData} from '../../../../utils/Constants/AllConstance';
+import {allGenderStaticData, getAllMoreOptions} from '../../../../utils/Constants/AllConstance';
 import {TouchableWithoutFeedback} from 'react-native';
+import ActionSheetModal from 'react-native-modal';
+import Share from 'react-native-share';
 import {
   getMemberFriendList,
   getMemberGroupeList,
@@ -32,6 +34,9 @@ import {getBannerImage} from '../../../../redux/actions/homeAction';
 import {serviceUrl} from '../../../../utils/Constants/ServiceUrls';
 import BlockUserModal from '../../../../components/blockUserModal';
 import ReportProblemModal from '../../../../components/reportProblemModal';
+import { navigate } from '../../../../routing/navigationRef';
+import { CHAT_DETAILS_SCREEN } from '../../chat/chatDetails';
+import ActionSheet from '../../../../components/actionSheet';
 
 export const VISITOR_PROFILE_SCREEN = {
   name: 'VisitorProfile',
@@ -41,6 +46,7 @@ const VisitorProfile = ({route}: any) => {
   const dispatch = useDispatch();
   const {userId} = route.params;
   const {colors} = useTheme();
+  const allMoreOptions = getAllMoreOptions();
   const [state, setState] = useState({
     loader: false,
     memberObj: {},
@@ -52,6 +58,8 @@ const VisitorProfile = ({route}: any) => {
     isBlockUserModalShow: false,
     isReportProblemAccountModalShow: false,
     reportProblemSubmitStatus: true,
+    isActionSheetShow: false,
+    actionSheetData: allMoreOptions,
   });
 
   const {userData} = useSelector(
@@ -209,8 +217,8 @@ const VisitorProfile = ({route}: any) => {
   };
 
   const redirectToChatDetails = () => {
-    // navigate(CHAT_DETAILS_SCREEN.name, {friendId: finalId,
-    //   userName: item.name, userData})
+    navigate(CHAT_DETAILS_SCREEN.name, {friendId: userId,
+      userName: state.memberObj?.user_login, userData, isFromChatList: false})
   };
 
   const onSuccessBlockUser = () => {
@@ -221,6 +229,38 @@ const VisitorProfile = ({route}: any) => {
     setState(prev => ({...prev, isReportProblemAccountModalShow: false}));
     callMemberDetailsFn();
   };
+
+  const clickOnActionSheetOption = async (index: number) => {
+    // const {actionSheetPosition} = state;
+    // if(actionSheetPosition == 0) {
+    //   setState(prev => ({...prev,  selectedPetMissing: yesNoOptions[index].title, isActionSheetShow: false}));
+    // } else if(actionSheetPosition == 1) {
+    //   setState(prev => ({...prev,  selectedFamilyTree: yesNoOptions[index].title, isActionSheetShow: false}));
+    // }
+    if(index == 0) {
+      setState(prev => ({...prev, isActionSheetShow: false}));
+    } else if(index == 1) {
+      setState(prev => ({...prev, isBlockUserModalShow: true, isActionSheetShow: false}));
+    } else if(index == 2) {
+      setState(prev => ({...prev, isReportProblemAccountModalShow: true, isActionSheetShow: false}));
+    } else {
+      setState(prev => ({...prev, isActionSheetShow: false}));
+       //Share
+       const shareOptions = {
+        message: state.memberObj.mention_name + '\n',
+        url: state.memberObj.avatar_urls ? state.memberObj.avatar_urls[0].full : AllImages.appLogoWithBorderIcon,
+        failOnCancel: false,
+      };
+
+      Share.open(shareOptions)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          err && console.log(err);
+        });
+    }
+  }
 
   const renderItem = ({item, index}: any) => {
     const regex = /(<([^>]+)>)/gi;
@@ -294,9 +334,17 @@ const VisitorProfile = ({route}: any) => {
       end={{x: 0.0, y: 0.5}}
       style={{ flex: 1 }} colors={[colors.communityGreenColor, colors.defaultViewBackgroundColor]} >
       <SafeAreaView style={[styles.flexOne, {backgroundColor: 'transparent'}]}>
-        
           <Spinner visible={state?.loader} color={colors.communityGreenColor} />
-          <Header statusBarColor={colors.communityGreenColor} />
+          <Header 
+            statusBarColor={colors.communityGreenColor}
+            isMoreOptionShow={true}
+            onMoreIconPress={() =>
+              setState(prev => ({
+                ...prev,
+                isActionSheetShow: true,
+              }))
+            }
+          />
           <View style={[styles.flexZero, {backgroundColor: colors.defaultViewBackgroundColor}]}>
             <ScrollView
               keyboardShouldPersistTaps="handled"
@@ -329,38 +377,6 @@ const VisitorProfile = ({route}: any) => {
                               {state.memberObj?.member_types[0]}
                             </Text>
                           )}
-                          <View style={styles.reportBlockView}>
-                            <Pressable
-                              onPress={() =>
-                                setState(prev => ({
-                                  ...prev,
-                                  isBlockUserModalShow: true,
-                                }))
-                              }>
-                              <Image
-                                style={styles.reportBlockIconStyle}
-                                source={AllImages.blockUserIcon}
-                              />
-                            </Pressable>
-                            <Pressable
-                              onPress={() =>
-                                setState(prev => ({
-                                  ...prev,
-                                  isReportProblemAccountModalShow: true,
-                                }))
-                              }>
-                              <Image
-                                style={[
-                                  styles.reportBlockIconStyle,
-                                  {
-                                    marginLeft: scale(10),
-                                    marginRight: scale(10),
-                                  },
-                                ]}
-                                source={AllImages.reportAccountIcon}
-                              />
-                            </Pressable>
-                          </View>
                         </View>
                       }
                     />
@@ -382,35 +398,6 @@ const VisitorProfile = ({route}: any) => {
                             {state.memberObj?.member_types[0]}
                           </Text>
                         )}
-                      </View>
-                      <View style={styles.reportBlockView}>
-                        <Pressable
-                          onPress={() =>
-                            setState(prev => ({
-                              ...prev,
-                              isBlockUserModalShow: true,
-                            }))
-                          }>
-                          <Image
-                            style={styles.reportBlockIconStyle}
-                            source={AllImages.blockUserIcon}
-                          />
-                        </Pressable>
-                        <Pressable
-                          onPress={() =>
-                            setState(prev => ({
-                              ...prev,
-                              isReportProblemAccountModalShow: true,
-                            }))
-                          }>
-                          <Image
-                            style={[
-                              styles.reportBlockIconStyle,
-                              {marginLeft: scale(10), marginRight: scale(10)},
-                            ]}
-                            source={AllImages.reportAccountIcon}
-                          />
-                        </Pressable>
                       </View>
                     </ImageBackground>
                   )}
@@ -574,6 +561,17 @@ const VisitorProfile = ({route}: any) => {
             }))
           }
         />
+        <ActionSheetModal
+          isVisible={state.isActionSheetShow}
+          style={styles.actionModalStyle}>
+          <ActionSheet
+            actionSheetItems={state.actionSheetData}
+            onCancelPress={() =>
+              setState(prev => ({...prev, isActionSheetShow: false}))
+            }
+            onPressItem={clickOnActionSheetOption}
+          />
+        </ActionSheetModal>
       </SafeAreaView>
     </LinearGradient>
   );

@@ -92,6 +92,8 @@
     "preset": "react-native"
   },
   "typeAcquisition": {
-    "include": ["jquery"]
+    "include": [
+      "jquery"
+    ]
   }
 }

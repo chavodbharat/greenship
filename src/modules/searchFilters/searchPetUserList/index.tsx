@@ -28,7 +28,7 @@ const SearchPetUserList = ({route}: any) => {
   const { name, gender, radius, profilePic, isUser, petArt, petRace, petAge, memberType } = route.params;
 
   const [state, setState] = useState({
-    loader: false,
+    loader: true,
     filterListData: [],
     totalResults: 0,
     isReportProblemAccountModalShow: false,

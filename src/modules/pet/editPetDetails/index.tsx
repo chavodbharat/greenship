@@ -1195,24 +1195,28 @@ const EditPetDetails = ({route}: any) => {
               <Text style={styles.error}>Please enter email address</Text>
             ) : null}
 
-            <Pressable
-              onPress={() => !isViewOnly && setState(prev => ({...prev, datePickerStatus: true, datePickerPosition: 3}))}>
-              <View style={[styles.textInputCustomStyle,{flexDirection: 'row',
-                marginTop: verticalScale(10), marginBottom: 0}]}>
-                <View style={styles.flexOne}>
-                  <Text style={[styles.dropdownLabelStyle, state.dateOfIssue != staticDateOfIssue &&
-                    {color: darkColors.black}]}>{state.dateOfIssue}</Text>
-                </View>
-                {!isViewOnly &&
-                  <View style={styles.flexZero}>
-                    <AntIcon
-                      name="calendar"
-                      size={scale(18)}
-                      color={darkColors.listBackGradientThree}
-                    />
-                  </View>
-                }
-              </View>
+            <Pressable    
+              onPress={() =>
+                !isViewOnly &&
+                setState(prev => ({...prev, datePickerStatus: true, datePickerPosition: 3}))
+              }>
+              <TextInput
+                mode="outlined"
+                value={state.dateOfIssue}
+                label={'Date of Issue'}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={!isViewOnly && <TextInput.Icon icon={() => (
+                  <AntIcon
+                    name="calendar"
+                    size={scale(18)}
+                    color={colors.listBackGradientThree}
+                  />
+                  )}/>}
+                placeholder={staticDateOfIssue}
+              />
             </Pressable>
             {state.dateOfIssueError ? (
               <Text style={styles.error}>Please select date of issue</Text>

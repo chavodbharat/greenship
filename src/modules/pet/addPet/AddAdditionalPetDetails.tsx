@@ -384,33 +384,41 @@ const AddAdditionalPetDetails = ({route}: any) => {
               onChangeText={(color) => setState(prev => ({...prev, petColors: color}))}
               placeholder={"Enter Color"}
             />
-            <Pressable
-              onPress={() => dropDownPosition(1)}>
-              <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text style={[styles.dropdownLabelStyle, state.selectedFamilyTree!="Family tree" &&
-                    {color: colors.black}]}>{state.selectedFamilyTree}</Text>
-                </View>
-                <View style={styles.flexZero}>
+            <Pressable onPress={() => dropDownPosition(1)}>
+              <TextInput
+                mode="outlined"
+                value={state.selectedFamilyTree}
+                label={state.selectedFamilyTree != "Family tree" ? 'Family tree' : ''}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={ <TextInput.Icon icon={() => (
                   <Image
                     style={styles.dropDownIconStyle}
-                    source={AllImages.dropdownIcon}/>
-                </View>
-              </View>
+                    source={AllImages.dropdownIcon}
+                  />
+                  )}/>}
+                placeholder={'Family tree'}
+              />
             </Pressable>
-            <Pressable
-              onPress={() => dropDownPosition(0)}>
-              <View style={[styles.textInputCustomStyle,{flexDirection: 'row'}]}>
-                <View style={styles.flexOne}>
-                  <Text style={[styles.dropdownLabelStyle, state.selectedPetMissing!="Missing" &&
-                    {color: colors.black}]}>{state.selectedPetMissing}</Text>
-                </View>
-                <View style={styles.flexZero}>
+            <Pressable onPress={() => dropDownPosition(0)}>
+              <TextInput
+                mode="outlined"
+                value={state.selectedPetMissing}
+                label={state.selectedPetMissing != "Missing" ? 'Missing' : ''}
+                editable={false}
+                activeOutlineColor={colors.listBackGradientThree}
+                outlineColor={colors.listBackGradientThree}
+                style={styles.textInputStyle}
+                right={ <TextInput.Icon icon={() => (
                   <Image
                     style={styles.dropDownIconStyle}
-                    source={AllImages.dropdownIcon}/>
-                </View>
-              </View>
+                    source={AllImages.dropdownIcon}
+                  />
+                  )}/>}
+                placeholder={'Missing'}
+              />
             </Pressable>
             {/* <FlatList
               data={state.allMultipleImageLocalArray}
@@ -442,22 +450,26 @@ const AddAdditionalPetDetails = ({route}: any) => {
               }}
             /> */}
             <View style={styles.checkBoxParentViewBack}>
-              <Checkbox
-                status={ state.isTermsConditionsCheck ? 'checked' : 'unchecked'}
-                color={colors.listBackGradientThree}
-                uncheckedColor={colors.listBackGradientThree}
-                onPress={() => setState(prev => ({...prev, isTermsConditionsCheck: !state.isTermsConditionsCheck}))}
-              />
-              <Text style={styles.petNameTextStyle}>{"Yes, I agree to the  "}
-                <TouchableWithoutFeedback
-                  onPress={() => {
-                    Linking.openURL(
-                      'https://greensheep.earth/terms-and-conditions/ ',
-                    );
-                  }}>
-                  <Text style={styles.petTermsTextStyle}>{"Terms"}</Text>
-                </TouchableWithoutFeedback>
-              {"  of use of Greensheep"}</Text>
+              <View style={styles.flexZero}>
+                <Checkbox
+                  status={ state.isTermsConditionsCheck ? 'checked' : 'unchecked'}
+                  color={colors.listBackGradientThree}
+                  uncheckedColor={colors.listBackGradientThree}
+                  onPress={() => setState(prev => ({...prev, isTermsConditionsCheck: !state.isTermsConditionsCheck}))}
+                />
+              </View>
+              <View style={styles.flexOne}>
+                <Text style={styles.petNameTextStyle}>{"Yes, I agree to the  "}
+                  <TouchableWithoutFeedback
+                    onPress={() => {
+                      Linking.openURL(
+                        'https://greensheep.earth/terms-and-conditions/ ',
+                      );
+                    }}>
+                    <Text style={styles.petTermsTextStyle}>{"Terms"}</Text>
+                  </TouchableWithoutFeedback>
+                {"  of use of Greensheep"}</Text>
+              </View>
             </View>
             <Button
               labelStyle={styles.loginFontStyle} 

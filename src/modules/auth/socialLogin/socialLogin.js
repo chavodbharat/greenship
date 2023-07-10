@@ -10,7 +10,7 @@ import appleAuth, {
     AppleError,
 } from '@invertase/react-native-apple-authentication';
 
-import { LoginManager } from 'react-native-fbsdk-next';
+//import { LoginManager } from 'react-native-fbsdk-next';
 
 import {
     GoogleSignin,
@@ -95,23 +95,23 @@ class SocialLogin extends Component {
 
     facebookLogin = () => {
         // 'public_profile',
-        LoginManager.logInWithPermissions(['email']).then(
-            function (result) {
-                console.warn("facebook login result = ", result);
-                if (result.isCancelled) {
-                    alert('Login Cancelled ' + JSON.stringify(result));
-                } else {
-                    alert(
-                        'Login success with  permisssions: ' +
-                        result.grantedPermissions.toString(),
-                    );
-                    alert('Login Success ' + result.toString());
-                }
-            },
-            function (error) {
-                alert('Login failed with error: ' + error);
-            },
-        );
+        // LoginManager.logInWithPermissions(['email']).then(
+        //     function (result) {
+        //         console.warn("facebook login result = ", result);
+        //         if (result.isCancelled) {
+        //             alert('Login Cancelled ' + JSON.stringify(result));
+        //         } else {
+        //             alert(
+        //                 'Login success with  permisssions: ' +
+        //                 result.grantedPermissions.toString(),
+        //             );
+        //             alert('Login Success ' + result.toString());
+        //         }
+        //     },
+        //     function (error) {
+        //         alert('Login failed with error: ' + error);
+        //     },
+        // );
     };
 
     onAppleButtonPress = async () => {

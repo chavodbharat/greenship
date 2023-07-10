@@ -95,3 +95,25 @@ export const getAllStaticReportProblemOptions = () => {
         }
     ];
 }
+
+//For static more options
+export const getAllMoreOptions = () => {
+    return [
+        {
+            id: "1", 
+            title: "Restrict"
+        }, 
+        {
+            id: "2", 
+            title: "Block"
+        }, 
+        {
+            id: "3", 
+            title: "Report"
+        }, 
+        {
+            id: "4", 
+            title: "Share Profile"
+        }
+    ];
+}
