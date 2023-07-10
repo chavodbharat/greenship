@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import { View, Text, Image, Pressable, Linking, Platform, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,8 +14,11 @@ import appleAuth, {
   AppleError,
 } from '@invertase/react-native-apple-authentication';
 import DeviceInfo from 'react-native-device-info';
+import AllImages from '../../utils/Constants/AllImages';
+import LanguageListModal from '../../components/languageListModal';
+import Localization from '../../locales/Localization';
+import { useIsFocused } from '@react-navigation/native';
 import { scale, verticalScale } from '../../theme/responsive';
-import { fonts } from '../../theme/fonts';
 import SocialLogin from './socialLogin/socialLogin';
 import { Appbar } from 'react-native-paper';
 // import {LoginManager} from 'react-native-fbsdk-next';
@@ -23,9 +26,20 @@ import { Appbar } from 'react-native-paper';
 const version = parseFloat(DeviceInfo.getSystemVersion());
 
 const Welcome = () => {
+
+  const isFocused = useIsFocused();
+  const [state, setState] = useState({
+    isLanguageModalShow: false,
+  });
+
   useEffect(() => {
     configureGmail();
   }, []);
+
+  useEffect(() => {
+    setState(prev => ({...prev, isLanguageModalShow: false}));
+    console.log("cak====================", Localization.getLanguage())
+  }, [isFocused]);
 
   const configureGmail = () => {
     GoogleSignin.configure({
@@ -112,6 +126,20 @@ const Welcome = () => {
       /> */}
       < SafeAreaView style={styles.container} >
         <View style={styles.main}>
+          <Pressable
+            onPress={() => setState(prev => ({...prev, isLanguageModalShow: true}))}>
+            <View style={[styles.rowView,{marginVertical: scale(20), marginHorizontal: scale(20),
+              justifyContent: 'flex-end'}]}>
+              <Image
+                style={styles.englishLanIcon}
+                source={AllImages.englishLanIcon}
+              />
+              <Image
+                style={styles.germanLanIcon}
+                source={AllImages.germanLanIcon}
+              />
+            </View>
+          </Pressable>
           <View style={styles.flexOneView}>
             <Image
               resizeMode="contain"
@@ -173,17 +201,20 @@ const Welcome = () => {
             </Pressable>
           </View> */}
 
-            <View style={styles.end}>
-              <Pressable
-                onPress={() => Linking.openURL('mailto:support@example.com')}
-                style={styles.accordion}>
-                <Text style={styles.accordionTitle}>Do You need help ??</Text>
-              </Pressable>
-            </View>
+          <View style={styles.end}>
+            <Pressable
+              onPress={() => Linking.openURL('mailto:help@greensheep.earth')}
+              style={styles.accordion}>
+              <Text style={styles.accordionTitle}>Do You need help ??</Text>
+            </Pressable>
           </View>
         </View>
-      </SafeAreaView >
-    </View >
+      </View>
+      <LanguageListModal
+        isModalVisible={state.isLanguageModalShow}
+        onClose={() => setState(prev => ({...prev, isLanguageModalShow: false}))}/>
+    </SafeAreaView>
+    </View>
   );
 };
 

@@ -15,12 +15,15 @@ import {PET_VACCINATION_SCREEN} from '../petVaccination';
 import {useTheme} from '../../../../providers/ThemeProvider';
 import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
 import {SEARCH_FILTER_SCREEN} from '../../../searchFilters/searchFilter';
+import { useIsFocused } from '@react-navigation/native';
+import { setActiveSubModule } from '../../../../redux/actions/authAction';
 
 export const VACCINATION_MENU_SCREEN = {
   name: 'VaccinationMenu',
 };
 
 const VaccinationMenu = ({route}: any) => {
+  const isFocused = useIsFocused();
   const {subscriptionDetails} = useSelector(
     state => ({
       subscriptionDetails: state.auth?.subscriptionDetails,
@@ -29,8 +32,6 @@ const VaccinationMenu = ({route}: any) => {
   );
   const dispatch = useDispatch();
   const {petObj} = route.params;
-
-  console.log('Pet Id', petObj);
 
   const {colors} = useTheme();
   const [state, setState] = useState({
@@ -41,6 +42,10 @@ const VaccinationMenu = ({route}: any) => {
   useEffect(() => {
     callPetPassportMenuListFn();
   }, []);
+
+  useEffect(() => {
+    dispatch(setActiveSubModule(null));
+  }, [isFocused]);
 
   const callPetPassportMenuListFn = () => {
     setState(prev => ({...prev, loader: true}));

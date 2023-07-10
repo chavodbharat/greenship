@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './styles';
 import { Image, Pressable, StatusBar, TextInput, View } from 'react-native';
 import AllImages from '../../utils/Constants/AllImages';
-import { goBack } from '../../routing/navigationRef';
-import { HeaderTypePropsInterface } from './types';
+import {goBack, pop} from '../../routing/navigationRef';
+import {HeaderTypePropsInterface} from './types';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { scale } from '../../theme/responsive';
 import { darkColors, lightColors } from '../../theme/colors';
@@ -17,10 +17,15 @@ const Header = ({
   onFilterPress,
   isFilterShow = true,
   onCrossIconPress,
+  backOneScreen = true,
   headerBackgroundColor,
 }: HeaderTypePropsInterface) => {
   const onBackPress = () => {
-    goBack();
+    if(backOneScreen){
+      goBack();
+    } else {
+      pop(2);
+    }
   };
 
   return (

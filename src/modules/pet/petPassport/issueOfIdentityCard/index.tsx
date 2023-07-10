@@ -15,6 +15,8 @@ import { getIssueOfIdentityCard, submitIssueOfIdentityCard } from "../../../../r
 import { goBack, navigate } from "../../../../routing/navigationRef";
 import PetPassportSubHeader from "../../../../components/petPassportSubHeader";
 import { SEARCH_FILTER_SCREEN } from "../../../searchFilters/searchFilter";
+import DigitalerTierpassView from "../../../../components/digitalerTierpassView";
+import { MY_PET_LIST_SCREEN } from "../../myPetList";
 
 export const ISSUE_OF_IDENTITY_CARD_SCREEN = {
     name: 'IssueOfIdentityCard',
@@ -22,7 +24,7 @@ export const ISSUE_OF_IDENTITY_CARD_SCREEN = {
   
 const IssueOfIdentityCard = ({route}: any) => {
     const dispatch = useDispatch();
-    const { vaccineObj, petObj } = route.params;
+    const { petProfilePicRes, petObj } = route.params;
     const staticDateOfIssue = "Select Date of Issue";
 
     const [state, setState] = useState({
@@ -67,7 +69,7 @@ const IssueOfIdentityCard = ({route}: any) => {
                     land: data['data-land'],
                     phoneNumber: data['data-telefonnummer'],
                     emailAddress: data['data-e-mail-adresse'],
-                    dateOfIssue: data['data-ausstellungsdatum'],
+                    dateOfIssue: data['data-ausstellungsdatum'] ? data['data-ausstellungsdatum'] : staticDateOfIssue,
                     idNumber: data['data-ausweisnummer']
                 }));
             } else {
@@ -119,7 +121,8 @@ const IssueOfIdentityCard = ({route}: any) => {
         dispatch(
             submitIssueOfIdentityCard(body, (res: any) => {
                 setState(prev => ({...prev, loader: false}));
-                goBack();
+                navigate(MY_PET_LIST_SCREEN.name);
+               // goBack();
             }),
         );
     };
@@ -134,12 +137,16 @@ const IssueOfIdentityCard = ({route}: any) => {
             <Header
                 statusBarColor={darkColors.listBackGradientThree}
                 onFilterPress={onFilterPress} />
-            <PetPassportSubHeader
+            {/* <PetPassportSubHeader
                 title={vaccineObj.label}
                 petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}
-            />      
+            />       */}
             <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
-                <View style={[styles.flexOne,{marginTop: verticalScale(15)}]}>    
+                <View style={[styles.flexOne,{padding: scale(25)}]}>
+                    {petProfilePicRes &&
+                        <DigitalerTierpassView
+                            petProfilePicRes={petProfilePicRes}/>
+                    }     
                     <TextInput
                         value={state.nameOfAuthorizedVeterinarian}
                         mode="outlined"

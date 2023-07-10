@@ -10,5 +10,6 @@ export interface HeaderTypePropsInterface {
   onFilterPress?: any;
   isFilterShow?: boolean;
   onCrossIconPress?: () => void;
+  backOneScreen?: boolean;
   headerBackgroundColor?: ColorValue;
 }

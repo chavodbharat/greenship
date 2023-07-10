@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {FlatList, Image, Platform, Pressable, ScrollView, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {FlatList, Image, Linking, Platform, Pressable, ScrollView, Text, TouchableWithoutFeedback, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -23,6 +23,8 @@ import { SEARCH_FILTER_SCREEN } from '../../searchFilters/searchFilter';
 import { PERMISSIONS, RESULTS, request } from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import { getReverseGeocodingData } from '../../../utils/Utility';
+import { IDENTIFICATION_OF_ANIMAL_SCREEN } from '../petPassport/identificationOfAnimal';
+import DigitalerTierpassView from '../../../components/digitalerTierpassView';
 
 export const ADD_ADDITIONAL_PET_DETAILS_SCREEN = {
   name: 'AddAdditionalPetDetails',
@@ -337,23 +339,8 @@ const AddAdditionalPetDetails = ({route}: any) => {
                 <></>
             } */}
             {petProfilePicRes &&
-              <View style={styles.flexOne}>
-                <LinearGradient
-                  isHorizontal={false}
-                  childStyle={styles.gradientChildStyle}
-                  allColorsArray={[colors.listBackGradientTwo, colors.listBackGradientThree]}
-                  childrean={
-                    <View style={[styles.flexOne,{alignItems: 'center', paddingTop: verticalScale(10)}]}>
-                      <Text style={styles.digitalPassportLabel}>DIGITALER TIERPASS</Text>
-                      <Text style={styles.petPassportLabel}>PET PASSPORT</Text>
-                    </View>
-                  }
-                />
-                <Image
-                  style={styles.petProfilePicView}
-                  source={{uri: petProfilePicRes.path}}
-                  resizeMode="contain"/>
-              </View>
+              <DigitalerTierpassView
+                petProfilePicRes={petProfilePicRes}/>
             }
             <TextInput
               mode="outlined"
@@ -461,7 +448,16 @@ const AddAdditionalPetDetails = ({route}: any) => {
                 uncheckedColor={colors.listBackGradientThree}
                 onPress={() => setState(prev => ({...prev, isTermsConditionsCheck: !state.isTermsConditionsCheck}))}
               />
-              <Text style={styles.petNameTextStyle}>{"Yes, I agree to the terms of use of Greensheep"}</Text>
+              <Text style={styles.petNameTextStyle}>{"Yes, I agree to the  "}
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    Linking.openURL(
+                      'https://greensheep.earth/terms-and-conditions/ ',
+                    );
+                  }}>
+                  <Text style={styles.petTermsTextStyle}>{"Terms"}</Text>
+                </TouchableWithoutFeedback>
+              {"  of use of Greensheep"}</Text>
             </View>
             <Button
               labelStyle={styles.loginFontStyle} 

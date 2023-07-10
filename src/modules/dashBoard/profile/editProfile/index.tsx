@@ -477,13 +477,13 @@ const EditProfile = () => {
                           </View>
                         );
                       }}
+                      defaultValue={field?.otherValue[0].toString()}
                       rowStyle={styles.dropdown1RowStyle}
                       rowTextStyle={styles.dropdown1RowTxtStyle}
                     />
                   );
                 }}
                 name={name}
-                defaultValue={''}
                 rules={validationRules}
               />
               {errors[name] && (

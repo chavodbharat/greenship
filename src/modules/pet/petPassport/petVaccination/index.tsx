@@ -24,6 +24,7 @@ import { setActiveSubModule } from '../../../../redux/actions/authAction';
 import { useIsFocused } from '@react-navigation/native';
 import { SEARCH_FILTER_SCREEN } from '../../../searchFilters/searchFilter';
 import { navigate } from '../../../../routing/navigationRef';
+import { ADD_PET_VACCINATION_SCREEN } from '../addPetVaccination';
 
 export const PET_VACCINATION_SCREEN = {
   name: 'PetVaccination',
@@ -62,15 +63,7 @@ const PetVaccination = ({route}: any) => {
   }, [isFocused]);
 
   useMemo(() => {
-    console.log("call 111111111111111111111111111111111111",)
-    // switch (auth?.activeSubModule) {
-    //   case 0:
-    //     return darkColors.dashboardPetBG;
-    //   case 3:
-    //     return darkColors.dashboardEmergencyBG;
-    //   default:
-    //     return darkColors.darkGreen;
-    // }
+    dispatch(setActiveSubModule(PET_VACCINATION_SCREEN.name));
   }, [auth?.activeSubModule]);
   
   const callPetPassportVaccineListFn = () => {
@@ -83,7 +76,12 @@ const PetVaccination = ({route}: any) => {
       getPetVaccinationList(body,(res: any) => {
         if(res) {
           const { data } = res;
-          setState(prev => ({...prev, loader: false, petVaccineListData:  data.reverse()}));
+          if(data && data.length > 0){
+            setState(prev => ({...prev, loader: false, petVaccineListData:  data.reverse()}));
+          } else {
+            setState(prev => ({...prev, loader: false}));
+            navigate(ADD_PET_VACCINATION_SCREEN.name,{vaccineObj, petObj, vaccinationData: false});   
+          }
         } else {
           setState(prev => ({...prev, loader: false, petVaccineListData: []}));
         }

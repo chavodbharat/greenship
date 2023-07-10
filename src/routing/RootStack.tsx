@@ -18,6 +18,7 @@ import GenerateNewPassword, {
 } from '../modules/auth/generateNewPassword';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from '../components/customDrawer';
+import Localization from '../locales/Localization';
 
 const DashBoardStack = createStackNavigator();
 const AuthStack = createStackNavigator();
@@ -33,6 +34,16 @@ export default function RootStack() {
     }),
     shallowEqual,
   );
+
+  const updateAppLanguage = async () => {
+    let appLanguage = await AsyncStorage.getItem(types.SELECTED_APP_LANGUAGE);
+
+    if (appLanguage) {
+      Localization.setLanguage(appLanguage);
+    } else {
+      Localization.setLanguage(Localization.getLanguage());
+    }
+  };
 
   const getData = async () => {
     let token = await AsyncStorage.getItem('token');
@@ -53,6 +64,10 @@ export default function RootStack() {
   useEffect(() => {
     getData();
   }, [signedIn]);
+
+  useEffect(() => {
+    updateAppLanguage();
+  }, []);
 
   if (signedIn == null) {
     return null;

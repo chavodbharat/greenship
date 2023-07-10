@@ -62,6 +62,7 @@ import MyGroupList, {
   MY_GROUP_LIST_SCREEN,
 } from '../modules/dashBoard/profile/myGroupList';
 import ChatDetails, { CHAT_DETAILS_SCREEN } from '../modules/dashBoard/chat/chatDetails';
+import EditPetDetails, { EDIT_PET_DETAILS_SCREEN } from '../modules/pet/editPetDetails';
 
 const Tab = createBottomTabNavigator();
 
@@ -103,6 +104,7 @@ function HomeStackScreen() {
         component={AddPetVaccination}
       />
       <HomeStack.Screen name={ADD_PET_SCREEN.name} component={AddPet} />
+      <HomeStack.Screen name={EDIT_PET_DETAILS_SCREEN.name} component={EditPetDetails} />
       <HomeStack.Screen
         name={ADD_ADDITIONAL_PET_DETAILS_SCREEN.name}
         component={AddAdditionalPetDetails}

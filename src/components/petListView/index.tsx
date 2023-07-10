@@ -14,13 +14,13 @@ import { scale, verticalScale } from '../../theme/responsive';
 import AllImages from '../../utils/Constants/AllImages';
 import Icon from 'react-native-vector-icons/Feather';
 import AntIcon from 'react-native-vector-icons/AntDesign';
-import { darkColors } from '../../theme/colors';
-import { navigate } from '../../routing/navigationRef';
-import { PET_PASSPORT_MENU_SCREEN } from '../../modules/pet/petPassport/petPassportMenu';
-import { PetListArrayInterface } from '../../modules/pet/myPetList/types';
-import { ADD_PET_SCREEN } from '../../modules/pet/addPet';
+import {darkColors} from '../../theme/colors';
+import {navigate} from '../../routing/navigationRef';
+import {PET_PASSPORT_MENU_SCREEN} from '../../modules/pet/petPassport/petPassportMenu';
+import {PetListArrayInterface} from '../../modules/pet/myPetList/types';
 import Share from 'react-native-share';
 import DeleteModal from '../deleteModal';
+import { EDIT_PET_DETAILS_SCREEN } from '../../modules/pet/editPetDetails';
 
 const PetListView = ({
   petListData,
@@ -37,7 +37,13 @@ const PetListView = ({
   });
 
   const onPetListItemPress = (data: PetListArrayInterface) => {
-    navigate(PET_PASSPORT_MENU_SCREEN.name, { petObj: data });
+    navigate(EDIT_PET_DETAILS_SCREEN.name, {
+      formId: data.form_id,
+      petId: data.pet_id,
+      isEditMode: false,
+      isViewOnly: true,
+    });
+    //navigate(PET_PASSPORT_MENU_SCREEN.name, {petObj: data});
   };
 
   const onHandSwipeIconPress = (index: number) => {
@@ -68,7 +74,7 @@ const PetListView = ({
     }));
     if (index == 0) {
       //Edit
-      navigate(ADD_PET_SCREEN.name, {
+      navigate(EDIT_PET_DETAILS_SCREEN.name, {
         formId: data.form_id,
         petId: data.pet_id,
         isEditMode: true,

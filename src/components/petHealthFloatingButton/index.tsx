@@ -32,7 +32,7 @@ const PetHealthFloatingButton = ({
 
   return (
     <>
-      <View style={styles.petViewParentView}>
+      {/* <View style={styles.petViewParentView}>
         <LinearGradient
           isHorizontal={false}
           childStyle={styles.gradientPetChildStyle}
@@ -46,7 +46,7 @@ const PetHealthFloatingButton = ({
             </Pressable>
           }
         />
-      </View>
+      </View> */}
       {isPetHealthViewShow && (
         <View style={[styles.petViewParentView, {right: 0}]}>
           <LinearGradient
