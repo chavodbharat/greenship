@@ -4,6 +4,9 @@ import {darkColors} from '../../../theme/colors';
 import {fonts} from '../../../theme/fonts';
 
 export default StyleSheet.create({
+  scrollViewStyle: {
+    backgroundColor: 'white',
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',
