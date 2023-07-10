@@ -6,6 +6,7 @@ import { fonts } from '../../../theme/fonts';
 export default StyleSheet.create({
   safeAreaStyle: {
     flex: 1,
+    backgroundColor: 'blue',
   },
   parentView: {
     backgroundColor: darkColors.background,

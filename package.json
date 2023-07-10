@@ -32,6 +32,7 @@
     "react-native": "0.71.6",
     "react-native-device-info": "^10.6.0",
     "react-native-elements": "^3.4.3",
+    "react-native-fbsdk-next": "^11.2.1",
     "react-native-flash-message": "^0.4.1",
     "react-native-geocoding": "^0.5.0",
     "react-native-geolocation-service": "^5.3.1",
@@ -92,6 +93,8 @@
     "preset": "react-native"
   },
   "typeAcquisition": {
-    "include": ["jquery"]
+    "include": [
+      "jquery"
+    ]
   }
 }

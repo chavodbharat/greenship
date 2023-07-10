@@ -4,7 +4,6 @@ import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import Header from '../../../../components/header';
-import LinearGradient from '../../../../components/linearGradient';
 import Spinner from '../../../../components/spinner';
 import {scale, verticalScale} from '../../../../theme/responsive';
 import {MenuOptions} from './types';
@@ -15,8 +14,10 @@ import {PET_VACCINATION_SCREEN} from '../petVaccination';
 import {useTheme} from '../../../../providers/ThemeProvider';
 import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
 import {SEARCH_FILTER_SCREEN} from '../../../searchFilters/searchFilter';
-import { useIsFocused } from '@react-navigation/native';
-import { setActiveSubModule } from '../../../../redux/actions/authAction';
+import {useIsFocused} from '@react-navigation/native';
+import {setActiveSubModule} from '../../../../redux/actions/authAction';
+import LinearGradientView from '../../../../components/linearGradient';
+import LinearGradient from 'react-native-linear-gradient';
 
 export const VACCINATION_MENU_SCREEN = {
   name: 'VaccinationMenu',
@@ -86,7 +87,7 @@ const VaccinationMenu = ({route}: any) => {
 
   const renderItem = ({item, index}: any) => {
     return (
-      <LinearGradient
+      <LinearGradientView
         isHorizontal={false}
         childStyle={styles.linearGradientCustomStyle}
         childrean={
@@ -105,39 +106,50 @@ const VaccinationMenu = ({route}: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
-      <Header
-        statusBarColor={colors.listBackGradientThree}
-        onFilterPress={onFilterPress}
-      />
-      <PetPassportSubHeader
-        title={petObj.pet_name}
-        petImage={
-          typeof petObj.pet_image === 'string'
-            ? petObj.pet_image
-            : petObj.pet_image.pet_image_url
-        }
-      />
-      <View
-        style={[
-          styles.container,
-          {
-            marginLeft: scale(5),
-            marginRight: scale(5),
-            marginTop: verticalScale(3),
-          },
-        ]}>
-        <FlatList
-          data={state.petPassportOptionsData}
-          horizontal={false}
-          numColumns={2}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItem}
+    <LinearGradient
+      style={{flex: 1}}
+      colors={[
+        colors.listBackGradientThree,
+        colors.defaultViewBackgroundColor,
+      ]}>
+      <SafeAreaView style={styles.safeAreaStyle}>
+        <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
+        <Header
+          statusBarColor={colors.listBackGradientThree}
+          onFilterPress={onFilterPress}
         />
-      </View>
-      <PetHealthFloatingButton />
-    </SafeAreaView>
+        <View
+          style={{flex: 1, backgroundColor: colors.defaultViewBackgroundColor}}>
+          <PetPassportSubHeader
+            title={petObj.pet_name}
+            petImage={
+              typeof petObj.pet_image === 'string'
+                ? petObj.pet_image
+                : petObj.pet_image.pet_image_url
+            }
+          />
+
+          <View
+            style={[
+              styles.container,
+              {
+                marginLeft: scale(5),
+                marginRight: scale(5),
+                marginTop: verticalScale(3),
+              },
+            ]}>
+            <FlatList
+              data={state.petPassportOptionsData}
+              horizontal={false}
+              numColumns={2}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItem}
+            />
+          </View>
+          <PetHealthFloatingButton />
+        </View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {FlatList, Image, Pressable, Text, View} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -6,25 +6,30 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import Header from '../../../../components/header';
 import LinearGradient from '../../../../components/linearGradient';
 import Spinner from '../.././../../components/spinner';
-import { scale, verticalScale } from '../../../../theme/responsive';
-import { addPetVaccine, getPetVaccinationList, updatePetObj, updateVaccinationObj } from '../../../../redux/actions/petAction';
+import {scale, verticalScale} from '../../../../theme/responsive';
+import {
+  addPetVaccine,
+  getPetVaccinationList,
+  updatePetObj,
+  updateVaccinationObj,
+} from '../../../../redux/actions/petAction';
 import PetPassportSubHeader from '../../../../components/petPassportSubHeader';
-import { TAG_DATE_FORMATE } from '../../../../utils/Constants/AllConstance';
+import {TAG_DATE_FORMATE} from '../../../../utils/Constants/AllConstance';
 import Icon from 'react-native-vector-icons/Feather';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import moment from 'moment';
-import { darkColors } from '../../../../theme/colors';
+import {darkColors} from '../../../../theme/colors';
 import CustomDateRangeModal from '../../../../components/customDateRangeModal';
-import { showMessage } from 'react-native-flash-message';
-import { useTheme } from '../../../../providers/ThemeProvider';
+import {showMessage} from 'react-native-flash-message';
+import {useTheme} from '../../../../providers/ThemeProvider';
 import ImageSelection from '../../../../components/imageSelection';
 import ImagePicker from 'react-native-image-crop-picker';
 import PetHealthFloatingButton from '../../../../components/petHealthFloatingButton';
-import { setActiveSubModule } from '../../../../redux/actions/authAction';
-import { useIsFocused } from '@react-navigation/native';
-import { SEARCH_FILTER_SCREEN } from '../../../searchFilters/searchFilter';
-import { navigate } from '../../../../routing/navigationRef';
-import { ADD_PET_VACCINATION_SCREEN } from '../addPetVaccination';
+import {setActiveSubModule} from '../../../../redux/actions/authAction';
+import {useIsFocused} from '@react-navigation/native';
+import {SEARCH_FILTER_SCREEN} from '../../../searchFilters/searchFilter';
+import {navigate} from '../../../../routing/navigationRef';
+import {ADD_PET_VACCINATION_SCREEN} from '../addPetVaccination';
 
 export const PET_VACCINATION_SCREEN = {
   name: 'PetVaccination',
@@ -32,8 +37,8 @@ export const PET_VACCINATION_SCREEN = {
 
 const PetVaccination = ({route}: any) => {
   const dispatch = useDispatch();
-  const { petObj, vaccineObj } = route.params;
-  
+  const {petObj, vaccineObj} = route.params;
+
   const isFocused = useIsFocused();
   const {colors} = useTheme();
   const [state, setState] = useState({
@@ -41,7 +46,7 @@ const PetVaccination = ({route}: any) => {
     petVaccineListData: [],
     manufactureImageResponse: null,
     authorisedImageResponse: null,
-    dateRange: { startDate: undefined, endDate: undefined},
+    dateRange: {startDate: undefined, endDate: undefined},
     datePickerOpenStatus: false,
     imageOptionPosition: 0,
     imageType: '',
@@ -65,22 +70,30 @@ const PetVaccination = ({route}: any) => {
   useMemo(() => {
     dispatch(setActiveSubModule(PET_VACCINATION_SCREEN.name));
   }, [auth?.activeSubModule]);
-  
+
   const callPetPassportVaccineListFn = () => {
     setState(prev => ({...prev, loader: true}));
     const body = {
       form_id: vaccineObj.form_id,
-      vaccine_type: vaccineObj.vaccine_type
-    }
+      vaccine_type: vaccineObj.vaccine_type,
+    };
     dispatch(
-      getPetVaccinationList(body,(res: any) => {
-        if(res) {
-          const { data } = res;
-          if(data && data.length > 0){
-            setState(prev => ({...prev, loader: false, petVaccineListData:  data.reverse()}));
+      getPetVaccinationList(body, (res: any) => {
+        if (res) {
+          const {data} = res;
+          if (data && data.length > 0) {
+            setState(prev => ({
+              ...prev,
+              loader: false,
+              petVaccineListData: data.reverse(),
+            }));
           } else {
             setState(prev => ({...prev, loader: false}));
-            navigate(ADD_PET_VACCINATION_SCREEN.name,{vaccineObj, petObj, vaccinationData: false});   
+            navigate(ADD_PET_VACCINATION_SCREEN.name, {
+              vaccineObj,
+              petObj,
+              vaccinationData: false,
+            });
           }
         } else {
           setState(prev => ({...prev, loader: false, petVaccineListData: []}));
@@ -90,30 +103,44 @@ const PetVaccination = ({route}: any) => {
   };
 
   const onSubmit = () => {
-    const {dateRange, manufactureImageResponse, authorisedImageResponse} = state;
+    const {dateRange, manufactureImageResponse, authorisedImageResponse} =
+      state;
 
-    if(dateRange.startDate && dateRange.endDate && manufactureImageResponse && authorisedImageResponse){
+    if (
+      dateRange.startDate &&
+      dateRange.endDate &&
+      manufactureImageResponse &&
+      authorisedImageResponse
+    ) {
       setState(prev => ({...prev, loader: true}));
       const body = {
         formId: vaccineObj.form_id,
-        vaccineId: "",
+        vaccineId: '',
         endDate: dateRange.endDate,
         startDate: dateRange.startDate,
         vaccineType: vaccineObj.vaccine_type,
         authorisedImageRes: authorisedImageResponse,
         manufatureImageRes: manufactureImageResponse,
-      }
+      };
       dispatch(
-        addPetVaccine(body,(res: any) => {
-          console.log("Res", res);
-          if(res.statusCode == 200){
-            showMessage({ message: "Vaccine added successfully", type: 'success'});
-            setState(prev => ({...prev, loader: false, manufactureImageResponse:  null,
-              authorisedImageResponse: null, dateRange: { startDate: undefined, endDate: undefined}}));
+        addPetVaccine(body, (res: any) => {
+          console.log('Res', res);
+          if (res.statusCode == 200) {
+            showMessage({
+              message: 'Vaccine added successfully',
+              type: 'success',
+            });
+            setState(prev => ({
+              ...prev,
+              loader: false,
+              manufactureImageResponse: null,
+              authorisedImageResponse: null,
+              dateRange: {startDate: undefined, endDate: undefined},
+            }));
             callPetPassportVaccineListFn();
           } else {
             setState(prev => ({...prev, loader: false}));
-            showMessage({ message: res.message, type: 'danger'});
+            showMessage({message: res.message, type: 'danger'});
           }
         }),
       );
@@ -156,28 +183,47 @@ const PetVaccination = ({route}: any) => {
       //   setIsLoading(false);
       // }
     } else {
-      if(!dateRange.startDate || !dateRange.endDate) {
-        showMessage({ message: "Please select start & end date", type: 'danger'});
-      } else if(!manufactureImageResponse) {
-        showMessage({ message: "Please select manufacturer vaccine image", type: 'danger'});
-      } else if(!authorisedImageResponse) {
-        showMessage({ message: "Please select authorised vaccine image", type: 'danger'});
+      if (!dateRange.startDate || !dateRange.endDate) {
+        showMessage({
+          message: 'Please select start & end date',
+          type: 'danger',
+        });
+      } else if (!manufactureImageResponse) {
+        showMessage({
+          message: 'Please select manufacturer vaccine image',
+          type: 'danger',
+        });
+      } else if (!authorisedImageResponse) {
+        showMessage({
+          message: 'Please select authorised vaccine image',
+          type: 'danger',
+        });
       }
     }
-  }
+  };
 
   const onVaccineImageSelect = (position: number) => {
-    setState(prev => ({...prev, imageModalVisible: true, imageOptionPosition: position}));
-  }
+    setState(prev => ({
+      ...prev,
+      imageModalVisible: true,
+      imageOptionPosition: position,
+    }));
+  };
 
   const onDateSelected = (dateRange: any) => {
-    setState(prev => ({...prev, datePickerOpenStatus: false, dateRange: 
-      { startDate: dateRange.firstDate, endDate: dateRange.secondDate }}));
-  }
+    setState(prev => ({
+      ...prev,
+      datePickerOpenStatus: false,
+      dateRange: {
+        startDate: dateRange.firstDate,
+        endDate: dateRange.secondDate,
+      },
+    }));
+  };
 
   const onDateIconPress = (status: boolean) => {
-    setState(prev => ({...prev, datePickerOpenStatus: status})); 
-  }
+    setState(prev => ({...prev, datePickerOpenStatus: status}));
+  };
 
   const openCamera = () => {
     try {
@@ -186,11 +232,19 @@ const PetVaccination = ({route}: any) => {
         height: 500,
         cropping: true,
       }).then(image => {
-        if(state.imageOptionPosition == 1) {
-          setState(prev => ({...prev, manufactureImageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+        if (state.imageOptionPosition == 1) {
+          setState(prev => ({
+            ...prev,
+            manufactureImageResponse: image,
+            imageModalVisible: !prev.imageModalVisible,
+          }));
         } else {
-          setState(prev => ({...prev, authorisedImageResponse: image, imageModalVisible: !prev.imageModalVisible}));
-       //   setState(prev => ({...prev, authorisedImageResponse: data.assets[0]})); 
+          setState(prev => ({
+            ...prev,
+            authorisedImageResponse: image,
+            imageModalVisible: !prev.imageModalVisible,
+          }));
+          //   setState(prev => ({...prev, authorisedImageResponse: data.assets[0]}));
         }
       });
     } catch (e) {
@@ -205,68 +259,104 @@ const PetVaccination = ({route}: any) => {
         height: 500,
         cropping: true,
       }).then(image => {
-        if(state.imageOptionPosition == 1) {
-          setState(prev => ({...prev, manufactureImageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+        if (state.imageOptionPosition == 1) {
+          setState(prev => ({
+            ...prev,
+            manufactureImageResponse: image,
+            imageModalVisible: !prev.imageModalVisible,
+          }));
         } else {
-          setState(prev => ({...prev, authorisedImageResponse: image, imageModalVisible: !prev.imageModalVisible}));
-       //   setState(prev => ({...prev, authorisedImageResponse: data.assets[0]})); 
+          setState(prev => ({
+            ...prev,
+            authorisedImageResponse: image,
+            imageModalVisible: !prev.imageModalVisible,
+          }));
+          //   setState(prev => ({...prev, authorisedImageResponse: data.assets[0]}));
         }
-       // setState(prev => ({...prev, imageResponse: image, imageModalVisible: !prev.imageModalVisible}));
+        // setState(prev => ({...prev, imageResponse: image, imageModalVisible: !prev.imageModalVisible}));
       });
     } catch (e) {
       console.log('error', e);
     }
   };
-  
+
   const onFilterPress = () => {
     navigate(SEARCH_FILTER_SCREEN.name, {isPetTabShow: true});
-  }
+  };
 
   const renderItem = ({item, index}: any) => {
     return (
       <>
         <LinearGradient
           isHorizontal={false}
-          childStyle={[styles.linearGradientCustomStyle, {marginTop: verticalScale(10)}]}
+          childStyle={[
+            styles.linearGradientCustomStyle,
+            {marginTop: verticalScale(10)},
+          ]}
           childrean={
-            <View style={[styles.dateSelectView,{marginTop: verticalScale(12), marginBottom: verticalScale(12)}]}>
+            <View
+              style={[
+                styles.dateSelectView,
+                {marginTop: verticalScale(12), marginBottom: verticalScale(12)},
+              ]}>
               <View style={styles.flexOne}>
-                <Text style={[styles.petListItemTextValueStyle]}>{item.start_date 
-                +' to '+ item.end_date}</Text>
+                <Text style={[styles.petListItemTextValueStyle]}>
+                  {item.start_date + ' to ' + item.end_date}
+                </Text>
               </View>
             </View>
           }
         />
-        <View style={[styles.flexDirectionRowView,{marginBottom: verticalScale(10)}]}>  
+        <View
+          style={[
+            styles.flexDirectionRowView,
+            {marginBottom: verticalScale(10)},
+          ]}>
           <LinearGradient
             isHorizontal={false}
-            childStyle={[styles.linearGradientCustomStyle, { paddingLeft: 0, paddingRight: 0}]}
+            childStyle={[
+              styles.linearGradientCustomStyle,
+              {paddingLeft: 0, paddingRight: 0},
+            ]}
             childrean={
-              <View style={[styles.petPassportOptionView,{ marginTop: 0, marginBottom: 0}]}>
+              <View
+                style={[
+                  styles.petPassportOptionView,
+                  {marginTop: 0, marginBottom: 0},
+                ]}>
                 <Image
                   style={styles.vaccinationImageStyle}
-                  source={{uri: item.manufature_images}}/>
+                  source={{uri: item.manufature_images}}
+                />
               </View>
             }
           />
           <LinearGradient
             isHorizontal={false}
-            childStyle={[styles.linearGradientCustomStyle, { paddingLeft: 0, paddingRight: 0}]}
-            childrean={ 
-              <View style={[styles.petPassportOptionView,{ marginTop: 0, marginBottom: 0}]}>
+            childStyle={[
+              styles.linearGradientCustomStyle,
+              {paddingLeft: 0, paddingRight: 0},
+            ]}
+            childrean={
+              <View
+                style={[
+                  styles.petPassportOptionView,
+                  {marginTop: 0, marginBottom: 0},
+                ]}>
                 <Image
                   style={styles.vaccinationImageStyle}
-                  source={{uri: item.authoried_images}}/>
+                  source={{uri: item.authoried_images}}
+                />
               </View>
             }
           />
         </View>
       </>
-    )
-  }
+    );
+  };
 
   const renderHeaderItemView = () => {
-    return(
+    return (
       <View>
         <LinearGradient
           isHorizontal={false}
@@ -274,11 +364,13 @@ const PetVaccination = ({route}: any) => {
           childrean={
             <View style={styles.dateSelectView}>
               <View style={styles.flexOne}>
-                <Text style={[styles.petListItemTextValueStyle]}>{moment(state.dateRange.startDate)
-                .format(TAG_DATE_FORMATE) +' to '+ moment(state.dateRange.endDate).format(TAG_DATE_FORMATE)}</Text>
+                <Text style={[styles.petListItemTextValueStyle]}>
+                  {moment(state.dateRange.startDate).format(TAG_DATE_FORMATE) +
+                    ' to ' +
+                    moment(state.dateRange.endDate).format(TAG_DATE_FORMATE)}
+                </Text>
               </View>
-              <Pressable
-                onPress={() => onDateIconPress(true)}>
+              <Pressable onPress={() => onDateIconPress(true)}>
                 <View style={styles.flexZero}>
                   <AntIcon
                     name="calendar"
@@ -290,56 +382,86 @@ const PetVaccination = ({route}: any) => {
             </View>
           }
         />
-        <View style={styles.flexDirectionRowView}>  
+        <View style={styles.flexDirectionRowView}>
           <LinearGradient
             isHorizontal={false}
-            childStyle={[styles.linearGradientCustomStyle, state.manufactureImageResponse &&
-              { paddingLeft: 0, paddingRight: 0}]}
+            childStyle={[
+              styles.linearGradientCustomStyle,
+              state.manufactureImageResponse && {
+                paddingLeft: 0,
+                paddingRight: 0,
+              },
+            ]}
             childrean={
-              <Pressable
-                onPress={() => onVaccineImageSelect(1)}>
-                {state.manufactureImageResponse ?
-                  <View style={[styles.petPassportOptionView,{ marginTop: 0, marginBottom: 0}]}>
+              <Pressable onPress={() => onVaccineImageSelect(1)}>
+                {state.manufactureImageResponse ? (
+                  <View
+                    style={[
+                      styles.petPassportOptionView,
+                      {marginTop: 0, marginBottom: 0},
+                    ]}>
                     <Image
                       style={styles.vaccinationImageStyle}
-                      source={{uri: state.manufactureImageResponse.path}}/>
+                      source={{uri: state.manufactureImageResponse.path}}
+                    />
                   </View>
-                  :  
+                ) : (
                   <View style={styles.petPassportOptionView}>
                     <Icon
                       name="camera"
                       size={30}
                       color={darkColors.petPassportIconColor}
                     />
-                    <Text style={[styles.petListItemTextValueStyle,{marginTop: 10}]}>Manufacturer Name of Vaccine</Text>
+                    <Text
+                      style={[
+                        styles.petListItemTextValueStyle,
+                        {marginTop: 10},
+                      ]}>
+                      Manufacturer Name of Vaccine
+                    </Text>
                   </View>
-                }
+                )}
               </Pressable>
             }
           />
           <LinearGradient
             isHorizontal={false}
-            childStyle={[styles.linearGradientCustomStyle, state.authorisedImageResponse &&
-              { paddingLeft: 0, paddingRight: 0}]}
+            childStyle={[
+              styles.linearGradientCustomStyle,
+              state.authorisedImageResponse && {
+                paddingLeft: 0,
+                paddingRight: 0,
+              },
+            ]}
             childrean={
-              <Pressable
-                onPress={() => onVaccineImageSelect(2)}>
-                {state.authorisedImageResponse ?
-                  <View style={[styles.petPassportOptionView,{ marginTop: 0, marginBottom: 0}]}>
+              <Pressable onPress={() => onVaccineImageSelect(2)}>
+                {state.authorisedImageResponse ? (
+                  <View
+                    style={[
+                      styles.petPassportOptionView,
+                      {marginTop: 0, marginBottom: 0},
+                    ]}>
                     <Image
                       style={styles.vaccinationImageStyle}
-                      source={{uri: state.authorisedImageResponse.path}}/>
+                      source={{uri: state.authorisedImageResponse.path}}
+                    />
                   </View>
-                  :  
+                ) : (
                   <View style={styles.petPassportOptionView}>
                     <Icon
                       name="camera"
                       size={30}
                       color={darkColors.petPassportIconColor}
                     />
-                    <Text style={[styles.petListItemTextValueStyle,{marginTop: 10}]}>Authorised Veterian</Text>
+                    <Text
+                      style={[
+                        styles.petListItemTextValueStyle,
+                        {marginTop: 10},
+                      ]}>
+                      Authorised Veterian
+                    </Text>
                   </View>
-                }
+                )}
               </Pressable>
             }
           />
@@ -348,21 +470,34 @@ const PetVaccination = ({route}: any) => {
           <Text style={styles.submitBtnStyle}>Add</Text>
         </Pressable>
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <SafeAreaView style={styles.flexOne}>
-      <Spinner visible={state?.loader} color={colors.listBackGradientThree}/>
+      <Spinner visible={state?.loader} color={colors.listBackGradientThree} />
       <Header
         statusBarColor={colors.listBackGradientThree}
-        onFilterPress={onFilterPress} />
+        onFilterPress={onFilterPress}
+      />
       <PetPassportSubHeader
         title={vaccineObj.label}
-        petImage={typeof petObj.pet_image === "string" ? petObj.pet_image : petObj.pet_image.pet_image_url}
-      />  
-      <View style={[styles.flexOne, {marginLeft: scale(5), marginRight: scale(5),
-        marginTop: verticalScale(3)}]}>
+        petImage={
+          typeof petObj.pet_image === 'string'
+            ? petObj.pet_image
+            : petObj.pet_image.pet_image_url
+        }
+      />
+      <View
+        style={[
+          styles.flexOne,
+          {
+            marginLeft: scale(5),
+            marginRight: scale(5),
+            marginTop: verticalScale(3),
+            backgroundColor: 'blue',
+          },
+        ]}>
         <FlatList
           data={state.petVaccineListData}
           horizontal={false}
@@ -370,17 +505,23 @@ const PetVaccination = ({route}: any) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
         />
-      </View> 
+      </View>
       <CustomDateRangeModal
         isModalVisible={state.datePickerOpenStatus}
         onClose={() => onDateIconPress(false)}
-        onSubmit={(range) => onDateSelected(range)} />
+        onSubmit={range => onDateSelected(range)}
+      />
       <ImageSelection
         modalVisible={state.imageModalVisible}
-        setModalVisible={() =>  setState(prev => ({...prev, imageModalVisible: !prev.imageModalVisible}))}
+        setModalVisible={() =>
+          setState(prev => ({
+            ...prev,
+            imageModalVisible: !prev.imageModalVisible,
+          }))
+        }
         onPressCamera={openCamera}
         onPressGallery={openGallery}
-      />  
+      />
       {/* {state.datePickerOpenStatus &&
       <DateRangePicker
           onSelectDateRange={(range) => {
