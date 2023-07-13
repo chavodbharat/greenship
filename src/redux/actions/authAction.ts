@@ -1,5 +1,16 @@
 import {types} from '../ActionTypes';
 
+export const loginSocialLoginRequest = (
+  payload: object,
+  callback: Function,
+) => {
+  return {
+    type: types.LOGIN_SOCIAL,
+    payload,
+    callback,
+  };
+};
+
 export const loginUserReq = (payload: object, callback: Function) => {
   return {
     type: types.LOGIN_USER,

@@ -39,6 +39,44 @@ function* loginUser(data: object) {
     });
 }
 
+// http://staging.greensheep.earth/wp-json/greensheep-api/v1/login/social-login
+function* loginSocialUser(data: object) {
+  const {payload, callback} = data;
+  utilActions
+    .apiCall(
+      `${serviceUrl.apiUrl}greensheep-api/v1/login/social-login`,
+      payload,
+      'POST',
+    )
+    .then(response => {
+      if (response.success) {
+        AsyncStorage.setItem('token', response?.data?.token);
+        store.dispatch({
+          type: types.UPDATE_SIGN_IN,
+          payload: true,
+        });
+
+        store.dispatch({
+          type: types.LOGIN_USER_SUCCESS,
+          payload: response?.data,
+        });
+        showMessage({
+          message: 'Login successful',
+          type: 'success',
+        });
+      } else {
+        showMessage({
+          message: response?.message,
+          type: 'danger',
+        });
+      }
+      callback();
+    })
+    .catch(err => {
+      callback();
+    });
+}
+
 function* resetPassword(data: object) {
   const {payload, callback} = data;
   utilActions
@@ -88,7 +126,6 @@ function* registerUser(data: object) {
       callback();
     });
 }
-
 
 function* verifyOtp(data: object) {
   const {payload, callback} = data;
@@ -146,8 +183,9 @@ function* setNewPassword(data: object) {
 
 export default function* watchAuthSaga() {
   yield takeLatest(types.LOGIN_USER, loginUser);
+  yield takeLatest(types.LOGIN_SOCIAL, loginSocialUser);
   yield takeLatest(types.RESET_PASSWORD, resetPassword);
   yield takeLatest(types.REGISTER_USER, registerUser);
-  yield takeLatest(types.VERIFY_OTP, verifyOtp)
-  yield takeLatest(types.SET_NEW_PASSWORD, setNewPassword)
+  yield takeLatest(types.VERIFY_OTP, verifyOtp);
+  yield takeLatest(types.SET_NEW_PASSWORD, setNewPassword);
 }

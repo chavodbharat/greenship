@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   missingPetSuccess: null,
   currentLatitude: 0.0,
   currentLongitude: 0.0,
-  currentAddress: ""
+  currentAddress: '',
 };
 
 export default (state = INITIAL_STATE, {type, payload}) => {
@@ -12,9 +12,13 @@ export default (state = INITIAL_STATE, {type, payload}) => {
     case types.UPDATE_MISSING_SUCCESS:
       return {...state, missingPetSuccess: payload};
     case types.UPDATE_CURRENT_LOCATION:
-      return {...state, currentLatitude: payload.latitude, currentLongitude: payload.longitude,
-        currentAddress: payload.address};
-    
+      return {
+        ...state,
+        currentLatitude: payload.latitude,
+        currentLongitude: payload.longitude,
+        currentAddress: payload.address,
+      };
+
     default:
       return state;
   }
